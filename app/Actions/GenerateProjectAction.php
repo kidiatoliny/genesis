@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace App\Actions;
 
 use App\Models\Schema;
+use App\Services\Contracts\ProjectBootstrapperContract;
 use App\Services\ControllerGenerator;
 use App\Services\RequestGenerator;
 use App\Services\TemplateEngine;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
 final readonly class GenerateProjectAction
 {
     public function __construct(
+        private ProjectBootstrapperContract $bootstrapper,
         private TemplateEngine $engine,
         private ControllerGenerator $controllerGenerator,
         private RequestGenerator $requestGenerator,
@@ -40,7 +41,9 @@ final readonly class GenerateProjectAction
         }
 
         $projectPath = storage_path('generated_projects/'.Str::random(16));
-        File::makeDirectory($projectPath, 0755, true, true);
+        $projectType = \App\Enums\ProjectType::from($schema->project_type);
+
+        $this->bootstrapper->bootstrap($projectPath, $projectType);
 
         $definition['project_type'] = $schema->project_type;
         $definition['response_type'] = $schema->response_type;

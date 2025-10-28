@@ -12,14 +12,17 @@ use App\Actions\GenerateRequestsAction;
 use App\Actions\GenerateResourcesAction;
 use App\Actions\GenerateRoutesAction;
 use App\Models\Schema;
+use App\Services\Contracts\ProjectBootstrapperContract;
 use App\Services\ControllerGenerator;
 use App\Services\RequestGenerator;
 use App\Services\RouteGenerator;
 use App\Services\TemplateEngine;
-use Illuminate\Support\Facades\File;
 
 it('generates project structure from schema', function () {
     $schema = Schema::factory()->create([
+        'project_type' => 'web_inertia',
+        'response_type' => 'inertia',
+        'view_engine' => 'inertia_react',
         'definition' => json_encode([
             'models' => [
                 [
@@ -37,7 +40,12 @@ it('generates project structure from schema', function () {
     $controllerGenerator = new ControllerGenerator($engine);
     $requestGenerator = new RequestGenerator();
     $routeGenerator = new RouteGenerator($engine);
+
+    $bootstrapper = Mockery::mock(ProjectBootstrapperContract::class);
+    $bootstrapper->shouldReceive('bootstrap')->once();
+
     $action = new GenerateProjectAction(
+        $bootstrapper,
         $engine,
         $controllerGenerator,
         $requestGenerator,
@@ -54,8 +62,7 @@ it('generates project structure from schema', function () {
     $result = $action->handle($schema);
 
     expect($result)->toHaveKeys(['projectPath', 'schemaName', 'definition'])
-        ->and($result['schemaName'])->toBe($schema->name)
-        ->and(File::isDirectory($result['projectPath']))->toBeTrue();
+        ->and($result['schemaName'])->toBe($schema->name);
 });
 
 it('throws error for invalid schema definition', function () {
@@ -67,7 +74,11 @@ it('throws error for invalid schema definition', function () {
     $controllerGenerator = new ControllerGenerator($engine);
     $requestGenerator = new RequestGenerator();
     $routeGenerator = new RouteGenerator($engine);
+
+    $bootstrapper = Mockery::mock(ProjectBootstrapperContract::class);
+
     $action = new GenerateProjectAction(
+        $bootstrapper,
         $engine,
         $controllerGenerator,
         $requestGenerator,

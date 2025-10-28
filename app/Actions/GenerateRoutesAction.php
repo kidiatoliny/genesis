@@ -50,7 +50,7 @@ final readonly class GenerateRoutesAction
      */
     private function buildWebRoutesFile(array $routeLines): string
     {
-        $routes = implode("\n", $routeLines);
+        $routes = implode("\n    ", $routeLines);
 
         return <<<PHP
 <?php
@@ -59,7 +59,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers;
 
 Route::middleware('auth')->group(function () {
-    $routes
+    {$routes}
 });
 PHP;
     }
