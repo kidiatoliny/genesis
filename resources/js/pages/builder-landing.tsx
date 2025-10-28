@@ -8,6 +8,7 @@ export default function BuilderLanding() {
     const { scrollYProgress } = useScroll();
     const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
     const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+    const [isYearly, setIsYearly] = useState(true);
 
     return (
         <>
@@ -110,224 +111,214 @@ export default function BuilderLanding() {
                     </div>
                 </section>
 
-                {/* Features Section */}
-                <section className="py-32 px-6 relative">
-                    <div className="container mx-auto max-w-6xl">
+                {/* Features Section - ReactFlow Inspired */}
+                <section className="py-32 px-6 relative overflow-hidden">
+                    {/* Animated Grid Background */}
+                    <div className="absolute inset-0 opacity-20">
+                        <div className="absolute inset-0" style={{
+                            backgroundImage: 'radial-gradient(circle, rgba(139, 92, 246, 0.15) 1px, transparent 1px)',
+                            backgroundSize: '50px 50px'
+                        }} />
+                    </div>
+
+                    <div className="container mx-auto max-w-7xl relative">
+                        {/* Header */}
                         <motion.div
                             initial={{ y: 50, opacity: 0 }}
                             whileInView={{ y: 0, opacity: 1 }}
                             transition={{ duration: 0.8 }}
                             viewport={{ once: true }}
-                            className="text-center mb-20"
+                            className="text-center mb-24 relative"
                         >
-                            <h2 className="text-5xl font-bold mb-6">
-                                Everything you need to
-                                <span className="text-purple-400"> build faster</span>
+                            {/* Decorative elements */}
+                            <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gradient-to-r from-purple-600/20 to-blue-600/20 rounded-full blur-3xl opacity-50 pointer-events-none" />
+                            
+                            <motion.div
+                                initial={{ scale: 0.9, opacity: 0 }}
+                                whileInView={{ scale: 1, opacity: 1 }}
+                                transition={{ duration: 0.5 }}
+                                viewport={{ once: true }}
+                                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-card mb-6 relative"
+                            >
+                                <div className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
+                                <span className="text-xs font-medium text-purple-200 uppercase tracking-wider">Powerful Features</span>
+                            </motion.div>
+                            
+                            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-[1.1] relative">
+                                <span className="text-white">Everything you need to</span>
+                                <br />
+                                <span className="relative inline-block mt-2">
+                                    <motion.span 
+                                        className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 text-transparent bg-clip-text"
+                                        animate={{
+                                            backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+                                        }}
+                                        transition={{
+                                            duration: 5,
+                                            repeat: Infinity,
+                                            ease: "linear"
+                                        }}
+                                        style={{
+                                            backgroundSize: '200% auto',
+                                        }}
+                                    >
+                                        build faster
+                                    </motion.span>
+                                </span>
                             </h2>
-                            <p className="text-xl text-neutral-300 max-w-2xl mx-auto">
-                                From schema design to production-ready code, Genesis Builder handles it all.
+                            
+                            <p className="text-lg text-neutral-400 max-w-2xl mx-auto leading-relaxed relative">
+                                Stop writing boilerplate. Focus on what makes your app unique.
                             </p>
                         </motion.div>
 
-                        {/* Bento Box Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-6 gap-4 auto-rows-fr">
-                            {/* Large Feature - Visual Schema Designer */}
+                        {/* Features Grid - Apple Inspired */}
+                        <div className="space-y-4">
+                            {/* Top Row - Large Feature */}
                             <motion.div
-                                initial={{ y: 50, opacity: 0 }}
-                                whileInView={{ y: 0, opacity: 1 }}
-                                transition={{ duration: 0.5 }}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6 }}
                                 viewport={{ once: true }}
-                                className="md:col-span-4 md:row-span-2 group relative"
+                                className="w-full"
                             >
-                                <motion.div
-                                    whileHover={{ y: -8, scale: 1.01 }}
-                                    transition={{ duration: 0.3, ease: "easeOut" }}
-                                    className="glass-card p-8 relative overflow-hidden h-full flex flex-col isolate"
-                                    style={{ willChange: 'transform' }}
-                                >
-                                    <div className="absolute inset-0 bg-gradient-to-br from-purple-600/0 via-purple-600/0 to-purple-600/0 group-hover:from-purple-600/10 group-hover:via-purple-600/5 group-hover:to-blue-600/10 transition-all duration-500 pointer-events-none" />
+                                <div className="glass-card rounded-3xl overflow-hidden group cursor-pointer h-[500px] relative">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-transparent to-blue-900/20 group-hover:from-purple-900/30 group-hover:to-blue-900/30 transition-all duration-500" />
                                     
-                                    <div className="relative flex-1 flex flex-col">
-                                        <div className="flex items-start gap-4 mb-6">
-                                            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center shadow-lg group-hover:shadow-purple-500/50 transition-shadow duration-300">
-                                                <Palette className="h-8 w-8 text-white" />
+                                    <div className="relative h-full flex flex-col justify-between p-12">
+                                        <div>
+                                            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-500/20 border border-purple-500/30 mb-6">
+                                                <Palette className="h-4 w-4 text-purple-400" />
+                                                <span className="text-xs font-semibold text-purple-200 uppercase tracking-wider">Visual Designer</span>
                                             </div>
+                                            <h3 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                                                Design your schema
+                                                <br />
+                                                <span className="bg-gradient-to-r from-purple-400 to-blue-400 text-transparent bg-clip-text">
+                                                    visually
+                                                </span>
+                                            </h3>
+                                            <p className="text-lg text-neutral-300 max-w-2xl">
+                                                Drag models, drop fields, connect relationships. Watch your database come alive with zero SQL.
+                                            </p>
+                                        </div>
+
+                                        <div className="flex items-center gap-6">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-10 h-10 rounded-xl bg-purple-600/30 flex items-center justify-center">
+                                                    <Database className="h-5 w-5 text-purple-300" />
+                                                </div>
+                                                <div>
+                                                    <div className="text-sm font-semibold text-white">14+ Field Types</div>
+                                                    <div className="text-xs text-neutral-400">String, JSON, UUID, Email...</div>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-10 h-10 rounded-xl bg-blue-600/30 flex items-center justify-center">
+                                                    <Zap className="h-5 w-5 text-blue-300" />
+                                                </div>
+                                                <div>
+                                                    <div className="text-sm font-semibold text-white">Smart Relations</div>
+                                                    <div className="text-xs text-neutral-400">hasMany, belongsTo, morphs</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+
+                            {/* Middle Row - Two Medium Features */}
+                            <div className="grid md:grid-cols-2 gap-4">
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.6, delay: 0.1 }}
+                                    viewport={{ once: true }}
+                                >
+                                    <div className="glass-card rounded-3xl overflow-hidden group cursor-pointer h-[400px] relative">
+                                        <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/20 to-teal-900/20 group-hover:from-emerald-900/30 group-hover:to-teal-900/30 transition-all duration-500" />
+                                        
+                                        <div className="relative h-full flex flex-col justify-between p-10">
                                             <div>
-                                                <h3 className="text-3xl font-bold mb-3 text-white group-hover:text-purple-300 transition-colors duration-300">
-                                                    Visual Schema Designer
+                                                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 mb-6">
+                                                    <Code className="h-4 w-4 text-emerald-400" />
+                                                    <span className="text-xs font-semibold text-emerald-200 uppercase tracking-wider">Code Generation</span>
+                                                </div>
+                                                <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                                                    Production code
+                                                    <br />
+                                                    <span className="bg-gradient-to-r from-emerald-400 to-teal-400 text-transparent bg-clip-text">
+                                                        instantly
+                                                    </span>
                                                 </h3>
-                                                <p className="text-neutral-300 leading-relaxed text-lg">
-                                                    Drag and drop models and fields to create your database schema. No code required until you're ready.
+                                                <p className="text-neutral-300">
+                                                    Clean Laravel code following best practices. Type hints, validation, actions.
                                                 </p>
                                             </div>
-                                        </div>
-                                        
-                                        {/* Mini visual demo */}
-                                        <div className="relative flex-1 mt-4 rounded-xl bg-gradient-to-br from-neutral-900/50 to-purple-900/30 p-6 border border-purple-500/20">
-                                            <div className="flex items-center gap-4 flex-wrap">
-                                                <div className="px-4 py-2 rounded-lg bg-purple-600/30 border border-purple-400/30 text-sm font-medium">
-                                                    <Database className="inline h-4 w-4 mr-2" />
-                                                    User
-                                                </div>
-                                                <div className="text-purple-400">→</div>
-                                                <div className="px-3 py-1.5 rounded-full bg-green-600/30 border border-green-400/30 text-xs">
-                                                    name: string
-                                                </div>
-                                                <div className="px-3 py-1.5 rounded-full bg-blue-600/30 border border-blue-400/30 text-xs">
-                                                    email: email
-                                                </div>
+
+                                            <div className="flex flex-wrap gap-2">
+                                                {['Models', 'Controllers', 'Actions', 'Requests', 'Migrations'].map((item, i) => (
+                                                    <span key={i} className="px-3 py-1.5 rounded-lg bg-emerald-600/20 border border-emerald-500/30 text-xs font-medium text-emerald-200">
+                                                        {item}
+                                                    </span>
+                                                ))}
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                                    </div>
                                 </motion.div>
-                            </motion.div>
 
-                            {/* Medium Feature - Generate Clean Code */}
-                            <motion.div
-                                initial={{ y: 50, opacity: 0 }}
-                                whileInView={{ y: 0, opacity: 1 }}
-                                transition={{ duration: 0.5, delay: 0.1 }}
-                                viewport={{ once: true }}
-                                className="md:col-span-2 md:row-span-2 group relative"
-                            >
                                 <motion.div
-                                    whileHover={{ y: -8, scale: 1.02 }}
-                                    transition={{ duration: 0.3, ease: "easeOut" }}
-                                    className="glass-card p-6 relative overflow-hidden h-full flex flex-col justify-between isolate"
-                                    style={{ willChange: 'transform' }}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.6, delay: 0.2 }}
+                                    viewport={{ once: true }}
                                 >
-                                    <div className="absolute inset-0 bg-gradient-to-br from-blue-600/0 to-cyan-600/0 group-hover:from-blue-600/10 group-hover:to-cyan-600/10 transition-all duration-500 pointer-events-none" />
-                                    
-                                    <div className="relative">
-                                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center shadow-lg mb-6">
-                                            <Code className="h-7 w-7 text-white" />
+                                    <div className="glass-card rounded-3xl overflow-hidden group cursor-pointer h-[400px] relative">
+                                        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 group-hover:from-blue-900/30 group-hover:to-cyan-900/30 transition-all duration-500" />
+                                        
+                                        <div className="relative h-full flex flex-col justify-between p-10">
+                                            <div>
+                                                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/20 border border-blue-500/30 mb-6">
+                                                    <Box className="h-4 w-4 text-blue-400" />
+                                                    <span className="text-xs font-semibold text-blue-200 uppercase tracking-wider">Flexible Stack</span>
+                                                </div>
+                                                <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                                                    Your stack
+                                                    <br />
+                                                    <span className="bg-gradient-to-r from-blue-400 to-cyan-400 text-transparent bg-clip-text">
+                                                        your way
+                                                    </span>
+                                                </h3>
+                                                <p className="text-neutral-300 mb-6">
+                                                    React, Vue, Blade, Livewire, or pure API. Genesis adapts.
+                                                </p>
+                                            </div>
+
+                                            <div className="flex gap-3">
+                                                {[
+                                                    { name: 'React', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
+                                                    { name: 'Vue', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg' },
+                                                    { name: 'Blade', icon: 'https://laravel.com/img/logomark.min.svg' },
+                                                    { name: 'Livewire', icon: 'https://laravel-livewire.com/img/twitter.png' },
+                                                ].map((stack, i) => (
+                                                    <motion.div
+                                                        key={i}
+                                                        whileHover={{ scale: 1.1 }}
+                                                        className="w-10 h-10 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center"
+                                                        title={stack.name}
+                                                    >
+                                                        <img 
+                                                            src={stack.icon} 
+                                                            alt={stack.name}
+                                                            className="w-6 h-6 object-contain"
+                                                        />
+                                                    </motion.div>
+                                                ))}
+                                            </div>
                                         </div>
-                                        <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-blue-300 transition-colors duration-300">
-                                            Generate Clean Code
-                                        </h3>
-                                        <p className="text-neutral-300 leading-relaxed">
-                                            Automatically generate Models, Migrations, Controllers, and Views following Laravel best practices.
-                                        </p>
-                                    </div>
-
-                                    <div className="relative mt-6 p-4 rounded-lg bg-neutral-900/50 font-mono text-xs text-green-400 border border-green-500/20">
-                                        <div>class User extends Model</div>
-                                        <div className="text-neutral-500">{'{'}</div>
-                                        <div className="pl-4">protected $fillable...</div>
-                                        <div className="text-neutral-500">{'}'}</div>
-                                    </div>
-
-                                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                                     </div>
                                 </motion.div>
-                            </motion.div>
-
-                            {/* Small Feature - Type-Safe Fields */}
-                            <motion.div
-                                initial={{ y: 50, opacity: 0 }}
-                                whileInView={{ y: 0, opacity: 1 }}
-                                transition={{ duration: 0.5, delay: 0.2 }}
-                                viewport={{ once: true }}
-                                className="md:col-span-2 group relative"
-                            >
-                                <motion.div
-                                    whileHover={{ y: -8, scale: 1.02 }}
-                                    transition={{ duration: 0.3, ease: "easeOut" }}
-                                    className="glass-card p-6 relative overflow-hidden h-full isolate"
-                                    style={{ willChange: 'transform' }}
-                                >
-                                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/0 to-teal-600/0 group-hover:from-emerald-600/10 group-hover:to-teal-600/10 transition-all duration-500 pointer-events-none" />
-                                    
-                                    <div className="relative">
-                                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-600 flex items-center justify-center shadow-lg mb-4">
-                                            <Database className="h-6 w-6 text-white" />
-                                        </div>
-                                        <h3 className="text-xl font-bold mb-2 text-white group-hover:text-emerald-300 transition-colors duration-300">
-                                            14+ Field Types
-                                        </h3>
-                                        <p className="text-neutral-300 text-sm leading-relaxed">
-                                            String, integer, json, uuid, email, datetime, and more.
-                                        </p>
-                                    </div>
-
-                                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                                    </div>
-                                </motion.div>
-                            </motion.div>
-
-                            {/* Small Feature - Instant CRUD */}
-                            <motion.div
-                                initial={{ y: 50, opacity: 0 }}
-                                whileInView={{ y: 0, opacity: 1 }}
-                                transition={{ duration: 0.5, delay: 0.3 }}
-                                viewport={{ once: true }}
-                                className="md:col-span-2 group relative"
-                            >
-                                <motion.div
-                                    whileHover={{ y: -8, scale: 1.02 }}
-                                    transition={{ duration: 0.3, ease: "easeOut" }}
-                                    className="glass-card p-6 relative overflow-hidden h-full isolate"
-                                    style={{ willChange: 'transform' }}
-                                >
-                                    <div className="absolute inset-0 bg-gradient-to-br from-orange-600/0 to-red-600/0 group-hover:from-orange-600/10 group-hover:to-red-600/10 transition-all duration-500 pointer-events-none" />
-                                    
-                                    <div className="relative">
-                                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-600 to-red-600 flex items-center justify-center shadow-lg mb-4">
-                                            <Zap className="h-6 w-6 text-white" />
-                                        </div>
-                                        <h3 className="text-xl font-bold mb-2 text-white group-hover:text-orange-300 transition-colors duration-300">
-                                            Instant CRUD
-                                        </h3>
-                                        <p className="text-neutral-300 text-sm leading-relaxed">
-                                            Complete operations with routes and views in seconds.
-                                        </p>
-                                    </div>
-
-                                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                                    </div>
-                                </motion.div>
-                            </motion.div>
-
-                            {/* Small Feature - Export Projects */}
-                            <motion.div
-                                initial={{ y: 50, opacity: 0 }}
-                                whileInView={{ y: 0, opacity: 1 }}
-                                transition={{ duration: 0.5, delay: 0.4 }}
-                                viewport={{ once: true }}
-                                className="md:col-span-2 group relative"
-                            >
-                                <motion.div
-                                    whileHover={{ y: -8, scale: 1.02 }}
-                                    transition={{ duration: 0.3, ease: "easeOut" }}
-                                    className="glass-card p-6 relative overflow-hidden h-full isolate"
-                                    style={{ willChange: 'transform' }}
-                                >
-                                    <div className="absolute inset-0 bg-gradient-to-br from-violet-600/0 to-fuchsia-600/0 group-hover:from-violet-600/10 group-hover:to-fuchsia-600/10 transition-all duration-500 pointer-events-none" />
-                                    
-                                    <div className="relative">
-                                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-600 to-fuchsia-600 flex items-center justify-center shadow-lg mb-4">
-                                            <Download className="h-6 w-6 text-white" />
-                                        </div>
-                                        <h3 className="text-xl font-bold mb-2 text-white group-hover:text-violet-300 transition-colors duration-300">
-                                            Export & Deploy
-                                        </h3>
-                                        <p className="text-neutral-300 text-sm leading-relaxed">
-                                            Download complete projects ready to run or deploy.
-                                        </p>
-                                    </div>
-
-                                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                                    </div>
-                                </motion.div>
-                            </motion.div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -685,6 +676,270 @@ export default function BuilderLanding() {
                                 </motion.div>
                             </div>
                         </motion.div>
+                    </div>
+                </section>
+
+                {/* Pricing Section */}
+                <section className="py-32 px-6">
+                    <div className="container mx-auto max-w-7xl">
+                        {/* Header */}
+                        <motion.div
+                            initial={{ y: 50, opacity: 0 }}
+                            whileInView={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 0.8 }}
+                            viewport={{ once: true }}
+                            className="text-center mb-20"
+                        >
+                            <motion.div
+                                initial={{ scale: 0.9, opacity: 0 }}
+                                whileInView={{ scale: 1, opacity: 1 }}
+                                transition={{ duration: 0.5 }}
+                                viewport={{ once: true }}
+                                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-card mb-6"
+                            >
+                                <div className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+                                <span className="text-xs font-medium text-blue-200 uppercase tracking-wider">Simple Pricing</span>
+                            </motion.div>
+                            
+                            <h2 className="text-5xl md:text-6xl font-bold mb-6">
+                                <span className="text-white">Choose your plan</span>
+                            </h2>
+                            
+                            <p className="text-lg text-neutral-400 max-w-2xl mx-auto mb-8">
+                                Start free and upgrade as you grow. All plans include core features.
+                            </p>
+
+                            {/* Billing Toggle */}
+                            <div className="flex items-center justify-center gap-3">
+                                <span className={`text-sm transition-colors ${!isYearly ? 'text-white font-medium' : 'text-neutral-400'}`}>
+                                    Monthly
+                                </span>
+                                <button 
+                                    onClick={() => setIsYearly(!isYearly)}
+                                    className={`relative w-14 h-7 rounded-full border transition-all duration-300 ${
+                                        isYearly 
+                                            ? 'bg-purple-600/30 border-purple-500/50 hover:border-purple-500' 
+                                            : 'bg-neutral-600/30 border-neutral-500/50 hover:border-neutral-500'
+                                    }`}
+                                >
+                                    <div className={`absolute top-1 w-5 h-5 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 transition-transform duration-300 ${
+                                        isYearly ? 'translate-x-7' : 'translate-x-1'
+                                    }`} />
+                                </button>
+                                <span className={`text-sm transition-colors ${isYearly ? 'text-white font-medium' : 'text-neutral-400'}`}>
+                                    Yearly
+                                    {isYearly && (
+                                        <span className="ml-2 px-2 py-0.5 rounded-full bg-green-600/20 text-xs text-green-400 border border-green-500/30">
+                                            Save 20%
+                                        </span>
+                                    )}
+                                </span>
+                            </div>
+                        </motion.div>
+
+                        {/* Pricing Cards */}
+                        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                            {/* Free Plan */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6 }}
+                                viewport={{ once: true }}
+                            >
+                                <div className="glass-card rounded-3xl p-8 h-full relative overflow-hidden group hover:border-neutral-600 transition-all duration-500">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-neutral-800/20 to-neutral-900/20 group-hover:from-neutral-800/30 group-hover:to-neutral-900/30 transition-all duration-500" />
+                                    
+                                    <div className="relative">
+                                        <h3 className="text-2xl font-bold text-white mb-2">Free</h3>
+                                        <p className="text-neutral-400 mb-6">Perfect for learning and small projects</p>
+                                        
+                                        <div className="mb-8">
+                                            <div className="flex items-baseline gap-2">
+                                                <span className="text-5xl font-bold text-white">€0</span>
+                                                <span className="text-neutral-400">/month</span>
+                                            </div>
+                                        </div>
+
+                                        <Link href="/builder">
+                                            <Button variant="outline" className="w-full mb-8">
+                                                Get Started
+                                            </Button>
+                                        </Link>
+
+                                        <div className="space-y-4">
+                                            <div className="flex items-start gap-3">
+                                                <div className="w-5 h-5 rounded-full bg-green-600/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                                    <div className="w-2 h-2 rounded-full bg-green-400" />
+                                                </div>
+                                                <span className="text-sm text-neutral-300">3 projects</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <div className="w-5 h-5 rounded-full bg-green-600/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                                    <div className="w-2 h-2 rounded-full bg-green-400" />
+                                                </div>
+                                                <span className="text-sm text-neutral-300">Basic code generation</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <div className="w-5 h-5 rounded-full bg-green-600/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                                    <div className="w-2 h-2 rounded-full bg-green-400" />
+                                                </div>
+                                                <span className="text-sm text-neutral-300">All field types</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <div className="w-5 h-5 rounded-full bg-green-600/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                                    <div className="w-2 h-2 rounded-full bg-green-400" />
+                                                </div>
+                                                <span className="text-sm text-neutral-300">Community support</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+
+                            {/* Pro Plan - Featured */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.1 }}
+                                viewport={{ once: true }}
+                                className="relative"
+                            >
+                                {/* Popular Badge - Outside card */}
+                                <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20">
+                                    <div className="px-4 py-1.5 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 text-xs font-bold text-white shadow-lg">
+                                        MOST POPULAR
+                                    </div>
+                                </div>
+
+                                <div className="glass-card rounded-3xl p-8 pt-12 h-full relative overflow-visible group border-2 border-purple-500/50 hover:border-purple-500 transition-all duration-500">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 to-blue-900/30 group-hover:from-purple-900/40 group-hover:to-blue-900/40 transition-all duration-500 rounded-3xl" />
+                                    
+                                    <div className="relative">
+                                        <h3 className="text-2xl font-bold text-white mb-2">Pro</h3>
+                                        <p className="text-neutral-300 mb-6">For professional developers and teams</p>
+                                        
+                                        <div className="mb-8">
+                                            <div className="flex items-baseline gap-2 mb-1">
+                                                <span className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 text-transparent bg-clip-text">
+                                                    €{isYearly ? '12' : '15'}
+                                                </span>
+                                                <span className="text-neutral-400">/month</span>
+                                            </div>
+                                            {isYearly ? (
+                                                <>
+                                                    <p className="text-sm text-neutral-500">€144 billed yearly</p>
+                                                    <p className="text-xs text-green-400 mt-1">Save €36 per year</p>
+                                                </>
+                                            ) : (
+                                                <p className="text-sm text-neutral-500">Billed monthly</p>
+                                            )}
+                                        </div>
+
+                                        <Link href="/builder">
+                                            <Button className="w-full mb-8 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
+                                                Start Free Trial
+                                            </Button>
+                                        </Link>
+
+                                        <div className="space-y-4">
+                                            <div className="flex items-start gap-3">
+                                                <div className="w-5 h-5 rounded-full bg-purple-600/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                                    <div className="w-2 h-2 rounded-full bg-purple-400" />
+                                                </div>
+                                                <span className="text-sm text-white font-medium">Unlimited projects</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <div className="w-5 h-5 rounded-full bg-purple-600/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                                    <div className="w-2 h-2 rounded-full bg-purple-400" />
+                                                </div>
+                                                <span className="text-sm text-white font-medium">Advanced code generation</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <div className="w-5 h-5 rounded-full bg-purple-600/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                                    <div className="w-2 h-2 rounded-full bg-purple-400" />
+                                                </div>
+                                                <span className="text-sm text-white font-medium">All stack options</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <div className="w-5 h-5 rounded-full bg-purple-600/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                                    <div className="w-2 h-2 rounded-full bg-purple-400" />
+                                                </div>
+                                                <span className="text-sm text-white font-medium">Priority support</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <div className="w-5 h-5 rounded-full bg-purple-600/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                                    <div className="w-2 h-2 rounded-full bg-purple-400" />
+                                                </div>
+                                                <span className="text-sm text-white font-medium">Custom templates</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+
+                            {/* Enterprise Plan */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.2 }}
+                                viewport={{ once: true }}
+                            >
+                                <div className="glass-card rounded-3xl p-8 h-full relative overflow-hidden group hover:border-blue-600 transition-all duration-500">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 group-hover:from-blue-900/30 group-hover:to-cyan-900/30 transition-all duration-500" />
+                                    
+                                    <div className="relative">
+                                        <h3 className="text-2xl font-bold text-white mb-2">Enterprise</h3>
+                                        <p className="text-neutral-400 mb-6">For large teams and organizations</p>
+                                        
+                                        <div className="mb-8">
+                                            <div className="flex items-baseline gap-2">
+                                                <span className="text-5xl font-bold text-white">Custom</span>
+                                            </div>
+                                            <p className="text-sm text-neutral-500 mt-2">Contact sales</p>
+                                        </div>
+
+                                        <Link href="/contact">
+                                            <Button variant="outline" className="w-full mb-8">
+                                                Contact Sales
+                                            </Button>
+                                        </Link>
+
+                                        <div className="space-y-4">
+                                            <div className="flex items-start gap-3">
+                                                <div className="w-5 h-5 rounded-full bg-blue-600/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                                    <div className="w-2 h-2 rounded-full bg-blue-400" />
+                                                </div>
+                                                <span className="text-sm text-neutral-300">Everything in Pro</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <div className="w-5 h-5 rounded-full bg-blue-600/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                                    <div className="w-2 h-2 rounded-full bg-blue-400" />
+                                                </div>
+                                                <span className="text-sm text-neutral-300">Dedicated support</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <div className="w-5 h-5 rounded-full bg-blue-600/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                                    <div className="w-2 h-2 rounded-full bg-blue-400" />
+                                                </div>
+                                                <span className="text-sm text-neutral-300">Custom integrations</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <div className="w-5 h-5 rounded-full bg-blue-600/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                                    <div className="w-2 h-2 rounded-full bg-blue-400" />
+                                                </div>
+                                                <span className="text-sm text-neutral-300">SLA guarantee</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <div className="w-5 h-5 rounded-full bg-blue-600/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                                    <div className="w-2 h-2 rounded-full bg-blue-400" />
+                                                </div>
+                                                <span className="text-sm text-neutral-300">On-premise option</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </div>
                     </div>
                 </section>
 
