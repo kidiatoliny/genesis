@@ -197,10 +197,10 @@ export default function BuilderLanding() {
                                 viewport={{ once: true }}
                                 className="w-full"
                             >
-                                <div className="glass-card rounded-3xl overflow-hidden group cursor-pointer h-[500px] relative">
+                                <div className="glass-card rounded-3xl overflow-hidden group cursor-pointer h-[700px] relative">
                                     <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-transparent to-blue-900/20 group-hover:from-purple-900/30 group-hover:to-blue-900/30 transition-all duration-500" />
                                     
-                                    <div className="relative h-full flex flex-col justify-between p-12">
+                                    <div className="relative h-full flex flex-col p-12 gap-8">
                                         <div>
                                             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-500/20 border border-purple-500/30 mb-6">
                                                 <Palette className="h-4 w-4 text-purple-400" />
@@ -218,25 +218,9 @@ export default function BuilderLanding() {
                                             </p>
                                         </div>
 
-                                        <div className="flex items-center gap-6">
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-10 h-10 rounded-xl bg-purple-600/30 flex items-center justify-center">
-                                                    <Database className="h-5 w-5 text-purple-300" />
-                                                </div>
-                                                <div>
-                                                    <div className="text-sm font-semibold text-white">14+ Field Types</div>
-                                                    <div className="text-xs text-neutral-400">String, JSON, UUID, Email...</div>
-                                                </div>
-                                            </div>
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-10 h-10 rounded-xl bg-blue-600/30 flex items-center justify-center">
-                                                    <Zap className="h-5 w-5 text-blue-300" />
-                                                </div>
-                                                <div>
-                                                    <div className="text-sm font-semibold text-white">Smart Relations</div>
-                                                    <div className="text-xs text-neutral-400">hasMany, belongsTo, morphs</div>
-                                                </div>
-                                            </div>
+                                        {/* Animated Drag & Drop Demo */}
+                                        <div className="relative flex-1 rounded-xl bg-neutral-950/50 border border-purple-500/20 overflow-hidden">
+                                            <DragDropDemo />
                                         </div>
                                     </div>
                                 </div>
@@ -2372,3 +2356,134 @@ const techStack = [
     { name: 'PostgreSQL', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg', category: 'Database', isImage: true },
     { name: 'Pest', icon: 'https://pestphp.com/www/assets/logo.svg', category: 'Testing', isImage: true },
 ];
+
+// Drag & Drop Demo Component
+const DragDropDemo = () => {
+    const [draggedItem, setDraggedItem] = useState<number | null>(null);
+    const [droppedFields, setDroppedFields] = useState<Array<{ id: number; name: string; type: string; color: string }>>([]);
+    
+    const fieldTypes = [
+        { id: 1, name: 'name', type: 'string', color: 'bg-blue-500' },
+        { id: 2, name: 'email', type: 'email', color: 'bg-emerald-500' },
+        { id: 3, name: 'age', type: 'integer', color: 'bg-green-500' },
+    ];
+
+    React.useEffect(() => {
+        const animateDrops = async () => {
+            // Wait 1 second
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // Animate field 1 dragging
+            setDraggedItem(1);
+            await new Promise(resolve => setTimeout(resolve, 800));
+            setDroppedFields([fieldTypes[0]]);
+            setDraggedItem(null);
+            
+            // Wait and animate field 2
+            await new Promise(resolve => setTimeout(resolve, 600));
+            setDraggedItem(2);
+            await new Promise(resolve => setTimeout(resolve, 800));
+            setDroppedFields(prev => [...prev, fieldTypes[1]]);
+            setDraggedItem(null);
+            
+            // Wait and animate field 3
+            await new Promise(resolve => setTimeout(resolve, 600));
+            setDraggedItem(3);
+            await new Promise(resolve => setTimeout(resolve, 800));
+            setDroppedFields(prev => [...prev, fieldTypes[2]]);
+            setDraggedItem(null);
+            
+            // Wait then reset
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            setDroppedFields([]);
+        };
+
+        const interval = setInterval(() => {
+            animateDrops();
+        }, 8000);
+
+        animateDrops();
+
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <div className="relative h-full p-6 flex gap-6">
+            {/* Field Types Palette */}
+            <div className="flex flex-col gap-3 w-1/3">
+                <div className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-1">Field Types</div>
+                {fieldTypes.map((field) => (
+                    <motion.div
+                        key={field.id}
+                        animate={{
+                            x: draggedItem === field.id ? 180 : 0,
+                            y: draggedItem === field.id ? (droppedFields.length * 48) : 0,
+                            scale: draggedItem === field.id ? 1.05 : 1,
+                            opacity: droppedFields.some(f => f.id === field.id) ? 0.3 : 1,
+                        }}
+                        transition={{ duration: 0.5, ease: 'easeInOut' }}
+                        className={`px-4 py-3 rounded-lg ${field.color} flex items-center gap-2 shadow-lg cursor-move`}
+                        style={{ willChange: 'transform' }}
+                    >
+                        <div className="w-2 h-2 rounded-full bg-white/80" />
+                        <span className="text-sm font-medium text-white">{field.name}: {field.type}</span>
+                    </motion.div>
+                ))}
+            </div>
+
+            {/* Drop Zone - Model Card */}
+            <div className="flex-1 relative">
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-purple-900/30 to-blue-900/30 border-2 border-dashed border-purple-500/30">
+                    <div className="p-4">
+                        <div className="flex items-center gap-3 mb-4 pb-3 border-b border-purple-500/30">
+                            <Database className="h-5 w-5 text-purple-400" />
+                            <span className="font-bold text-white">User Model</span>
+                        </div>
+                        
+                        <div className="space-y-2">
+                            {droppedFields.map((field, index) => (
+                                <motion.div
+                                    key={field.id}
+                                    initial={{ opacity: 0, scale: 0.8, y: -20 }}
+                                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                                    transition={{ duration: 0.3, delay: 0.1 }}
+                                    className={`px-4 py-3 rounded-lg ${field.color} flex items-center gap-2 shadow-lg`}
+                                >
+                                    <div className="w-2 h-2 rounded-full bg-white/80" />
+                                    <span className="text-sm font-medium text-white">{field.name}: {field.type}</span>
+                                </motion.div>
+                            ))}
+                        </div>
+
+                        {droppedFields.length === 0 && (
+                            <motion.div
+                                animate={{ opacity: [0.5, 0.8, 0.5] }}
+                                transition={{ duration: 2, repeat: Infinity }}
+                                className="text-center py-12"
+                            >
+                                <Sparkles className="h-8 w-8 text-purple-400/50 mx-auto mb-2" />
+                                <p className="text-sm text-purple-300/50">Drag fields here</p>
+                            </motion.div>
+                        )}
+                    </div>
+                </div>
+            </div>
+
+            {/* Cursor effect during drag */}
+            {draggedItem !== null && (
+                <motion.div
+                    className="absolute pointer-events-none"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    style={{
+                        left: '20%',
+                        top: '30%',
+                    }}
+                >
+                    <div className="w-6 h-6 rounded-full bg-purple-500/50 blur-sm" />
+                </motion.div>
+            )}
+        </div>
+    );
+};
