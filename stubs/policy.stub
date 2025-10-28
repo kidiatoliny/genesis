@@ -1,0 +1,31 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Policies;
+
+use App\Models\{{ modelName }};
+use App\Models\User;
+
+final readonly class {{ modelName }}Policy
+{
+    public function view(User $user, {{ modelName }} ${{ modelVar }}): bool
+    {
+        return true;
+    }
+
+    public function create(User $user): bool
+    {
+        return true;
+    }
+
+    public function update(User $user, {{ modelName }} ${{ modelVar }}): bool
+    {
+        return true;
+    }
+
+    public function delete(User $user, {{ modelName }} ${{ modelVar }}): bool
+    {
+        return true;
+    }
+}

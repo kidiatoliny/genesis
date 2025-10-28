@@ -1,0 +1,16 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Actions\{{ modelPlural }};
+
+use App\Http\Requests\{{ requestClass }}Request;
+use App\Models\{{ modelName }};
+
+final readonly class {{ actionName }}
+{
+    public function handle({{ actionParams }}): {{ returnType }}
+    {
+        {{ actionBody }}
+    }
+}

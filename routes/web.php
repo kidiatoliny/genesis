@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\SchemaController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserEmailResetNotification;
@@ -17,6 +18,9 @@ Route::get('/', fn () => Inertia::render('welcome'))->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function (): void {
     Route::get('dashboard', fn () => Inertia::render('dashboard'))->name('dashboard');
+    Route::get('builder', [SchemaController::class, 'index'])->name('builder.index');
+    Route::post('builder', [SchemaController::class, 'store'])->name('builder.store');
+    Route::get('builder/{schema}/download', [SchemaController::class, 'download'])->name('builder.download');
 });
 
 Route::middleware('auth')->group(function (): void {
