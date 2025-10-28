@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Actions;
 
 use App\Models\Schema;
+use App\Services\ControllerGenerator;
+use App\Services\RequestGenerator;
 use App\Services\TemplateEngine;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -14,6 +16,8 @@ final readonly class GenerateProjectAction
 {
     public function __construct(
         private TemplateEngine $engine,
+        private ControllerGenerator $controllerGenerator,
+        private RequestGenerator $requestGenerator,
         private GenerateModelsAction $generateModels,
         private GenerateMigrationsAction $generateMigrations,
         private GenerateControllersAction $generateControllers,
@@ -21,6 +25,7 @@ final readonly class GenerateProjectAction
         private GenerateResourcesAction $generateResources,
         private GeneratePoliciesAction $generatePolicies,
         private GenerateActionsAction $generateActions,
+        private GenerateRoutesAction $generateRoutes,
     ) {}
 
     /**
@@ -37,6 +42,10 @@ final readonly class GenerateProjectAction
         $projectPath = storage_path('generated_projects/'.Str::random(16));
         File::makeDirectory($projectPath, 0755, true, true);
 
+        $definition['project_type'] = $schema->project_type;
+        $definition['response_type'] = $schema->response_type;
+        $definition['view_engine'] = $schema->view_engine;
+
         $this->generateModels->handle($definition, $projectPath);
         $this->generateMigrations->handle($definition, $projectPath);
         $this->generateControllers->handle($definition, $projectPath);
@@ -44,6 +53,7 @@ final readonly class GenerateProjectAction
         $this->generateResources->handle($definition, $projectPath);
         $this->generatePolicies->handle($definition, $projectPath);
         $this->generateActions->handle($definition, $projectPath);
+        $this->generateRoutes->handle($definition, $projectPath);
 
         return [
             'projectPath' => $projectPath,

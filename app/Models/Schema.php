@@ -13,6 +13,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read int $id
  * @property-read string $name
  * @property-read string $definition
+ * @property-read string $project_type
+ * @property-read string $response_type
+ * @property-read string $view_engine
  * @property-read CarbonInterface $created_at
  * @property-read CarbonInterface $updated_at
  */
@@ -29,6 +32,9 @@ final class Schema extends Model
     protected $fillable = [
         'name',
         'definition',
+        'project_type',
+        'response_type',
+        'view_engine',
     ];
 
     /**
@@ -40,6 +46,9 @@ final class Schema extends Model
             'id' => 'integer',
             'name' => 'string',
             'definition' => 'string',
+            'project_type' => 'string',
+            'response_type' => 'string',
+            'view_engine' => 'string',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
         ];

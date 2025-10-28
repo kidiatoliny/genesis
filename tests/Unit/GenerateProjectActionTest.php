@@ -10,7 +10,11 @@ use App\Actions\GeneratePoliciesAction;
 use App\Actions\GenerateProjectAction;
 use App\Actions\GenerateRequestsAction;
 use App\Actions\GenerateResourcesAction;
+use App\Actions\GenerateRoutesAction;
 use App\Models\Schema;
+use App\Services\ControllerGenerator;
+use App\Services\RequestGenerator;
+use App\Services\RouteGenerator;
 use App\Services\TemplateEngine;
 use Illuminate\Support\Facades\File;
 
@@ -30,15 +34,21 @@ it('generates project structure from schema', function () {
     ]);
 
     $engine = new TemplateEngine();
+    $controllerGenerator = new ControllerGenerator($engine);
+    $requestGenerator = new RequestGenerator();
+    $routeGenerator = new RouteGenerator($engine);
     $action = new GenerateProjectAction(
         $engine,
+        $controllerGenerator,
+        $requestGenerator,
         new GenerateModelsAction($engine),
         new GenerateMigrationsAction($engine),
-        new GenerateControllersAction($engine),
-        new GenerateRequestsAction($engine),
+        new GenerateControllersAction($controllerGenerator),
+        new GenerateRequestsAction($requestGenerator),
         new GenerateResourcesAction($engine),
         new GeneratePoliciesAction($engine),
         new GenerateActionsAction($engine),
+        new GenerateRoutesAction($routeGenerator),
     );
 
     $result = $action->handle($schema);
@@ -54,15 +64,21 @@ it('throws error for invalid schema definition', function () {
     ]);
 
     $engine = new TemplateEngine();
+    $controllerGenerator = new ControllerGenerator($engine);
+    $requestGenerator = new RequestGenerator();
+    $routeGenerator = new RouteGenerator($engine);
     $action = new GenerateProjectAction(
         $engine,
+        $controllerGenerator,
+        $requestGenerator,
         new GenerateModelsAction($engine),
         new GenerateMigrationsAction($engine),
-        new GenerateControllersAction($engine),
-        new GenerateRequestsAction($engine),
+        new GenerateControllersAction($controllerGenerator),
+        new GenerateRequestsAction($requestGenerator),
         new GenerateResourcesAction($engine),
         new GeneratePoliciesAction($engine),
         new GenerateActionsAction($engine),
+        new GenerateRoutesAction($routeGenerator),
     );
 
     expect(fn () => $action->handle($schema))->toThrow(InvalidArgumentException::class);
