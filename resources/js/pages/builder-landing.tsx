@@ -20,13 +20,13 @@ export default function BuilderLanding() {
                 />
             </Head>
 
-            <div className="min-h-screen bg-gradient-to-br from-neutral-950 via-purple-950 to-neutral-950 text-white overflow-hidden">
+            <div className="min-h-screen bg-gradient-to-br from-neutral-950 via-purple-950/70 to-neutral-950 text-white overflow-hidden">
                 {/* Navigation */}
                 <motion.nav
                     initial={{ y: -100, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 0.6 }}
-                    className="fixed top-0 left-0 right-0 z-50 backdrop-blur-lg bg-neutral-950/50 border-b border-purple-500/20"
+                    className="fixed top-0 left-0 right-0 z-50 backdrop-blur-lg bg-neutral-950/60 border-b border-purple-500/20"
                 >
                     <div className="container mx-auto px-6 py-4 flex items-center justify-between">
                         <div className="flex items-center gap-2">
@@ -112,7 +112,7 @@ export default function BuilderLanding() {
                 </section>
 
                 {/* Features Section - ReactFlow Inspired */}
-                <section className="py-32 px-6 relative overflow-hidden">
+                <section className="py-32 px-6 relative overflow-hidden bg-gradient-to-b from-transparent via-purple-500/5 to-transparent">
                     {/* Animated Grid Background */}
                     <div className="absolute inset-0 opacity-20">
                         <div className="absolute inset-0" style={{
@@ -324,7 +324,7 @@ export default function BuilderLanding() {
                 </section>
 
                 {/* How It Works Section */}
-                <section className="py-32 px-6">
+                <section className="py-32 px-6 bg-gradient-to-b from-transparent via-blue-500/5 to-transparent">
                     <div className="container mx-auto max-w-6xl">
                         <motion.div
                             initial={{ y: 50, opacity: 0 }}
@@ -680,7 +680,7 @@ export default function BuilderLanding() {
                 </section>
 
                 {/* Pricing Section */}
-                <section className="py-32 px-6">
+                <section className="py-32 px-6 bg-gradient-to-b from-transparent via-orange-500/5 to-transparent">
                     <div className="container mx-auto max-w-7xl">
                         {/* Header */}
                         <motion.div
@@ -944,7 +944,7 @@ export default function BuilderLanding() {
                 </section>
 
                 {/* CTA Section */}
-                <section className="py-32 px-6">
+                <section className="py-32 px-6 bg-gradient-to-b from-transparent via-green-500/5 to-transparent">
                     <motion.div
                         initial={{ scale: 0.9, opacity: 0 }}
                         whileInView={{ scale: 1, opacity: 1 }}
@@ -998,7 +998,7 @@ export default function BuilderLanding() {
                 </section>
 
                 {/* Tech Stack Section */}
-                <section className="py-32 px-6">
+                <section className="py-32 px-6 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent">
                     <div className="container mx-auto max-w-6xl">
                         <motion.div
                             initial={{ y: 50, opacity: 0 }}
@@ -1044,9 +1044,9 @@ export default function BuilderLanding() {
                 </section>
 
                 {/* Footer */}
-                <footer className="py-12 px-6 border-t border-purple-500/20">
+                <footer className="py-12 px-6 border-t border-neutral-800/20">
                     <div className="container mx-auto max-w-6xl text-center text-neutral-400">
-                        <p>© 2024 Genesis Builder. Built with Laravel & React.</p>
+                        <p>© {new Date().getFullYear()} Genesis Builder. Built with Laravel & React.</p>
                     </div>
                 </footer>
             </div>
