@@ -26,7 +26,7 @@ import {
 import {
     Checkbox,
 } from '@/components/ui/checkbox';
-import { Download, Plus, Save, Trash2, MoreVertical, GripVertical, Edit2 } from 'lucide-react';
+import { Download, Plus, Save, Trash2, MoreVertical, GripVertical, Edit2, Grip } from 'lucide-react';
 import { NewSchemaModal } from '@/components/new-schema-modal';
 import { useBuilderStore } from '@/stores/builder-store';
 import { DndContext, DragEndEvent, DragStartEvent, MouseSensor, useSensor, useSensors } from '@dnd-kit/core';
@@ -89,6 +89,23 @@ const VIEW_ENGINES = [
     { value: 'livewire', label: 'Livewire' },
 ];
 
+const FIELD_TYPE_COLORS: Record<string, { bg: string; text: string; border: string }> = {
+    string: { bg: 'bg-blue-600', text: 'text-white', border: 'border-blue-700' },
+    integer: { bg: 'bg-green-600', text: 'text-white', border: 'border-green-700' },
+    boolean: { bg: 'bg-purple-600', text: 'text-white', border: 'border-purple-700' },
+    text: { bg: 'bg-indigo-600', text: 'text-white', border: 'border-indigo-700' },
+    datetime: { bg: 'bg-rose-600', text: 'text-white', border: 'border-rose-700' },
+    date: { bg: 'bg-orange-600', text: 'text-white', border: 'border-orange-700' },
+    time: { bg: 'bg-yellow-600', text: 'text-white', border: 'border-yellow-700' },
+    json: { bg: 'bg-cyan-600', text: 'text-white', border: 'border-cyan-700' },
+    uuid: { bg: 'bg-teal-600', text: 'text-white', border: 'border-teal-700' },
+    email: { bg: 'bg-emerald-600', text: 'text-white', border: 'border-emerald-700' },
+    url: { bg: 'bg-sky-600', text: 'text-white', border: 'border-sky-700' },
+    enum: { bg: 'bg-violet-600', text: 'text-white', border: 'border-violet-700' },
+    decimal: { bg: 'bg-fuchsia-600', text: 'text-white', border: 'border-fuchsia-700' },
+    float: { bg: 'bg-pink-600', text: 'text-white', border: 'border-pink-700' },
+};
+
 export default function Builder() {
     const { schemas, saved } = usePage<{
         schemas: SavedSchema[];
@@ -104,6 +121,11 @@ export default function Builder() {
     const [newFieldType, setNewFieldType] = useState('string');
     const [draggedFieldType, setDraggedFieldType] = useState<string | null>(null);
     const [dragTargetModelId, setDragTargetModelId] = useState<string | null>(null);
+    const [modelPositions, setModelPositions] = useState<Record<string, { x: number; y: number }>>({});
+    const [fieldPositions, setFieldPositions] = useState<Record<string, { x: number; y: number }>>({});
+    const [draggingModelId, setDraggingModelId] = useState<string | null>(null);
+    const [draggingFieldId, setDraggingFieldId] = useState<string | null>(null);
+    const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
 
     const {
         schema,
@@ -140,11 +162,26 @@ export default function Builder() {
 
     const handleAddField = () => {
         if (selectedModelId && newFieldName.trim()) {
+            const newFieldId = `field_${Date.now()}`;
             addField(selectedModelId, {
                 name: newFieldName,
                 type: newFieldType,
                 required: true,
             });
+
+            // Set position for the new field
+            const modelPos = modelPositions[selectedModelId] || { x: 0, y: 0 };
+            const model = schema?.models.find(m => m.id === selectedModelId);
+            const fieldIndex = (model?.fields.length || 0);
+
+            setFieldPositions((prev) => ({
+                ...prev,
+                [newFieldId]: {
+                    x: modelPos.x + 450,
+                    y: modelPos.y + 50 + (fieldIndex * 80)
+                }
+            }));
+
             setNewFieldName('');
             setNewFieldType('string');
         }
@@ -185,6 +222,56 @@ export default function Builder() {
     const handleDownload = (schemaRecord: SavedSchema) => {
         router.get(`/builder/${schemaRecord.id}/download`);
     };
+
+    React.useEffect(() => {
+        if (!draggingModelId) return;
+
+        const handleMouseMove = (e: MouseEvent) => {
+            const newX = e.clientX - dragOffset.x;
+            const newY = e.clientY - dragOffset.y;
+            setModelPositions((prev) => ({
+                ...prev,
+                [draggingModelId]: { x: Math.max(0, newX), y: Math.max(0, newY) },
+            }));
+        };
+
+        const handleMouseUp = () => {
+            setDraggingModelId(null);
+        };
+
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
+
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [draggingModelId, dragOffset]);
+
+    React.useEffect(() => {
+        if (!draggingFieldId) return;
+
+        const handleMouseMove = (e: MouseEvent) => {
+            const newX = e.clientX - dragOffset.x;
+            const newY = e.clientY - dragOffset.y;
+            setFieldPositions((prev) => ({
+                ...prev,
+                [draggingFieldId]: { x: Math.max(0, newX), y: Math.max(0, newY) },
+            }));
+        };
+
+        const handleMouseUp = () => {
+            setDraggingFieldId(null);
+        };
+
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
+
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [draggingFieldId, dragOffset]);
 
     // List view - no schema selected
     if (!schema) {
@@ -428,7 +515,9 @@ export default function Builder() {
                                 <CardTitle className="text-sm">Field Types</CardTitle>
                             </CardHeader>
                             <CardContent className="flex-1 space-y-2">
-                                {FIELD_TYPES.map((type) => (
+                                {FIELD_TYPES.map((type) => {
+                                    const colors = FIELD_TYPE_COLORS[type] || FIELD_TYPE_COLORS.string;
+                                    return (
                                     <div
                                         key={type}
                                         draggable
@@ -436,11 +525,12 @@ export default function Builder() {
                                             e.dataTransfer.effectAllowed = 'copy';
                                             e.dataTransfer.setData('fieldType', type);
                                         }}
-                                        className="p-2 bg-purple-100 dark:bg-purple-900 rounded cursor-move text-sm font-medium text-purple-900 dark:text-purple-100 hover:bg-purple-200 dark:hover:bg-purple-800 transition-colors"
+                                        className={`p-2 ${colors.bg} rounded cursor-move text-sm font-medium ${colors.text} hover:opacity-90 transition-opacity border ${colors.border}`}
                                     >
                                         {type}
                                     </div>
-                                ))}
+                                    );
+                                })}
                             </CardContent>
                         </Card>
 
@@ -462,38 +552,90 @@ export default function Builder() {
                                     </div>
                                 </div>
                             ) : (
-                                <div className="space-y-3">
-                                    {schema.models.map((model) => (
-                                        <Card
-                                            key={model.id}
-                                            className={`cursor-pointer border-2 transition-all w-80 ${
-                                                selectedModelId === model.id
-                                                    ? 'border-purple-500 bg-purple-50 dark:bg-purple-950'
-                                                    : 'border-neutral-200 dark:border-neutral-700'
-                                            }`}
-                                            onClick={() => selectModel(model.id)}
-                                            onDragOver={(e) => e.preventDefault()}
-                                            onDrop={(e) => {
-                                                e.preventDefault();
-                                                e.stopPropagation();
-                                                const fieldType = e.dataTransfer.getData('fieldType');
-                                                if (fieldType) {
-                                                    setDraggedFieldType(fieldType);
-                                                    setDragTargetModelId(model.id);
-                                                    setIsAddingField(true);
-                                                    setNewFieldType(fieldType);
-                                                }
-                                            }}
-                                        >
-                                            <CardHeader className="pb-2">
+                                <>
+                                    {/* SVG para desenhar as linhas de conexão */}
+                                    <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 0 }}>
+                                        {schema.models.flatMap((model) => {
+                                            const modelPos = modelPositions[model.id] || { x: 0, y: 0 };
+                                            const modelCenterX = modelPos.x + 160;
+                                            const modelCenterY = modelPos.y + 80;
+
+                                            return model.fields.map((field, index) => {
+                                                const fieldPos = fieldPositions[field.id] || {
+                                                    x: modelPos.x + 450,
+                                                    y: modelPos.y + 30 + (index * 80)
+                                                };
+                                                const fieldCenterX = fieldPos.x + 40;
+                                                const fieldCenterY = fieldPos.y + 20;
+
+                                                return (
+                                                    <line
+                                                        key={`${model.id}-${field.id}`}
+                                                        x1={modelCenterX}
+                                                        y1={modelCenterY}
+                                                        x2={fieldCenterX}
+                                                        y2={fieldCenterY}
+                                                        stroke={selectedFieldId === field.id ? '#a855f7' : '#d1d5db'}
+                                                        strokeWidth={selectedFieldId === field.id ? '2' : '1'}
+                                                        strokeDasharray={selectedFieldId === field.id ? '0' : '5,5'}
+                                                    />
+                                                );
+                                            });
+                                        })}
+                                    </svg>
+
+                                    {/* Modelos */}
+                                    {schema.models.map((model, modelIndex) => {
+                                        const pos = modelPositions[model.id] || { x: modelIndex * 450, y: 50 };
+                                        return (
+                                            <div
+                                                key={model.id}
+                                                className="absolute"
+                                                style={{
+                                                    left: `${pos.x}px`,
+                                                    top: `${pos.y}px`,
+                                                    zIndex: 10,
+                                                }}
+                                                onMouseDown={(e) => {
+                                                    if ((e.target as HTMLElement).closest('[class*="grip"], [class*="delete"]')) {
+                                                        return;
+                                                    }
+                                                    setDraggingModelId(model.id);
+                                                    setDragOffset({
+                                                        x: e.clientX - pos.x,
+                                                        y: e.clientY - pos.y,
+                                                    });
+                                                }}
+                                            >
+                                                <Card
+                                                className={`cursor-grab active:cursor-grabbing border-2 transition-all w-56 ${
+                                                    selectedModelId === model.id
+                                                        ? 'border-purple-500 bg-purple-50 dark:bg-purple-950'
+                                                        : 'border-neutral-200 dark:border-neutral-700'
+                                                }`}
+                                                onClick={() => selectModel(model.id)}
+                                                onDragOver={(e) => e.preventDefault()}
+                                                onDrop={(e) => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    const fieldType = e.dataTransfer.getData('fieldType');
+                                                    if (fieldType) {
+                                                        setDraggedFieldType(fieldType);
+                                                        setDragTargetModelId(model.id);
+                                                        setIsAddingField(true);
+                                                        setNewFieldType(fieldType);
+                                                    }
+                                                }}
+                                            >
+                                            <CardHeader className="pb-2 pt-2 px-3">
                                                 <div className="flex items-center justify-between">
-                                                    <CardTitle className="text-sm">
+                                                    <CardTitle className="text-xs">
                                                         {model.name}
                                                     </CardTitle>
                                                     <DropdownMenu>
                                                         <DropdownMenuTrigger asChild>
-                                                            <Button variant="ghost" size="sm" onClick={(e) => e.stopPropagation()}>
-                                                                <MoreVertical className="h-4 w-4" />
+                                                            <Button variant="ghost" size="sm" className="h-6 w-6 p-0" onClick={(e) => e.stopPropagation()}>
+                                                                <MoreVertical className="h-3 w-3" />
                                                             </Button>
                                                         </DropdownMenuTrigger>
                                                         <DropdownMenuContent align="end">
@@ -511,42 +653,52 @@ export default function Builder() {
                                                     </DropdownMenu>
                                                 </div>
                                             </CardHeader>
-
-                                            <CardContent className="space-y-1">
-                                                {model.fields.length > 0 ? (
-                                                    <div className="space-y-1">
-                                                        {model.fields.map((field) => (
-                                                            <div
-                                                                key={field.id}
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    selectField(field.id);
-                                                                }}
-                                                                className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded flex justify-between cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-700 group"
-                                                            >
-                                                                <div className="flex-1">
-                                                                    <span>{field.name}</span>
-                                                                    <span className="text-neutral-500 ml-2">{field.type}</span>
-                                                                </div>
-                                                                <button
-                                                                    onClick={(e) => {
-                                                                        e.stopPropagation();
-                                                                        deleteField(model.id, field.id);
-                                                                    }}
-                                                                    className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity hover:text-red-500"
-                                                                >
-                                                                    <Trash2 className="h-3 w-3" />
-                                                                </button>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                ) : (
-                                                    <p className="text-xs text-neutral-400">No fields</p>
-                                                )}
-                                            </CardContent>
                                         </Card>
-                                    ))}
-                                </div>
+                                            </div>
+                                        );
+                                    })}
+
+                                    {/* Nós dos campos */}
+                                    {schema.models.flatMap((model) => {
+                                        return model.fields.map((field, index) => {
+                                            const modelPos = modelPositions[model.id] || { x: 0, y: 0 };
+                                            const fieldPos = fieldPositions[field.id] || {
+                                                x: modelPos.x + 450,
+                                                y: modelPos.y + 30 + (index * 80)
+                                            };
+                                            return (
+                                                <div
+                                                    key={field.id}
+                                                    className="absolute"
+                                                    style={{
+                                                        left: `${fieldPos.x}px`,
+                                                        top: `${fieldPos.y}px`,
+                                                        zIndex: 20,
+                                                    }}
+                                                    onMouseDown={(e) => {
+                                                        setDraggingFieldId(field.id);
+                                                        setDragOffset({
+                                                            x: e.clientX - fieldPos.x,
+                                                            y: e.clientY - fieldPos.y,
+                                                        });
+                                                    }}
+                                                >
+                                                    <div
+                                                        onClick={() => selectField(field.id)}
+                                                        className={`cursor-grab active:cursor-grabbing h-10 px-3 rounded-full flex items-center justify-center text-xs font-medium transition-all border-2 ${
+                                                            selectedFieldId === field.id
+                                                                ? `${FIELD_TYPE_COLORS[field.type]?.bg || FIELD_TYPE_COLORS.string.bg} text-white shadow-lg border-2`
+                                                                : `${FIELD_TYPE_COLORS[field.type]?.bg || FIELD_TYPE_COLORS.string.bg} text-white hover:opacity-90 border-2 ${FIELD_TYPE_COLORS[field.type]?.border || FIELD_TYPE_COLORS.string.border}`
+                                                        }`}
+                                                        title={field.type}
+                                                    >
+                                                        <span className="text-center truncate">{field.name}</span>
+                                                    </div>
+                                                </div>
+                                            );
+                                        });
+                                    })}
+                                </>
                             )}
 
                             {/* Add Model FAB - Bottom Right */}
