@@ -1093,4 +1093,17 @@
         all: unset;
         font-family: var(--font-mono);
     }
+
+    /* Grid background for landing pages */
+    .bg-grid-white\/10 {
+        background-image: linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+                          linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+        background-size: 24px 24px;
+    }
+
+    .bg-grid-white\/5 {
+        background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                          linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        background-size: 24px 24px;
+    }
 }
