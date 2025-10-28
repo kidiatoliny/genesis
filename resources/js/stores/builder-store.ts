@@ -1,11 +1,17 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+export interface Validation {
+    rule: string;
+    value?: string | number | boolean;
+}
+
 export interface Field {
     id: string;
     name: string;
     type: string;
     required: boolean;
+    validations?: Validation[];
 }
 
 export interface Model {

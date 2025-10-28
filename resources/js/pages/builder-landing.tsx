@@ -80,7 +80,7 @@ export default function BuilderLanding() {
                 </motion.nav>
 
                 {/* Hero Section */}
-                <section className="relative min-h-screen flex items-center justify-center px-6 pt-20">
+                <section className="relative min-h-screen flex items-center justify-center px-6 pt-48">
                     <motion.div style={{ y, opacity }} className="absolute inset-0 overflow-hidden">
                         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/30 rounded-full blur-3xl" />
                         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl" />
@@ -92,16 +92,6 @@ export default function BuilderLanding() {
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ duration: 0.8, delay: 0.2 }}
                         >
-                            <motion.div
-                                initial={{ scale: 0 }}
-                                animate={{ scale: 1 }}
-                                transition={{ duration: 0.5, delay: 0.3 }}
-                                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/20 border border-purple-500/30 mb-6"
-                            >
-                                <Sparkles className="h-4 w-4 text-purple-400" />
-                                <span className="text-sm font-medium">Visual Schema Builder for Laravel</span>
-                            </motion.div>
-
                             <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent leading-tight">
                                 Build Laravel Apps
                                 <br />
@@ -113,17 +103,15 @@ export default function BuilderLanding() {
                                 with a powerful drag-and-drop interface.
                             </p>
 
-                            <div className="flex items-center justify-center">
-                                <Link href="/builder">
-                                    <Button
-                                        size="lg"
-                                        className="px-8 py-6 text-lg bg-purple-600 hover:bg-purple-700 transition-all hover:scale-105"
-                                    >
-                                        Start Building
-                                        <ArrowRight className="ml-2 h-5 w-5" />
-                                    </Button>
-                                </Link>
-                            </div>
+                            <Link href="/builder">
+                                <Button
+                                    size="lg"
+                                    className="px-8 py-6 text-lg bg-purple-600 hover:bg-purple-700 transition-all hover:scale-105"
+                                >
+                                    Start Building
+                                    <ArrowRight className="ml-2 h-5 w-5" />
+                                </Button>
+                            </Link>
                         </motion.div>
 
                         {/* Animated Schema Demo */}

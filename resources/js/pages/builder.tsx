@@ -26,10 +26,12 @@ import {
 import {
     Checkbox,
 } from '@/components/ui/checkbox';
-import { Download, Plus, Save, Trash2, MoreVertical, GripVertical, Edit2, Grip } from 'lucide-react';
+import { Download, Plus, Save, Trash2, MoreVertical, GripVertical, Edit2, Grip, X } from 'lucide-react';
 import { NewSchemaModal } from '@/components/new-schema-modal';
+import { FieldValidations } from '@/components/field-validations';
 import { useBuilderStore } from '@/stores/builder-store';
 import { useBuilderUIStore } from '@/stores/builder-ui-store';
+import { LARAVEL_VALIDATIONS } from '@/constants/laravel-validations';
 import { DndContext, DragEndEvent, DragStartEvent, MouseSensor, useSensor, useSensors } from '@dnd-kit/core';
 
 interface SavedSchema {
@@ -105,6 +107,60 @@ const FIELD_TYPE_COLORS: Record<string, { bg: string; text: string; border: stri
     enum: { bg: 'bg-violet-600', text: 'text-white', border: 'border-violet-700' },
     decimal: { bg: 'bg-fuchsia-600', text: 'text-white', border: 'border-fuchsia-700' },
     float: { bg: 'bg-pink-600', text: 'text-white', border: 'border-pink-700' },
+};
+
+const VALIDATION_COLORS: Record<string, { bg: string; text: string; border: string }> = {
+    // String validations
+    string: { bg: 'bg-blue-100 dark:bg-blue-900/30', text: 'text-blue-700 dark:text-blue-300', border: 'border-blue-300 dark:border-blue-700' },
+    min: { bg: 'bg-amber-100 dark:bg-amber-900/30', text: 'text-amber-700 dark:text-amber-300', border: 'border-amber-300 dark:border-amber-700' },
+    max: { bg: 'bg-amber-100 dark:bg-amber-900/30', text: 'text-amber-700 dark:text-amber-300', border: 'border-amber-300 dark:border-amber-700' },
+    email: { bg: 'bg-emerald-100 dark:bg-emerald-900/30', text: 'text-emerald-700 dark:text-emerald-300', border: 'border-emerald-300 dark:border-emerald-700' },
+    url: { bg: 'bg-sky-100 dark:bg-sky-900/30', text: 'text-sky-700 dark:text-sky-300', border: 'border-sky-300 dark:border-sky-700' },
+    // Numeric validations
+    integer: { bg: 'bg-green-100 dark:bg-green-900/30', text: 'text-green-700 dark:text-green-300', border: 'border-green-300 dark:border-green-700' },
+    numeric: { bg: 'bg-green-100 dark:bg-green-900/30', text: 'text-green-700 dark:text-green-300', border: 'border-green-300 dark:border-green-700' },
+    between: { bg: 'bg-lime-100 dark:bg-lime-900/30', text: 'text-lime-700 dark:text-lime-300', border: 'border-lime-300 dark:border-lime-700' },
+    gt: { bg: 'bg-lime-100 dark:bg-lime-900/30', text: 'text-lime-700 dark:text-lime-300', border: 'border-lime-300 dark:border-lime-700' },
+    gte: { bg: 'bg-lime-100 dark:bg-lime-900/30', text: 'text-lime-700 dark:text-lime-300', border: 'border-lime-300 dark:border-lime-700' },
+    lt: { bg: 'bg-lime-100 dark:bg-lime-900/30', text: 'text-lime-700 dark:text-lime-300', border: 'border-lime-300 dark:border-lime-700' },
+    lte: { bg: 'bg-lime-100 dark:bg-lime-900/30', text: 'text-lime-700 dark:text-lime-300', border: 'border-lime-300 dark:border-lime-700' },
+    // Database validations
+    unique: { bg: 'bg-purple-100 dark:bg-purple-900/30', text: 'text-purple-700 dark:text-purple-300', border: 'border-purple-300 dark:border-purple-700' },
+    exists: { bg: 'bg-purple-100 dark:bg-purple-900/30', text: 'text-purple-700 dark:text-purple-300', border: 'border-purple-300 dark:border-purple-700' },
+    // Date validations
+    date: { bg: 'bg-rose-100 dark:bg-rose-900/30', text: 'text-rose-700 dark:text-rose-300', border: 'border-rose-300 dark:border-rose-700' },
+    date_format: { bg: 'bg-rose-100 dark:bg-rose-900/30', text: 'text-rose-700 dark:text-rose-300', border: 'border-rose-300 dark:border-rose-700' },
+    before: { bg: 'bg-rose-100 dark:bg-rose-900/30', text: 'text-rose-700 dark:text-rose-300', border: 'border-rose-300 dark:border-rose-700' },
+    after: { bg: 'bg-rose-100 dark:bg-rose-900/30', text: 'text-rose-700 dark:text-rose-300', border: 'border-rose-300 dark:border-rose-700' },
+    // Pattern & Enum
+    regex: { bg: 'bg-orange-100 dark:bg-orange-900/30', text: 'text-orange-700 dark:text-orange-300', border: 'border-orange-300 dark:border-orange-700' },
+    in: { bg: 'bg-cyan-100 dark:bg-cyan-900/30', text: 'text-cyan-700 dark:text-cyan-300', border: 'border-cyan-300 dark:border-cyan-700' },
+    not_in: { bg: 'bg-cyan-100 dark:bg-cyan-900/30', text: 'text-cyan-700 dark:text-cyan-300', border: 'border-cyan-300 dark:border-cyan-700' },
+    // File validations
+    file: { bg: 'bg-indigo-100 dark:bg-indigo-900/30', text: 'text-indigo-700 dark:text-indigo-300', border: 'border-indigo-300 dark:border-indigo-700' },
+    mimes: { bg: 'bg-indigo-100 dark:bg-indigo-900/30', text: 'text-indigo-700 dark:text-indigo-300', border: 'border-indigo-300 dark:border-indigo-700' },
+    image: { bg: 'bg-indigo-100 dark:bg-indigo-900/30', text: 'text-indigo-700 dark:text-indigo-300', border: 'border-indigo-300 dark:border-indigo-700' },
+    // Other validations
+    json: { bg: 'bg-violet-100 dark:bg-violet-900/30', text: 'text-violet-700 dark:text-violet-300', border: 'border-violet-300 dark:border-violet-700' },
+    uuid: { bg: 'bg-teal-100 dark:bg-teal-900/30', text: 'text-teal-700 dark:text-teal-300', border: 'border-teal-300 dark:border-teal-700' },
+    boolean: { bg: 'bg-fuchsia-100 dark:bg-fuchsia-900/30', text: 'text-fuchsia-700 dark:text-fuchsia-300', border: 'border-fuchsia-300 dark:border-fuchsia-700' },
+    confirmed: { bg: 'bg-green-100 dark:bg-green-900/30', text: 'text-green-700 dark:text-green-300', border: 'border-green-300 dark:border-green-700' },
+    same: { bg: 'bg-pink-100 dark:bg-pink-900/30', text: 'text-pink-700 dark:text-pink-300', border: 'border-pink-300 dark:border-pink-700' },
+    different: { bg: 'bg-pink-100 dark:bg-pink-900/30', text: 'text-pink-700 dark:text-pink-300', border: 'border-pink-300 dark:border-pink-700' },
+    array: { bg: 'bg-red-100 dark:bg-red-900/30', text: 'text-red-700 dark:text-red-300', border: 'border-red-300 dark:border-red-700' },
+    list: { bg: 'bg-red-100 dark:bg-red-900/30', text: 'text-red-700 dark:text-red-300', border: 'border-red-300 dark:border-red-700' },
+    nullable: { bg: 'bg-gray-100 dark:bg-gray-900/30', text: 'text-gray-700 dark:text-gray-300', border: 'border-gray-300 dark:border-gray-700' },
+    filled: { bg: 'bg-gray-100 dark:bg-gray-900/30', text: 'text-gray-700 dark:text-gray-300', border: 'border-gray-300 dark:border-gray-700' },
+    distinct: { bg: 'bg-slate-100 dark:bg-slate-900/30', text: 'text-slate-700 dark:text-slate-300', border: 'border-slate-300 dark:border-slate-700' },
+    ip: { bg: 'bg-cyan-100 dark:bg-cyan-900/30', text: 'text-cyan-700 dark:text-cyan-300', border: 'border-cyan-300 dark:border-cyan-700' },
+    ipv4: { bg: 'bg-cyan-100 dark:bg-cyan-900/30', text: 'text-cyan-700 dark:text-cyan-300', border: 'border-cyan-300 dark:border-cyan-700' },
+    ipv6: { bg: 'bg-cyan-100 dark:bg-cyan-900/30', text: 'text-cyan-700 dark:text-cyan-300', border: 'border-cyan-300 dark:border-cyan-700' },
+    slug: { bg: 'bg-indigo-100 dark:bg-indigo-900/30', text: 'text-indigo-700 dark:text-indigo-300', border: 'border-indigo-300 dark:border-indigo-700' },
+    timezone: { bg: 'bg-orange-100 dark:bg-orange-900/30', text: 'text-orange-700 dark:text-orange-300', border: 'border-orange-300 dark:border-orange-700' },
+};
+
+const getValidationColor = (rule: string) => {
+    return VALIDATION_COLORS[rule] || { bg: 'bg-neutral-100 dark:bg-neutral-900/30', text: 'text-neutral-700 dark:text-neutral-300', border: 'border-neutral-300 dark:border-neutral-700' };
 };
 
 
@@ -544,11 +600,11 @@ export default function Builder() {
                     </div>
                 )}
 
-                <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+                <DndContext sensors={sensors} onDragEnd={handleDragEnd} className="flex flex-1">
                     {viewMode === 'canvas' ? (
                     <div className="flex flex-1 gap-4 overflow-hidden px-6 py-4">
-                        {/* Left: Field Types Sidebar */}
-                        <Card className="w-32 flex flex-col overflow-auto">
+                        {/* Left: Field Types & Validations Sidebar */}
+                        <Card className="w-40 flex flex-col h-full">
                             <CardHeader>
                                 <CardTitle className="text-sm">Field Types</CardTitle>
                             </CardHeader>
@@ -575,7 +631,7 @@ export default function Builder() {
                         {/* Center: Models Canvas */}
                         <div
                             ref={canvasRef}
-                            className="flex-1 overflow-auto rounded-lg border border-neutral-200 bg-gradient-to-br from-neutral-50 to-neutral-100 dark:border-neutral-800 dark:from-neutral-900 dark:to-neutral-800 p-6 relative"
+                            className="flex-1 overflow-auto rounded-lg border border-neutral-200 bg-gradient-to-br from-neutral-50 to-neutral-100 dark:border-neutral-800 dark:from-neutral-900 dark:to-neutral-800 p-6 relative h-full"
                             onDragOver={(e) => e.preventDefault()}
                         >
                             {schema.models.length === 0 ? (
@@ -730,6 +786,32 @@ export default function Builder() {
                                                 >
                                                     <div
                                                         onClick={() => selectField(field.id)}
+                                                        onDoubleClick={() => {
+                                                            selectField(field.id);
+                                                            selectModel(model.id);
+                                                            setFieldDetailsModelId(model.id);
+                                                            setIsFieldDetailsOpen(true);
+                                                        }}
+                                                        onDragOver={(e) => e.preventDefault()}
+                                                        onDrop={(e) => {
+                                                            e.preventDefault();
+                                                            e.stopPropagation();
+                                                            const validationData = e.dataTransfer.getData('validation');
+                                                            if (validationData) {
+                                                                try {
+                                                                    const validation = JSON.parse(validationData);
+                                                                    const currentValidations = field.validations || [];
+                                                                    const alreadyExists = currentValidations.some((v) => v.rule === validation.rule);
+                                                                    if (!alreadyExists) {
+                                                                        updateField(model.id, field.id, {
+                                                                            validations: [...currentValidations, { rule: validation.rule }],
+                                                                        });
+                                                                    }
+                                                                } catch (e) {
+                                                                    console.error('Error parsing validation data:', e);
+                                                                }
+                                                            }
+                                                        }}
                                                         className={`cursor-grab active:cursor-grabbing h-10 px-3 rounded-full flex items-center justify-center text-xs font-medium transition-all border-2 ${
                                                             selectedFieldId === field.id
                                                                 ? `${FIELD_TYPE_COLORS[field.type]?.bg || FIELD_TYPE_COLORS.string.bg} text-white shadow-lg border-2`
@@ -803,89 +885,31 @@ export default function Builder() {
                             )}
                         </div>
 
-                        {/* Right: Field Properties */}
-                        {selectedField && fieldModelId && selectedFieldId ? (
-                        <Card className="w-64 flex flex-col overflow-auto">
+                        {/* Right: All Validations Sidebar */}
+                        <Card className="w-48 flex flex-col h-full">
                             <CardHeader>
-                                <CardTitle className="text-sm">
-                                    Field Properties
-                                </CardTitle>
+                                <CardTitle className="text-sm">Validations</CardTitle>
                             </CardHeader>
-                            <CardContent className="flex-1 space-y-4">
-                                <div>
-                                    <label className="block text-xs font-medium mb-2">
-                                        Field Name
-                                    </label>
-                                    <Input
-                                        value={selectedField.name}
-                                        onChange={(e) =>
-                                            updateField(fieldModelId, selectedFieldId, {
-                                                name: e.target.value,
-                                            })
-                                        }
-                                        className="text-sm"
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="block text-xs font-medium mb-2">
-                                        Field Type
-                                    </label>
-                                    <Select
-                                        value={selectedField.type}
-                                        onValueChange={(value) =>
-                                            updateField(fieldModelId, selectedFieldId, {
-                                                type: value,
-                                            })
-                                        }
-                                    >
-                                        <SelectTrigger className="text-sm">
-                                            <SelectValue />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {FIELD_TYPES.map((type) => (
-                                                <SelectItem key={type} value={type}>
-                                                    {type}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-
-                                <div className="flex items-center space-x-2">
-                                    <Checkbox
-                                        id="required"
-                                        checked={selectedField.required}
-                                        onCheckedChange={(checked) =>
-                                            updateField(fieldModelId, selectedFieldId, {
-                                                required: checked === true,
-                                            })
-                                        }
-                                    />
-                                    <label
-                                        htmlFor="required"
-                                        className="text-xs font-medium cursor-pointer"
-                                    >
-                                        Required
-                                    </label>
-                                </div>
-
-                                <div className="pt-4 border-t border-neutral-200 dark:border-neutral-700">
-                                    <Button
-                                        onClick={() =>
-                                            deleteField(fieldModelId, selectedFieldId)
-                                        }
-                                        variant="outline"
-                                        className="w-full text-xs text-red-600 hover:text-red-700"
-                                        size="sm"
-                                    >
-                                        <Trash2 className="mr-2 h-3 w-3" />
-                                        Delete
-                                    </Button>
-                                </div>
+                            <CardContent className="flex-1 space-y-2 overflow-y-auto">
+                                {LARAVEL_VALIDATIONS.map((validation) => {
+                                    const colors = getValidationColor(validation.rule);
+                                    return (
+                                        <div
+                                            key={validation.rule}
+                                            draggable
+                                            onDragStart={(e) => {
+                                                e.dataTransfer.effectAllowed = 'copy';
+                                                e.dataTransfer.setData('validation', JSON.stringify(validation));
+                                            }}
+                                            className={`p-2 rounded cursor-move text-xs font-medium transition-colors hover:opacity-90 border ${colors.bg} ${colors.text} ${colors.border}`}
+                                            title={validation.description}
+                                        >
+                                            {validation.rule}
+                                        </div>
+                                    );
+                                })}
                             </CardContent>
                         </Card>
-                        ) : null}
                     </div>
                     ) : (
                     <div className="flex-1 overflow-auto px-6 py-4 relative">
@@ -1149,92 +1173,136 @@ export default function Builder() {
 
                 {/* Field Details Modal - Card View */}
                 {isFieldDetailsOpen && selectedField && fieldDetailsModelId && selectedFieldId && viewMode === 'card' ? (
-                    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
-                        <Card className="max-w-md w-full mx-4">
-                            <CardHeader>
-                                <CardTitle>Field Details</CardTitle>
+                    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+                        <Card className="max-w-3xl w-full h-[90vh] flex flex-col shadow-2xl rounded-xl">
+                            <CardHeader className="border-b border-neutral-200 dark:border-neutral-700 px-6 py-2.5">
+                                <div className="flex items-center justify-between gap-3">
+                                    <div className="flex items-center gap-2.5 flex-1 min-w-0">
+                                        <div className={`p-1.5 rounded flex-shrink-0 ${FIELD_TYPE_COLORS[selectedField.type]?.bg || FIELD_TYPE_COLORS.string.bg}`}>
+                                            <span className="text-xs font-bold text-white">{selectedField.type.charAt(0).toUpperCase()}</span>
+                                        </div>
+                                        <div className="min-w-0 flex-1">
+                                            <CardTitle className="text-sm font-bold truncate">{selectedField.name}</CardTitle>
+                                            <p className="text-xs text-neutral-500 dark:text-neutral-400">{selectedField.type}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-1 flex-shrink-0">
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="h-8 w-8 p-0 hover:bg-red-100 hover:text-red-600 dark:hover:bg-red-900/30"
+                                            onClick={() =>
+                                                deleteField(fieldDetailsModelId, selectedFieldId)
+                                            }
+                                            title="Delete field"
+                                        >
+                                            <Trash2 className="h-4 w-4" />
+                                        </Button>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="h-8 w-8 p-0 hover:bg-neutral-200 dark:hover:bg-neutral-700"
+                                            onClick={() => setIsFieldDetailsOpen(false)}
+                                            title="Close"
+                                        >
+                                            <X className="h-4 w-4" />
+                                        </Button>
+                                    </div>
+                                </div>
                             </CardHeader>
-                            <CardContent className="space-y-4">
-                                <div>
-                                    <label className="block text-sm font-medium mb-2">
-                                        Field Name
-                                    </label>
-                                    <Input
-                                        value={selectedField.name}
-                                        onChange={(e) =>
+                            <CardContent className="flex-1 overflow-y-auto p-6 space-y-6">
+                                {/* Basic Information Section */}
+                                <div className="space-y-4">
+                                    <div className="flex items-center gap-2 mb-4">
+                                        <div className="h-1 w-1 rounded-full bg-purple-500"></div>
+                                        <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Basic Information</h3>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-2 uppercase tracking-wide">
+                                                Field Name
+                                            </label>
+                                            <Input
+                                                value={selectedField.name}
+                                                onChange={(e) =>
+                                                    updateField(fieldDetailsModelId, selectedFieldId, {
+                                                        name: e.target.value,
+                                                    })
+                                                }
+                                                className="text-sm h-9 bg-neutral-50 dark:bg-neutral-800"
+                                                placeholder="e.g., title"
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-2 uppercase tracking-wide">
+                                                Field Type
+                                            </label>
+                                            <Select
+                                                value={selectedField.type}
+                                                onValueChange={(value) =>
+                                                    updateField(fieldDetailsModelId, selectedFieldId, {
+                                                        type: value,
+                                                    })
+                                                }
+                                            >
+                                                <SelectTrigger className="h-9 bg-neutral-50 dark:bg-neutral-800">
+                                                    <SelectValue />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {FIELD_TYPES.map((type) => (
+                                                        <SelectItem key={type} value={type}>
+                                                            {type}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-center gap-3 p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
+                                        <Checkbox
+                                            id="field-required"
+                                            checked={selectedField.required}
+                                            onCheckedChange={(checked) =>
+                                                updateField(fieldDetailsModelId, selectedFieldId, {
+                                                    required: checked === true,
+                                                })
+                                            }
+                                        />
+                                        <label
+                                            htmlFor="field-required"
+                                            className="text-sm font-medium cursor-pointer flex-1"
+                                        >
+                                            This field is required
+                                        </label>
+                                    </div>
+                                </div>
+
+                                {/* Validations Section */}
+                                <div className="space-y-4 border-t border-neutral-200 dark:border-neutral-700 pt-6">
+                                    <div className="flex items-center gap-2 mb-4">
+                                        <div className="h-1 w-1 rounded-full bg-purple-500"></div>
+                                        <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Validation Rules</h3>
+                                    </div>
+                                    <FieldValidations
+                                        fieldType={selectedField.type}
+                                        validations={selectedField.validations || []}
+                                        onAddValidation={(validation) =>
                                             updateField(fieldDetailsModelId, selectedFieldId, {
-                                                name: e.target.value,
+                                                validations: [...(selectedField.validations || []), validation],
                                             })
                                         }
-                                        className="text-sm"
+                                        onRemoveValidation={(rule) =>
+                                            updateField(fieldDetailsModelId, selectedFieldId, {
+                                                validations: (selectedField.validations || []).filter(
+                                                    (v) => v.rule !== rule
+                                                ),
+                                            })
+                                        }
                                     />
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium mb-2">
-                                        Field Type
-                                    </label>
-                                    <Select
-                                        value={selectedField.type}
-                                        onValueChange={(value) =>
-                                            updateField(fieldDetailsModelId, selectedFieldId, {
-                                                type: value,
-                                            })
-                                        }
-                                    >
-                                        <SelectTrigger>
-                                            <SelectValue />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {FIELD_TYPES.map((type) => (
-                                                <SelectItem key={type} value={type}>
-                                                    {type}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-
-                                <div className="flex items-center space-x-2">
-                                    <Checkbox
-                                        id="field-required"
-                                        checked={selectedField.required}
-                                        onCheckedChange={(checked) =>
-                                            updateField(fieldDetailsModelId, selectedFieldId, {
-                                                required: checked === true,
-                                            })
-                                        }
-                                    />
-                                    <label
-                                        htmlFor="field-required"
-                                        className="text-sm font-medium cursor-pointer"
-                                    >
-                                        Required
-                                    </label>
-                                </div>
-
-                                <div className="pt-4 border-t border-neutral-200 dark:border-neutral-700">
-                                    <Button
-                                        onClick={() =>
-                                            deleteField(fieldDetailsModelId, selectedFieldId)
-                                        }
-                                        variant="outline"
-                                        className="w-full text-sm text-red-600 hover:text-red-700"
-                                    >
-                                        <Trash2 className="mr-2 h-4 w-4" />
-                                        Delete Field
-                                    </Button>
                                 </div>
                             </CardContent>
-                            <div className="flex gap-2 px-6 pb-6">
-                                <Button
-                                    variant="outline"
-                                    onClick={() => setIsFieldDetailsOpen(false)}
-                                    className="flex-1"
-                                >
-                                    Close
-                                </Button>
-                            </div>
                         </Card>
                     </div>
                 ) : null}
