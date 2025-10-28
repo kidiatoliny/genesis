@@ -1828,6 +1828,8 @@ const StepCard = ({ step, index }: { step: typeof steps[0]; index: number }) => 
 };
 
 const ExampleCard = ({ example, index }: { example: typeof examples[0]; index: number }) => {
+    const [activeTab, setActiveTab] = useState<'schema' | 'code' | 'api'>('schema');
+    
     return (
         <motion.div
             initial={{ y: 50, opacity: 0 }}
@@ -1839,7 +1841,7 @@ const ExampleCard = ({ example, index }: { example: typeof examples[0]; index: n
             <motion.div
                 whileHover={{ y: -6, scale: 1.01 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
-                className="glass-card p-6 relative overflow-hidden h-full"
+                className="glass-card p-6 relative overflow-hidden h-full flex flex-col"
                 style={{ willChange: 'transform' }}
             >
                 {/* Gradient overlay on hover */}
@@ -1860,50 +1862,138 @@ const ExampleCard = ({ example, index }: { example: typeof examples[0]; index: n
                     </div>
                 </div>
                 
-                {/* Models */}
-                <div className="relative space-y-4">
-                    <div>
-                        <div className="text-xs font-semibold text-purple-400 mb-2 uppercase tracking-wide">
-                            Models
-                        </div>
-                        <div className="flex flex-wrap gap-2">
-                            {example.models.map((model, i) => (
-                                <motion.span
-                                    key={i}
-                                    initial={{ scale: 0 }}
-                                    whileInView={{ scale: 1 }}
-                                    transition={{ delay: i * 0.05 }}
-                                    className="px-3 py-1.5 rounded-lg bg-purple-600/20 border border-purple-500/30 text-xs font-medium text-purple-200 backdrop-blur-sm"
-                                >
-                                    {model}
-                                </motion.span>
+                {/* Tabs */}
+                <div className="relative flex items-center gap-2 mb-4 p-1 bg-neutral-900/50 rounded-lg border border-neutral-800">
+                    <button
+                        onClick={() => setActiveTab('schema')}
+                        className={`flex-1 px-3 py-2 rounded-md text-xs font-medium transition-all duration-200 ${
+                            activeTab === 'schema'
+                                ? 'bg-purple-600/30 text-purple-200 border border-purple-500/30'
+                                : 'text-neutral-400 hover:text-neutral-300'
+                        }`}
+                    >
+                        Schema
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('code')}
+                        className={`flex-1 px-3 py-2 rounded-md text-xs font-medium transition-all duration-200 ${
+                            activeTab === 'code'
+                                ? 'bg-purple-600/30 text-purple-200 border border-purple-500/30'
+                                : 'text-neutral-400 hover:text-neutral-300'
+                        }`}
+                    >
+                        Code
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('api')}
+                        className={`flex-1 px-3 py-2 rounded-md text-xs font-medium transition-all duration-200 ${
+                            activeTab === 'api'
+                                ? 'bg-purple-600/30 text-purple-200 border border-purple-500/30'
+                                : 'text-neutral-400 hover:text-neutral-300'
+                        }`}
+                    >
+                        API
+                    </button>
+                </div>
+
+                {/* Content */}
+                <div className="relative flex-1 min-h-[300px]">
+                    {activeTab === 'schema' && (
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="space-y-3"
+                        >
+                            {example.schema.map((table, i) => (
+                                <div key={i} className="p-4 rounded-lg bg-neutral-900/50 border border-neutral-800">
+                                    <div className="flex items-center gap-2 mb-3">
+                                        <Database className="h-4 w-4 text-purple-400" />
+                                        <span className="text-sm font-bold text-white">{table.name}</span>
+                                        <span className="text-xs text-neutral-500">({table.fields.length} fields)</span>
+                                    </div>
+                                    <div className="space-y-1.5 pl-6">
+                                        {table.fields.map((field, j) => (
+                                            <div key={j} className="flex items-center gap-2 text-xs">
+                                                <div className={`w-2 h-2 rounded-full ${field.color}`} />
+                                                <span className="text-neutral-300 font-mono">{field.name}:</span>
+                                                <span className="text-neutral-500">{field.type}</span>
+                                                {field.required && (
+                                                    <span className="px-1.5 py-0.5 rounded bg-red-600/20 text-red-400 text-[10px] font-medium">required</span>
+                                                )}
+                                                {field.unique && (
+                                                    <span className="px-1.5 py-0.5 rounded bg-blue-600/20 text-blue-400 text-[10px] font-medium">unique</span>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                             ))}
-                        </div>
-                    </div>
-                    
-                    {/* Features */}
-                    <div>
-                        <div className="text-xs font-semibold text-blue-400 mb-2 uppercase tracking-wide">
-                            Features
-                        </div>
-                        <div className="flex flex-wrap gap-2">
-                            {example.features.map((feature, i) => (
-                                <motion.span
-                                    key={i}
-                                    initial={{ scale: 0 }}
-                                    whileInView={{ scale: 1 }}
-                                    transition={{ delay: i * 0.05 + 0.2 }}
-                                    className="px-3 py-1.5 rounded-lg bg-blue-600/20 border border-blue-500/30 text-xs text-blue-200 backdrop-blur-sm"
-                                >
-                                    {feature}
-                                </motion.span>
+                        </motion.div>
+                    )}
+
+                    {activeTab === 'code' && (
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="space-y-3"
+                        >
+                            <div className="p-4 rounded-lg bg-neutral-900/80 border border-blue-500/20">
+                                <div className="flex items-center gap-2 text-xs text-blue-400 mb-3">
+                                    <Code className="h-3 w-3" />
+                                    <span className="font-semibold">{example.code.controller.file}</span>
+                                </div>
+                                <pre className="text-[10px] leading-[1.6] font-mono overflow-x-auto">
+                                    <code dangerouslySetInnerHTML={{ __html: example.code.controller.content }} />
+                                </pre>
+                            </div>
+                            <div className="p-4 rounded-lg bg-neutral-900/80 border border-green-500/20">
+                                <div className="flex items-center gap-2 text-xs text-green-400 mb-3">
+                                    <Code className="h-3 w-3" />
+                                    <span className="font-semibold">{example.code.action.file}</span>
+                                </div>
+                                <pre className="text-[10px] leading-[1.6] font-mono overflow-x-auto">
+                                    <code dangerouslySetInnerHTML={{ __html: example.code.action.content }} />
+                                </pre>
+                            </div>
+                        </motion.div>
+                    )}
+
+                    {activeTab === 'api' && (
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="space-y-3"
+                        >
+                            {example.api.map((endpoint, i) => (
+                                <div key={i} className="p-4 rounded-lg bg-neutral-900/50 border border-neutral-800">
+                                    <div className="flex items-center gap-2 mb-3">
+                                        <span className={`px-2 py-1 rounded text-[10px] font-bold ${endpoint.methodColor}`}>
+                                            {endpoint.method}
+                                        </span>
+                                        <span className="text-xs font-mono text-neutral-400">{endpoint.path}</span>
+                                    </div>
+                                    <div className="pl-4 space-y-2">
+                                        <div className="text-[10px] text-neutral-500 mb-1">{endpoint.description}</div>
+                                        {endpoint.response && (
+                                            <div className="p-2 rounded bg-neutral-950/50 border border-emerald-500/20">
+                                                <div className="text-[9px] text-emerald-400 mb-1 font-semibold">Response:</div>
+                                                <pre className="text-[9px] leading-[1.5] font-mono text-neutral-300 overflow-x-auto">
+                                                    {endpoint.response}
+                                                </pre>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
                             ))}
-                        </div>
-                    </div>
+                        </motion.div>
+                    )}
                 </div>
 
                 {/* Shine effect */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                 </div>
             </motion.div>
@@ -1963,30 +2053,312 @@ const examples = [
     {
         icon: ShoppingCart,
         title: 'E-commerce Platform',
-        description: 'Complete online store with products, orders, and customers',
-        models: ['Product', 'Order', 'Customer', 'Category', 'Cart'],
-        features: ['CRUD operations', 'Relationships', 'Image uploads', 'Search & filters'],
+        description: 'Complete online store with products, orders, and inventory',
+        schema: [
+            {
+                name: 'Product',
+                fields: [
+                    { name: 'id', type: 'bigint', color: 'bg-green-400', required: true, unique: true },
+                    { name: 'name', type: 'string', color: 'bg-blue-400', required: true },
+                    { name: 'slug', type: 'string', color: 'bg-blue-400', required: true, unique: true },
+                    { name: 'price', type: 'decimal', color: 'bg-yellow-400', required: true },
+                    { name: 'stock', type: 'integer', color: 'bg-green-400', required: true },
+                    { name: 'category_id', type: 'bigint', color: 'bg-purple-400', required: true },
+                ],
+            },
+            {
+                name: 'Order',
+                fields: [
+                    { name: 'id', type: 'bigint', color: 'bg-green-400', required: true, unique: true },
+                    { name: 'customer_id', type: 'bigint', color: 'bg-purple-400', required: true },
+                    { name: 'status', type: 'enum', color: 'bg-orange-400', required: true },
+                    { name: 'total', type: 'decimal', color: 'bg-yellow-400', required: true },
+                ],
+            },
+        ],
+        code: {
+            controller: {
+                file: 'ProductController.php',
+                content: `<span class="text-purple-400">public function</span> <span class="text-yellow-300">store</span><span class="text-neutral-500">(</span><span class="text-blue-300">StoreProductRequest</span> <span class="text-orange-300">$request</span><span class="text-neutral-500">)</span>
+<span class="text-neutral-500">{</span>
+    <span class="text-purple-400">return</span> <span class="text-blue-300">StoreProductAction</span><span class="text-neutral-500">::</span><span class="text-yellow-300">handle</span><span class="text-neutral-500">(</span>
+        <span class="text-orange-300">$request</span><span class="text-neutral-500">-></span><span class="text-yellow-300">validated</span><span class="text-neutral-500">()</span>
+    <span class="text-neutral-500">);</span>
+<span class="text-neutral-500">}</span>`
+            },
+            action: {
+                file: 'StoreProductAction.php',
+                content: `<span class="text-purple-400">public static function</span> <span class="text-yellow-300">handle</span><span class="text-neutral-500">(</span><span class="text-blue-300">array</span> <span class="text-orange-300">$data</span><span class="text-neutral-500">)</span>
+<span class="text-neutral-500">{</span>
+    <span class="text-purple-400">return</span> <span class="text-blue-300">Product</span><span class="text-neutral-500">::</span><span class="text-yellow-300">create</span><span class="text-neutral-500">([</span>
+        <span class="text-green-400">'name'</span> <span class="text-neutral-500">=></span> <span class="text-orange-300">$data</span><span class="text-neutral-500">[</span><span class="text-green-400">'name'</span><span class="text-neutral-500">],</span>
+        <span class="text-green-400">'slug'</span> <span class="text-neutral-500">=></span> <span class="text-blue-300">Str</span><span class="text-neutral-500">::</span><span class="text-yellow-300">slug</span><span class="text-neutral-500">(</span><span class="text-orange-300">$data</span><span class="text-neutral-500">[</span><span class="text-green-400">'name'</span><span class="text-neutral-500">]),</span>
+        <span class="text-green-400">'price'</span> <span class="text-neutral-500">=></span> <span class="text-orange-300">$data</span><span class="text-neutral-500">[</span><span class="text-green-400">'price'</span><span class="text-neutral-500">],</span>
+        <span class="text-green-400">'stock'</span> <span class="text-neutral-500">=></span> <span class="text-orange-300">$data</span><span class="text-neutral-500">[</span><span class="text-green-400">'stock'</span><span class="text-neutral-500">],</span>
+    <span class="text-neutral-500">]);</span>
+<span class="text-neutral-500">}</span>`
+            }
+        },
+        api: [
+            {
+                method: 'POST',
+                path: '/api/products',
+                methodColor: 'bg-green-600 text-white',
+                description: 'Create a new product',
+                response: `{
+  "id": 1,
+  "name": "Premium Laptop",
+  "slug": "premium-laptop",
+  "price": "1299.99",
+  "stock": 50
+}`
+            },
+            {
+                method: 'GET',
+                path: '/api/products?filter[category]=electronics',
+                methodColor: 'bg-blue-600 text-white',
+                description: 'List products with filters',
+                response: `{
+  "data": [...],
+  "meta": {
+    "total": 45,
+    "per_page": 15
+  }
+}`
+            },
+        ],
     },
     {
         icon: MessageSquare,
         title: 'Blog & CMS',
-        description: 'Content management system with posts, comments, and authors',
-        models: ['Post', 'Comment', 'Author', 'Category', 'Tag'],
-        features: ['Rich text editor', 'Media library', 'SEO fields', 'Publishing workflow'],
+        description: 'Content management with posts, comments, and authors',
+        schema: [
+            {
+                name: 'Post',
+                fields: [
+                    { name: 'id', type: 'bigint', color: 'bg-green-400', required: true, unique: true },
+                    { name: 'title', type: 'string', color: 'bg-blue-400', required: true },
+                    { name: 'slug', type: 'string', color: 'bg-blue-400', required: true, unique: true },
+                    { name: 'content', type: 'text', color: 'bg-indigo-400', required: true },
+                    { name: 'author_id', type: 'bigint', color: 'bg-purple-400', required: true },
+                    { name: 'published_at', type: 'datetime', color: 'bg-rose-400' },
+                ],
+            },
+            {
+                name: 'Comment',
+                fields: [
+                    { name: 'id', type: 'bigint', color: 'bg-green-400', required: true, unique: true },
+                    { name: 'post_id', type: 'bigint', color: 'bg-purple-400', required: true },
+                    { name: 'body', type: 'text', color: 'bg-indigo-400', required: true },
+                    { name: 'status', type: 'enum', color: 'bg-orange-400', required: true },
+                ],
+            },
+        ],
+        code: {
+            controller: {
+                file: 'PostController.php',
+                content: `<span class="text-purple-400">public function</span> <span class="text-yellow-300">index</span><span class="text-neutral-500">(</span><span class="text-blue-300">Request</span> <span class="text-orange-300">$request</span><span class="text-neutral-500">)</span>
+<span class="text-neutral-500">{</span>
+    <span class="text-neutral-500">$</span><span class="text-orange-300">posts</span> <span class="text-neutral-500">=</span> <span class="text-blue-300">Post</span><span class="text-neutral-500">::</span><span class="text-yellow-300">with</span><span class="text-neutral-500">([</span><span class="text-green-400">'author'</span><span class="text-neutral-500">,</span> <span class="text-green-400">'comments'</span><span class="text-neutral-500">])</span>
+        <span class="text-neutral-500">-></span><span class="text-yellow-300">published</span><span class="text-neutral-500">()</span>
+        <span class="text-neutral-500">-></span><span class="text-yellow-300">paginate</span><span class="text-neutral-500">(</span><span class="text-cyan-300">15</span><span class="text-neutral-500">);</span>
+    
+    <span class="text-purple-400">return</span> <span class="text-blue-300">Inertia</span><span class="text-neutral-500">::</span><span class="text-yellow-300">render</span><span class="text-neutral-500">(</span><span class="text-green-400">'Posts/Index'</span><span class="text-neutral-500">,</span> <span class="text-neutral-500">[</span>
+        <span class="text-green-400">'posts'</span> <span class="text-neutral-500">=></span> <span class="text-orange-300">$posts</span>
+    <span class="text-neutral-500">]);</span>
+<span class="text-neutral-500">}</span>`
+            },
+            action: {
+                file: 'PublishPostAction.php',
+                content: `<span class="text-purple-400">public static function</span> <span class="text-yellow-300">handle</span><span class="text-neutral-500">(</span><span class="text-blue-300">Post</span> <span class="text-orange-300">$post</span><span class="text-neutral-500">)</span>
+<span class="text-neutral-500">{</span>
+    <span class="text-orange-300">$post</span><span class="text-neutral-500">-></span><span class="text-yellow-300">update</span><span class="text-neutral-500">([</span>
+        <span class="text-green-400">'published_at'</span> <span class="text-neutral-500">=></span> <span class="text-blue-300">now</span><span class="text-neutral-500">(),</span>
+        <span class="text-green-400">'status'</span> <span class="text-neutral-500">=></span> <span class="text-green-400">'published'</span><span class="text-neutral-500">,</span>
+    <span class="text-neutral-500">]);</span>
+    
+    <span class="text-purple-400">return</span> <span class="text-orange-300">$post</span><span class="text-neutral-500">-></span><span class="text-yellow-300">fresh</span><span class="text-neutral-500">();</span>
+<span class="text-neutral-500">}</span>`
+            }
+        },
+        api: [
+            {
+                method: 'GET',
+                path: '/api/posts?include=author,comments',
+                methodColor: 'bg-blue-600 text-white',
+                description: 'List posts with relationships',
+                response: `{
+  "data": [{
+    "id": 1,
+    "title": "Getting Started",
+    "author": {...},
+    "comments": [...]
+  }]
+}`
+            },
+            {
+                method: 'POST',
+                path: '/api/posts/{id}/publish',
+                methodColor: 'bg-green-600 text-white',
+                description: 'Publish a draft post',
+                response: `{
+  "id": 1,
+  "status": "published",
+  "published_at": "2025-10-28"
+}`
+            },
+        ],
     },
     {
         icon: Users,
-        title: 'Team Collaboration Tool',
+        title: 'Team Collaboration',
         description: 'Project management with teams, tasks, and assignments',
-        models: ['Project', 'Task', 'Team', 'User', 'Comment'],
-        features: ['User roles', 'Real-time updates', 'File attachments', 'Activity tracking'],
+        schema: [
+            {
+                name: 'Project',
+                fields: [
+                    { name: 'id', type: 'bigint', color: 'bg-green-400', required: true, unique: true },
+                    { name: 'name', type: 'string', color: 'bg-blue-400', required: true },
+                    { name: 'description', type: 'text', color: 'bg-indigo-400' },
+                    { name: 'team_id', type: 'bigint', color: 'bg-purple-400', required: true },
+                    { name: 'status', type: 'enum', color: 'bg-orange-400', required: true },
+                ],
+            },
+            {
+                name: 'Task',
+                fields: [
+                    { name: 'id', type: 'bigint', color: 'bg-green-400', required: true, unique: true },
+                    { name: 'title', type: 'string', color: 'bg-blue-400', required: true },
+                    { name: 'project_id', type: 'bigint', color: 'bg-purple-400', required: true },
+                    { name: 'assignee_id', type: 'bigint', color: 'bg-purple-400' },
+                    { name: 'due_date', type: 'date', color: 'bg-rose-400' },
+                ],
+            },
+        ],
+        code: {
+            controller: {
+                file: 'TaskController.php',
+                content: `<span class="text-purple-400">public function</span> <span class="text-yellow-300">update</span><span class="text-neutral-500">(</span><span class="text-blue-300">Task</span> <span class="text-orange-300">$task</span><span class="text-neutral-500">,</span> <span class="text-blue-300">UpdateTaskRequest</span> <span class="text-orange-300">$request</span><span class="text-neutral-500">)</span>
+<span class="text-neutral-500">{</span>
+    <span class="text-purple-400">return</span> <span class="text-blue-300">UpdateTaskAction</span><span class="text-neutral-500">::</span><span class="text-yellow-300">handle</span><span class="text-neutral-500">(</span>
+        <span class="text-orange-300">$task</span><span class="text-neutral-500">,</span>
+        <span class="text-orange-300">$request</span><span class="text-neutral-500">-></span><span class="text-yellow-300">validated</span><span class="text-neutral-500">()</span>
+    <span class="text-neutral-500">);</span>
+<span class="text-neutral-500">}</span>`
+            },
+            action: {
+                file: 'AssignTaskAction.php',
+                content: `<span class="text-purple-400">public static function</span> <span class="text-yellow-300">handle</span><span class="text-neutral-500">(</span><span class="text-blue-300">Task</span> <span class="text-orange-300">$task</span><span class="text-neutral-500">,</span> <span class="text-blue-300">int</span> <span class="text-orange-300">$userId</span><span class="text-neutral-500">)</span>
+<span class="text-neutral-500">{</span>
+    <span class="text-orange-300">$task</span><span class="text-neutral-500">-></span><span class="text-yellow-300">update</span><span class="text-neutral-500">([</span>
+        <span class="text-green-400">'assignee_id'</span> <span class="text-neutral-500">=></span> <span class="text-orange-300">$userId</span><span class="text-neutral-500">,</span>
+        <span class="text-green-400">'status'</span> <span class="text-neutral-500">=></span> <span class="text-green-400">'in_progress'</span><span class="text-neutral-500">,</span>
+    <span class="text-neutral-500">]);</span>
+    
+    <span class="text-blue-300">TaskAssigned</span><span class="text-neutral-500">::</span><span class="text-yellow-300">dispatch</span><span class="text-neutral-500">(</span><span class="text-orange-300">$task</span><span class="text-neutral-500">);</span>
+<span class="text-neutral-500">}</span>`
+            }
+        },
+        api: [
+            {
+                method: 'POST',
+                path: '/api/tasks/{id}/assign',
+                methodColor: 'bg-green-600 text-white',
+                description: 'Assign task to team member',
+                response: `{
+  "id": 1,
+  "assignee_id": 5,
+  "status": "in_progress"
+}`
+            },
+            {
+                method: 'GET',
+                path: '/api/projects/{id}/tasks?status=pending',
+                methodColor: 'bg-blue-600 text-white',
+                description: 'Get project tasks',
+                response: `{
+  "data": [...],
+  "meta": {"total": 24}
+}`
+            },
+        ],
     },
     {
         icon: Calendar,
         title: 'Event Management',
         description: 'Event platform with bookings, attendees, and tickets',
-        models: ['Event', 'Ticket', 'Attendee', 'Venue', 'Speaker'],
-        features: ['Calendar views', 'Payment integration', 'QR codes', 'Email notifications'],
+        schema: [
+            {
+                name: 'Event',
+                fields: [
+                    { name: 'id', type: 'bigint', color: 'bg-green-400', required: true, unique: true },
+                    { name: 'title', type: 'string', color: 'bg-blue-400', required: true },
+                    { name: 'start_date', type: 'datetime', color: 'bg-rose-400', required: true },
+                    { name: 'end_date', type: 'datetime', color: 'bg-rose-400', required: true },
+                    { name: 'capacity', type: 'integer', color: 'bg-green-400', required: true },
+                    { name: 'venue_id', type: 'bigint', color: 'bg-purple-400', required: true },
+                ],
+            },
+            {
+                name: 'Ticket',
+                fields: [
+                    { name: 'id', type: 'bigint', color: 'bg-green-400', required: true, unique: true },
+                    { name: 'event_id', type: 'bigint', color: 'bg-purple-400', required: true },
+                    { name: 'attendee_id', type: 'bigint', color: 'bg-purple-400', required: true },
+                    { name: 'code', type: 'uuid', color: 'bg-cyan-400', required: true, unique: true },
+                    { name: 'status', type: 'enum', color: 'bg-orange-400', required: true },
+                ],
+            },
+        ],
+        code: {
+            controller: {
+                file: 'TicketController.php',
+                content: `<span class="text-purple-400">public function</span> <span class="text-yellow-300">store</span><span class="text-neutral-500">(</span><span class="text-blue-300">StoreTicketRequest</span> <span class="text-orange-300">$request</span><span class="text-neutral-500">)</span>
+<span class="text-neutral-500">{</span>
+    <span class="text-purple-400">return</span> <span class="text-blue-300">CreateTicketAction</span><span class="text-neutral-500">::</span><span class="text-yellow-300">handle</span><span class="text-neutral-500">(</span>
+        <span class="text-orange-300">$request</span><span class="text-neutral-500">-></span><span class="text-yellow-300">validated</span><span class="text-neutral-500">()</span>
+    <span class="text-neutral-500">);</span>
+<span class="text-neutral-500">}</span>`
+            },
+            action: {
+                file: 'CreateTicketAction.php',
+                content: `<span class="text-purple-400">public static function</span> <span class="text-yellow-300">handle</span><span class="text-neutral-500">(</span><span class="text-blue-300">array</span> <span class="text-orange-300">$data</span><span class="text-neutral-500">)</span>
+<span class="text-neutral-500">{</span>
+    <span class="text-neutral-500">$</span><span class="text-orange-300">ticket</span> <span class="text-neutral-500">=</span> <span class="text-blue-300">Ticket</span><span class="text-neutral-500">::</span><span class="text-yellow-300">create</span><span class="text-neutral-500">([</span>
+        <span class="text-green-400">'code'</span> <span class="text-neutral-500">=></span> <span class="text-blue-300">Str</span><span class="text-neutral-500">::</span><span class="text-yellow-300">uuid</span><span class="text-neutral-500">(),</span>
+        <span class="text-green-400">'status'</span> <span class="text-neutral-500">=></span> <span class="text-green-400">'active'</span><span class="text-neutral-500">,</span>
+        <span class="text-neutral-500">...</span><span class="text-orange-300">$data</span>
+    <span class="text-neutral-500">]);</span>
+    
+    <span class="text-blue-300">TicketCreated</span><span class="text-neutral-500">::</span><span class="text-yellow-300">dispatch</span><span class="text-neutral-500">(</span><span class="text-orange-300">$ticket</span><span class="text-neutral-500">);</span>
+<span class="text-neutral-500">}</span>`
+            }
+        },
+        api: [
+            {
+                method: 'POST',
+                path: '/api/tickets',
+                methodColor: 'bg-green-600 text-white',
+                description: 'Create event ticket',
+                response: `{
+  "id": 1,
+  "code": "a1b2c3d4-...",
+  "status": "active",
+  "qr_code": "data:image/png..."
+}`
+            },
+            {
+                method: 'GET',
+                path: '/api/events/{id}/availability',
+                methodColor: 'bg-blue-600 text-white',
+                description: 'Check event availability',
+                response: `{
+  "capacity": 500,
+  "sold": 247,
+  "available": 253
+}`
+            },
+        ],
     },
 ];
 
