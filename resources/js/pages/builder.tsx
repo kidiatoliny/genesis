@@ -106,6 +106,7 @@ const FIELD_TYPE_COLORS: Record<string, { bg: string; text: string; border: stri
     float: { bg: 'bg-pink-600', text: 'text-white', border: 'border-pink-700' },
 };
 
+
 export default function Builder() {
     const { schemas, saved } = usePage<{
         schemas: SavedSchema[];
@@ -126,6 +127,7 @@ export default function Builder() {
     const [draggingModelId, setDraggingModelId] = useState<string | null>(null);
     const [draggingFieldId, setDraggingFieldId] = useState<string | null>(null);
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+    const [modelWidths, setModelWidths] = useState<Record<string, number>>({});
 
     const {
         schema,
@@ -557,8 +559,9 @@ export default function Builder() {
                                     <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 0 }}>
                                         {schema.models.flatMap((model) => {
                                             const modelPos = modelPositions[model.id] || { x: 0, y: 0 };
-                                            const modelCenterX = modelPos.x + 160;
-                                            const modelCenterY = modelPos.y + 80;
+                                            const modelWidth = modelWidths[model.id] || 80;
+                                            const modelCenterX = modelPos.x + modelWidth / 2;
+                                            const modelCenterY = modelPos.y + 20;
 
                                             return model.fields.map((field, index) => {
                                                 const fieldPos = fieldPositions[field.id] || {
@@ -607,11 +610,22 @@ export default function Builder() {
                                                     });
                                                 }}
                                             >
-                                                <Card
-                                                className={`cursor-grab active:cursor-grabbing border-2 transition-all w-56 ${
+                                                <div
+                                                ref={(el) => {
+                                                    if (el) {
+                                                        const width = el.offsetWidth;
+                                                        if (modelWidths[model.id] !== width) {
+                                                            setModelWidths(prev => ({
+                                                                ...prev,
+                                                                [model.id]: width
+                                                            }));
+                                                        }
+                                                    }
+                                                }}
+                                                className={`cursor-grab active:cursor-grabbing border-2 rounded-lg px-3 py-2 transition-all w-fit ${
                                                     selectedModelId === model.id
-                                                        ? 'border-purple-500 bg-purple-50 dark:bg-purple-950'
-                                                        : 'border-neutral-200 dark:border-neutral-700'
+                                                        ? 'border-purple-500 bg-purple-100 dark:bg-purple-900'
+                                                        : 'border-neutral-300 bg-neutral-50 dark:border-neutral-600 dark:bg-neutral-800'
                                                 }`}
                                                 onClick={() => selectModel(model.id)}
                                                 onDragOver={(e) => e.preventDefault()}
@@ -627,14 +641,13 @@ export default function Builder() {
                                                     }
                                                 }}
                                             >
-                                            <CardHeader className="pb-2 pt-2 px-3">
-                                                <div className="flex items-center justify-between">
-                                                    <CardTitle className="text-xs">
+                                                <div className="flex items-center justify-between gap-2">
+                                                    <p className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 whitespace-nowrap">
                                                         {model.name}
-                                                    </CardTitle>
+                                                    </p>
                                                     <DropdownMenu>
                                                         <DropdownMenuTrigger asChild>
-                                                            <Button variant="ghost" size="sm" className="h-6 w-6 p-0" onClick={(e) => e.stopPropagation()}>
+                                                            <Button variant="ghost" size="sm" className="h-5 w-5 p-0" onClick={(e) => e.stopPropagation()}>
                                                                 <MoreVertical className="h-3 w-3" />
                                                             </Button>
                                                         </DropdownMenuTrigger>
@@ -652,8 +665,7 @@ export default function Builder() {
                                                         </DropdownMenuContent>
                                                     </DropdownMenu>
                                                 </div>
-                                            </CardHeader>
-                                        </Card>
+                                            </div>
                                             </div>
                                         );
                                     })}
