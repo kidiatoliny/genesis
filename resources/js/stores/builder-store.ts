@@ -14,6 +14,11 @@ export interface Model {
     fields: Field[];
 }
 
+export interface Position {
+    x: number;
+    y: number;
+}
+
 export interface BuilderSchema {
     id?: string;
     name: string;
@@ -21,6 +26,8 @@ export interface BuilderSchema {
     responseType: 'inertia' | 'json' | 'blade' | 'livewire' | 'redirect';
     viewEngine: 'inertia_react' | 'inertia_vue' | 'blade' | 'livewire';
     models: Model[];
+    modelPositions?: Record<string, Position>;
+    fieldPositions?: Record<string, Position>;
 }
 
 interface BuilderStore {
@@ -46,6 +53,12 @@ interface BuilderStore {
 
     selectModel: (modelId: string | null) => void;
     selectField: (fieldId: string | null) => void;
+
+    setModelPosition: (modelId: string, position: Position) => void;
+    setFieldPosition: (fieldId: string, position: Position) => void;
+
+    initializeModelPosition: (modelId: string, modelIndex: number) => void;
+    initializeFieldPosition: (modelId: string, fieldId: string, fieldIndex: number) => void;
 
     getSchema: () => BuilderSchema | null;
 }
@@ -237,6 +250,73 @@ export const useBuilderStore = create<BuilderStore>()(
             selectField: (fieldId: string | null) => {
                 set({
                     selectedFieldId: fieldId,
+                });
+            },
+
+            setModelPosition: (modelId: string, position: Position) => {
+                set((state) => {
+                    if (!state.schema) return state;
+                    return {
+                        schema: {
+                            ...state.schema,
+                            modelPositions: {
+                                ...(state.schema.modelPositions || {}),
+                                [modelId]: position,
+                            },
+                        },
+                    };
+                });
+            },
+
+            setFieldPosition: (fieldId: string, position: Position) => {
+                set((state) => {
+                    if (!state.schema) return state;
+                    return {
+                        schema: {
+                            ...state.schema,
+                            fieldPositions: {
+                                ...(state.schema.fieldPositions || {}),
+                                [fieldId]: position,
+                            },
+                        },
+                    };
+                });
+            },
+
+            initializeModelPosition: (modelId: string, modelIndex: number) => {
+                set((state) => {
+                    if (!state.schema) return state;
+                    return {
+                        schema: {
+                            ...state.schema,
+                            modelPositions: {
+                                ...(state.schema.modelPositions || {}),
+                                [modelId]: {
+                                    x: modelIndex * 450,
+                                    y: 50,
+                                },
+                            },
+                        },
+                    };
+                });
+            },
+
+            initializeFieldPosition: (modelId: string, fieldId: string, fieldIndex: number) => {
+                set((state) => {
+                    if (!state.schema) return state;
+                    const modelPos = state.schema.modelPositions?.[modelId] || { x: 0, y: 0 };
+                    return {
+                        schema: {
+                            ...state.schema,
+                            fieldPositions: {
+                                ...(state.schema.fieldPositions || {}),
+                                [fieldId]: {
+                                    x: modelPos.x + 450,
+                                    y: modelPos.y + 30 + (fieldIndex * 80),
+                                },
+                            },
+                        },
+                    };
                 });
             },
 

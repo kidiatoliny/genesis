@@ -29,6 +29,7 @@ import {
 import { Download, Plus, Save, Trash2, MoreVertical, GripVertical, Edit2, Grip } from 'lucide-react';
 import { NewSchemaModal } from '@/components/new-schema-modal';
 import { useBuilderStore } from '@/stores/builder-store';
+import { useBuilderUIStore } from '@/stores/builder-ui-store';
 import { DndContext, DragEndEvent, DragStartEvent, MouseSensor, useSensor, useSensors } from '@dnd-kit/core';
 
 interface SavedSchema {
@@ -115,20 +116,10 @@ export default function Builder() {
 
     const [isNewModalOpen, setIsNewModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-    const [isAddingModel, setIsAddingModel] = useState(false);
-    const [isAddingField, setIsAddingField] = useState(false);
-    const [newModelName, setNewModelName] = useState('');
-    const [newFieldName, setNewFieldName] = useState('');
-    const [newFieldType, setNewFieldType] = useState('string');
-    const [draggedFieldType, setDraggedFieldType] = useState<string | null>(null);
-    const [dragTargetModelId, setDragTargetModelId] = useState<string | null>(null);
-    const [modelPositions, setModelPositions] = useState<Record<string, { x: number; y: number }>>({});
-    const [fieldPositions, setFieldPositions] = useState<Record<string, { x: number; y: number }>>({});
-    const [draggingModelId, setDraggingModelId] = useState<string | null>(null);
-    const [draggingFieldId, setDraggingFieldId] = useState<string | null>(null);
-    const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-    const [modelWidths, setModelWidths] = useState<Record<string, number>>({});
+    const [isFieldDetailsOpen, setIsFieldDetailsOpen] = useState(false);
+    const [fieldDetailsModelId, setFieldDetailsModelId] = useState<string | null>(null);
 
+    // Builder Data Store
     const {
         schema,
         selectedModelId,
@@ -144,8 +135,43 @@ export default function Builder() {
         deleteField,
         selectModel,
         selectField,
+        setModelPosition,
+        setFieldPosition,
+        initializeModelPosition,
+        initializeFieldPosition,
         resetSchema,
     } = useBuilderStore();
+
+    // Builder UI Store
+    const {
+        viewMode,
+        isAddingModel,
+        isAddingField,
+        newModelName,
+        newFieldName,
+        newFieldType,
+        fieldNameError,
+        draggingModelId,
+        draggingFieldId,
+        dragOffset,
+        draggedFieldType,
+        dragTargetModelId,
+        modelWidths,
+        setViewMode,
+        setIsAddingModel,
+        setIsAddingField,
+        setNewModelName,
+        setNewFieldName,
+        setNewFieldType,
+        setFieldNameError,
+        setDraggingModelId,
+        setDraggingFieldId,
+        setDragOffset,
+        setDraggedFieldType,
+        setDragTargetModelId,
+        setModelWidth,
+        resetForm,
+    } = useBuilderUIStore();
 
     const { post, processing } = useForm({});
 
@@ -158,6 +184,8 @@ export default function Builder() {
     const handleAddModel = () => {
         if (newModelName.trim()) {
             addModel(newModelName);
+            const newModelIndex = schema?.models.length || 0;
+            initializeModelPosition(`model_${Date.now()}`, newModelIndex);
             setNewModelName('');
         }
     };
@@ -171,18 +199,9 @@ export default function Builder() {
                 required: true,
             });
 
-            // Set position for the new field
-            const modelPos = modelPositions[selectedModelId] || { x: 0, y: 0 };
             const model = schema?.models.find(m => m.id === selectedModelId);
-            const fieldIndex = (model?.fields.length || 0);
-
-            setFieldPositions((prev) => ({
-                ...prev,
-                [newFieldId]: {
-                    x: modelPos.x + 450,
-                    y: modelPos.y + 50 + (fieldIndex * 80)
-                }
-            }));
+            const fieldIndex = model?.fields.length || 0;
+            initializeFieldPosition(selectedModelId, newFieldId, fieldIndex);
 
             setNewFieldName('');
             setNewFieldType('string');
@@ -231,10 +250,8 @@ export default function Builder() {
         const handleMouseMove = (e: MouseEvent) => {
             const newX = e.clientX - dragOffset.x;
             const newY = e.clientY - dragOffset.y;
-            setModelPositions((prev) => ({
-                ...prev,
-                [draggingModelId]: { x: Math.max(0, newX), y: Math.max(0, newY) },
-            }));
+            const newPos = { x: Math.max(0, newX), y: Math.max(0, newY) };
+            setModelPosition(draggingModelId, newPos);
         };
 
         const handleMouseUp = () => {
@@ -248,7 +265,7 @@ export default function Builder() {
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', handleMouseUp);
         };
-    }, [draggingModelId, dragOffset]);
+    }, [draggingModelId, dragOffset, setModelPosition, setDraggingModelId]);
 
     React.useEffect(() => {
         if (!draggingFieldId) return;
@@ -256,10 +273,8 @@ export default function Builder() {
         const handleMouseMove = (e: MouseEvent) => {
             const newX = e.clientX - dragOffset.x;
             const newY = e.clientY - dragOffset.y;
-            setFieldPositions((prev) => ({
-                ...prev,
-                [draggingFieldId]: { x: Math.max(0, newX), y: Math.max(0, newY) },
-            }));
+            const newPos = { x: Math.max(0, newX), y: Math.max(0, newY) };
+            setFieldPosition(draggingFieldId, newPos);
         };
 
         const handleMouseUp = () => {
@@ -273,7 +288,7 @@ export default function Builder() {
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', handleMouseUp);
         };
-    }, [draggingFieldId, dragOffset]);
+    }, [draggingFieldId, dragOffset, setFieldPosition, setDraggingFieldId]);
 
     // List view - no schema selected
     if (!schema) {
@@ -387,6 +402,26 @@ export default function Builder() {
                             <p className="text-sm text-neutral-500">
                                 {schema.models.length} models • {schema.models.reduce((sum, m) => sum + m.fields.length, 0)} fields
                             </p>
+                        </div>
+                        <div className="flex gap-2 items-center">
+                            <div className="flex gap-1 bg-neutral-100 dark:bg-neutral-800 rounded-lg p-1">
+                                <Button
+                                    size="sm"
+                                    variant={viewMode === 'canvas' ? 'default' : 'outline'}
+                                    onClick={() => setViewMode('canvas')}
+                                    className={viewMode === 'canvas' ? 'bg-purple-500 hover:bg-purple-600' : ''}
+                                >
+                                    Canvas
+                                </Button>
+                                <Button
+                                    size="sm"
+                                    variant={viewMode === 'card' ? 'default' : 'outline'}
+                                    onClick={() => setViewMode('card')}
+                                    className={viewMode === 'card' ? 'bg-purple-500 hover:bg-purple-600' : ''}
+                                >
+                                    Cards
+                                </Button>
+                            </div>
                         </div>
                         <div className="flex gap-2">
                             <Button
@@ -510,6 +545,7 @@ export default function Builder() {
                 )}
 
                 <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+                    {viewMode === 'canvas' ? (
                     <div className="flex flex-1 gap-4 overflow-hidden px-6 py-4">
                         {/* Left: Field Types Sidebar */}
                         <Card className="w-32 flex flex-col overflow-auto">
@@ -558,13 +594,13 @@ export default function Builder() {
                                     {/* SVG para desenhar as linhas de conexão */}
                                     <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 0 }}>
                                         {schema.models.flatMap((model) => {
-                                            const modelPos = modelPositions[model.id] || { x: 0, y: 0 };
+                                            const modelPos = schema.modelPositions?.[model.id] || { x: 0, y: 0 };
                                             const modelWidth = modelWidths[model.id] || 80;
                                             const modelCenterX = modelPos.x + modelWidth / 2;
                                             const modelCenterY = modelPos.y + 20;
 
                                             return model.fields.map((field, index) => {
-                                                const fieldPos = fieldPositions[field.id] || {
+                                                const fieldPos = schema.fieldPositions?.[field.id] || {
                                                     x: modelPos.x + 450,
                                                     y: modelPos.y + 30 + (index * 80)
                                                 };
@@ -589,7 +625,7 @@ export default function Builder() {
 
                                     {/* Modelos */}
                                     {schema.models.map((model, modelIndex) => {
-                                        const pos = modelPositions[model.id] || { x: modelIndex * 450, y: 50 };
+                                        const pos = schema.modelPositions?.[model.id] || { x: modelIndex * 450, y: 50 };
                                         return (
                                             <div
                                                 key={model.id}
@@ -615,10 +651,7 @@ export default function Builder() {
                                                     if (el) {
                                                         const width = el.offsetWidth;
                                                         if (modelWidths[model.id] !== width) {
-                                                            setModelWidths(prev => ({
-                                                                ...prev,
-                                                                [model.id]: width
-                                                            }));
+                                                            setModelWidth(model.id, width);
                                                         }
                                                     }
                                                 }}
@@ -673,8 +706,8 @@ export default function Builder() {
                                     {/* Nós dos campos */}
                                     {schema.models.flatMap((model) => {
                                         return model.fields.map((field, index) => {
-                                            const modelPos = modelPositions[model.id] || { x: 0, y: 0 };
-                                            const fieldPos = fieldPositions[field.id] || {
+                                            const modelPos = schema.modelPositions?.[model.id] || { x: 0, y: 0 };
+                                            const fieldPos = schema.fieldPositions?.[field.id] || {
                                                 x: modelPos.x + 450,
                                                 y: modelPos.y + 30 + (index * 80)
                                             };
@@ -714,6 +747,7 @@ export default function Builder() {
                             )}
 
                             {/* Add Model FAB - Bottom Right */}
+                            {viewMode === 'canvas' && (
                             <div className="absolute bottom-6 right-6">
                                 {!isAddingModel ? (
                                     <Button
@@ -766,6 +800,7 @@ export default function Builder() {
                                     </div>
                                 )}
                             </div>
+                            )}
                         </div>
 
                         {/* Right: Field Properties */}
@@ -852,6 +887,151 @@ export default function Builder() {
                         </Card>
                         ) : null}
                     </div>
+                    ) : (
+                    <div className="flex-1 overflow-auto px-6 py-4 relative">
+                        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                            {schema.models.map((model) => (
+                                <Card key={model.id} className="flex flex-col">
+                                    <CardHeader>
+                                        <div className="flex items-center justify-between">
+                                            <CardTitle className="text-lg">{model.name}</CardTitle>
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                                                        <MoreVertical className="h-4 w-4" />
+                                                    </Button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent align="end">
+                                                    <DropdownMenuItem
+                                                        onClick={() => deleteModel(model.id)}
+                                                        className="text-red-600"
+                                                    >
+                                                        <Trash2 className="mr-2 h-4 w-4" />
+                                                        Delete
+                                                    </DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        </div>
+                                    </CardHeader>
+                                    <CardContent className="flex-1 space-y-3">
+                                        <div>
+                                            <p className="text-xs font-medium text-neutral-500 mb-2">Fields</p>
+                                            {model.fields.length > 0 ? (
+                                                <div className="space-y-2">
+                                                    {model.fields.map((field) => (
+                                                        <div
+                                                            key={field.id}
+                                                            className={`flex items-center justify-between rounded-md border px-2 py-1.5 text-xs transition-colors cursor-pointer hover:opacity-90 ${
+                                                                selectedFieldId === field.id
+                                                                    ? `${FIELD_TYPE_COLORS[field.type]?.bg || FIELD_TYPE_COLORS.string.bg} text-white ring-2 ring-offset-1`
+                                                                    : `${FIELD_TYPE_COLORS[field.type]?.bg || FIELD_TYPE_COLORS.string.bg} text-white`
+                                                            }`}
+                                                            onClick={() => {
+                                                                selectModel(model.id);
+                                                                selectField(field.id);
+                                                                setFieldDetailsModelId(model.id);
+                                                                setIsFieldDetailsOpen(true);
+                                                            }}
+                                                        >
+                                                            <span>{field.name}</span>
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="sm"
+                                                                className="h-4 w-4 p-0 ml-1 hover:bg-black/20"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    deleteField(model.id, field.id);
+                                                                }}
+                                                            >
+                                                                <Trash2 className="h-3 w-3" />
+                                                            </Button>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <p className="text-xs text-neutral-400">No fields yet</p>
+                                            )}
+                                        </div>
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => {
+                                                selectModel(model.id);
+                                                setIsAddingField(true);
+                                                setDragTargetModelId(model.id);
+                                            }}
+                                            className="w-full"
+                                        >
+                                            <Plus className="mr-2 h-4 w-4" />
+                                            Add Field
+                                        </Button>
+                                    </CardContent>
+                                </Card>
+                            ))}
+                            {schema.models.length === 0 && (
+                                <div className="col-span-full flex h-32 items-center justify-center">
+                                    <p className="text-neutral-500">No models yet</p>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Add Model FAB - Bottom Right */}
+                        {viewMode === 'card' && (
+                        <div className="fixed bottom-6 right-6">
+                            {!isAddingModel ? (
+                                <Button
+                                    onClick={() => setIsAddingModel(true)}
+                                    className="rounded-full bg-purple-500 hover:bg-purple-600 shadow-lg h-14 w-14 p-0"
+                                >
+                                    <Plus className="h-6 w-6" />
+                                </Button>
+                            ) : (
+                                <div className="flex flex-col gap-2 bg-white dark:bg-neutral-800 p-4 rounded-lg shadow-lg border border-neutral-200 dark:border-neutral-700 w-56">
+                                    <label className="text-sm font-medium">Model name</label>
+                                    <Input
+                                        placeholder="e.g., User"
+                                        value={newModelName}
+                                        onChange={(e) => setNewModelName(e.target.value)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                handleAddModel();
+                                                setIsAddingModel(false);
+                                            }
+                                            if (e.key === 'Escape') setIsAddingModel(false);
+                                        }}
+                                        autoFocus
+                                        className="text-sm"
+                                    />
+                                    <div className="flex gap-2">
+                                        <Button
+                                            onClick={() => {
+                                                handleAddModel();
+                                                setIsAddingModel(false);
+                                            }}
+                                            className="flex-1 bg-purple-500 hover:bg-purple-600"
+                                            size="sm"
+                                        >
+                                            <Plus className="mr-2 h-4 w-4" />
+                                            Add
+                                        </Button>
+                                        <Button
+                                            onClick={() => {
+                                                setIsAddingModel(false);
+                                                setNewModelName('');
+                                            }}
+                                            variant="outline"
+                                            size="sm"
+                                            className="flex-1"
+                                        >
+                                            Cancel
+                                        </Button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                        )}
+                    </div>
+                    )}
                 </DndContext>
 
                 {/* Add Field Modal */}
@@ -864,12 +1044,17 @@ export default function Builder() {
                             <CardContent className="space-y-4">
                                 <div>
                                     <label className="block text-sm font-medium mb-2">
-                                        Field Name
+                                        Field Name <span className="text-red-500">*</span>
                                     </label>
                                     <Input
                                         placeholder="e.g., title"
                                         value={newFieldName}
-                                        onChange={(e) => setNewFieldName(e.target.value)}
+                                        onChange={(e) => {
+                                            setNewFieldName(e.target.value);
+                                            if (fieldNameError && e.target.value.trim()) {
+                                                setFieldNameError(false);
+                                            }
+                                        }}
                                         onKeyDown={(e) => {
                                             if (e.key === 'Enter' && newFieldName.trim()) {
                                                 addField(dragTargetModelId, {
@@ -881,10 +1066,15 @@ export default function Builder() {
                                                 setNewFieldName('');
                                                 setDraggedFieldType(null);
                                                 setDragTargetModelId(null);
+                                                setFieldNameError(false);
                                             }
                                         }}
                                         autoFocus
+                                        className={fieldNameError ? 'border-red-500' : ''}
                                     />
+                                    {fieldNameError && (
+                                        <p className="text-xs text-red-500 mt-1">Field name is required</p>
+                                    )}
                                 </div>
 
                                 <div>
@@ -943,6 +1133,9 @@ export default function Builder() {
                                             setNewFieldName('');
                                             setDraggedFieldType(null);
                                             setDragTargetModelId(null);
+                                            setFieldNameError(false);
+                                        } else {
+                                            setFieldNameError(true);
                                         }
                                     }}
                                     className="flex-1 bg-purple-500 hover:bg-purple-600"
@@ -953,6 +1146,98 @@ export default function Builder() {
                         </Card>
                     </div>
                 )}
+
+                {/* Field Details Modal - Card View */}
+                {isFieldDetailsOpen && selectedField && fieldDetailsModelId && selectedFieldId && viewMode === 'card' ? (
+                    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
+                        <Card className="max-w-md w-full mx-4">
+                            <CardHeader>
+                                <CardTitle>Field Details</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-medium mb-2">
+                                        Field Name
+                                    </label>
+                                    <Input
+                                        value={selectedField.name}
+                                        onChange={(e) =>
+                                            updateField(fieldDetailsModelId, selectedFieldId, {
+                                                name: e.target.value,
+                                            })
+                                        }
+                                        className="text-sm"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium mb-2">
+                                        Field Type
+                                    </label>
+                                    <Select
+                                        value={selectedField.type}
+                                        onValueChange={(value) =>
+                                            updateField(fieldDetailsModelId, selectedFieldId, {
+                                                type: value,
+                                            })
+                                        }
+                                    >
+                                        <SelectTrigger>
+                                            <SelectValue />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {FIELD_TYPES.map((type) => (
+                                                <SelectItem key={type} value={type}>
+                                                    {type}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+
+                                <div className="flex items-center space-x-2">
+                                    <Checkbox
+                                        id="field-required"
+                                        checked={selectedField.required}
+                                        onCheckedChange={(checked) =>
+                                            updateField(fieldDetailsModelId, selectedFieldId, {
+                                                required: checked === true,
+                                            })
+                                        }
+                                    />
+                                    <label
+                                        htmlFor="field-required"
+                                        className="text-sm font-medium cursor-pointer"
+                                    >
+                                        Required
+                                    </label>
+                                </div>
+
+                                <div className="pt-4 border-t border-neutral-200 dark:border-neutral-700">
+                                    <Button
+                                        onClick={() =>
+                                            deleteField(fieldDetailsModelId, selectedFieldId)
+                                        }
+                                        variant="outline"
+                                        className="w-full text-sm text-red-600 hover:text-red-700"
+                                    >
+                                        <Trash2 className="mr-2 h-4 w-4" />
+                                        Delete Field
+                                    </Button>
+                                </div>
+                            </CardContent>
+                            <div className="flex gap-2 px-6 pb-6">
+                                <Button
+                                    variant="outline"
+                                    onClick={() => setIsFieldDetailsOpen(false)}
+                                    className="flex-1"
+                                >
+                                    Close
+                                </Button>
+                            </div>
+                        </Card>
+                    </div>
+                ) : null}
             </div>
         </AppLayout>
     );
