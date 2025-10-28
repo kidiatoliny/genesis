@@ -18,6 +18,7 @@ export default function BuilderLanding() {
                     href="https://fonts.bunny.net/css?family=inter:400,500,600,700"
                     rel="stylesheet"
                 />
+                <style>{`html { scroll-behavior: smooth; }`}</style>
             </Head>
 
             <div className="min-h-screen bg-gradient-to-br from-neutral-950 via-purple-950/70 to-neutral-950 text-white overflow-hidden">
@@ -33,6 +34,40 @@ export default function BuilderLanding() {
                             <Box className="h-6 w-6 text-purple-500" />
                             <span className="text-xl font-bold">Genesis Builder</span>
                         </div>
+                        
+                        <div className="hidden md:flex items-center gap-8">
+                            <a
+                                href="#features"
+                                className="text-neutral-300 hover:text-white transition-colors text-sm font-medium"
+                            >
+                                Features
+                            </a>
+                            <a
+                                href="#how-it-works"
+                                className="text-neutral-300 hover:text-white transition-colors text-sm font-medium"
+                            >
+                                How it Works
+                            </a>
+                            <a
+                                href="#examples"
+                                className="text-neutral-300 hover:text-white transition-colors text-sm font-medium"
+                            >
+                                Examples
+                            </a>
+                            <a
+                                href="#stack"
+                                className="text-neutral-300 hover:text-white transition-colors text-sm font-medium"
+                            >
+                                Stack
+                            </a>
+                            <a
+                                href="#pricing"
+                                className="text-neutral-300 hover:text-white transition-colors text-sm font-medium"
+                            >
+                                Pricing
+                            </a>
+                        </div>
+                        
                         <div className="flex items-center gap-4">
                             <Link
                                 href="/builder"
@@ -78,7 +113,7 @@ export default function BuilderLanding() {
                                 with a powerful drag-and-drop interface.
                             </p>
 
-                            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                            <div className="flex items-center justify-center">
                                 <Link href="/builder">
                                     <Button
                                         size="lg"
@@ -88,14 +123,6 @@ export default function BuilderLanding() {
                                         <ArrowRight className="ml-2 h-5 w-5" />
                                     </Button>
                                 </Link>
-                                <Button
-                                    size="lg"
-                                    variant="outline"
-                                    className="px-8 py-6 text-lg border-purple-500/50 hover:bg-purple-500/10"
-                                >
-                                    <Github className="mr-2 h-5 w-5" />
-                                    View on GitHub
-                                </Button>
                             </div>
                         </motion.div>
 
@@ -112,7 +139,7 @@ export default function BuilderLanding() {
                 </section>
 
                 {/* Features Section - ReactFlow Inspired */}
-                <section className="py-32 px-6 relative overflow-hidden bg-gradient-to-b from-transparent via-purple-500/5 to-transparent">
+                <section id="features" className="py-32 px-6 relative overflow-hidden bg-gradient-to-b from-transparent via-purple-500/5 to-transparent">
                     {/* Animated Grid Background */}
                     <div className="absolute inset-0 opacity-20">
                         <div className="absolute inset-0" style={{
@@ -324,7 +351,7 @@ export default function BuilderLanding() {
                 </section>
 
                 {/* How It Works Section */}
-                <section className="py-32 px-6 bg-gradient-to-b from-transparent via-blue-500/5 to-transparent">
+                <section id="how-it-works" className="py-32 px-6 bg-gradient-to-b from-transparent via-blue-500/5 to-transparent">
                     <div className="container mx-auto max-w-6xl">
                         <motion.div
                             initial={{ y: 50, opacity: 0 }}
@@ -680,7 +707,7 @@ export default function BuilderLanding() {
                 </section>
 
                 {/* Pricing Section */}
-                <section className="py-32 px-6 bg-gradient-to-b from-transparent via-orange-500/5 to-transparent">
+                <section id="pricing" className="py-32 px-6 bg-gradient-to-b from-transparent via-orange-500/5 to-transparent">
                     <div className="container mx-auto max-w-7xl">
                         {/* Header */}
                         <motion.div
@@ -976,7 +1003,7 @@ export default function BuilderLanding() {
                 </section>
 
                 {/* Examples Section */}
-                <section className="py-32 px-6 bg-gradient-to-b from-transparent via-neutral-900 to-transparent">
+                <section id="examples" className="py-32 px-6 bg-gradient-to-b from-transparent via-neutral-900 to-transparent">
                     <div className="container mx-auto max-w-6xl">
                         <motion.div
                             initial={{ y: 50, opacity: 0 }}
@@ -998,7 +1025,7 @@ export default function BuilderLanding() {
                 </section>
 
                 {/* Tech Stack Section */}
-                <section className="py-32 px-6 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent">
+                <section id="stack" className="py-32 px-6 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent">
                     <div className="container mx-auto max-w-6xl">
                         <motion.div
                             initial={{ y: 50, opacity: 0 }}
@@ -1043,11 +1070,474 @@ export default function BuilderLanding() {
                     </div>
                 </section>
 
-                {/* Footer */}
-                <footer className="py-12 px-6 border-t border-neutral-800/20">
-                    <div className="container mx-auto max-w-6xl text-center text-neutral-400">
-                        <p>© {new Date().getFullYear()} Genesis Builder. Built with Laravel & React.</p>
+                {/* Code Quality Section */}
+                <section className="py-32 px-6 bg-gradient-to-b from-transparent via-rose-500/5 to-transparent">
+                    <div className="container mx-auto max-w-7xl">
+                        <motion.div
+                            initial={{ y: 50, opacity: 0 }}
+                            whileInView={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 0.8 }}
+                            viewport={{ once: true }}
+                            className="text-center mb-20"
+                        >
+                            <motion.div
+                                initial={{ scale: 0.9, opacity: 0 }}
+                                whileInView={{ scale: 1, opacity: 1 }}
+                                transition={{ duration: 0.5 }}
+                                viewport={{ once: true }}
+                                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-card mb-6"
+                            >
+                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                                <span className="text-xs font-medium text-emerald-200 uppercase tracking-wider">Enterprise Ready</span>
+                            </motion.div>
+                            <h2 className="text-5xl md:text-6xl font-bold mb-6">
+                                <span className="text-white">Production-ready</span>
+                                <br />
+                                <span className="bg-gradient-to-r from-emerald-400 to-teal-400 text-transparent bg-clip-text">
+                                    from day one
+                                </span>
+                            </h2>
+                            <p className="text-xl text-neutral-300 max-w-3xl mx-auto">
+                                Every line of code follows Laravel best practices and modern PHP standards
+                            </p>
+                        </motion.div>
+
+                        <div className="grid md:grid-cols-3 gap-6">
+                            {[
+                                {
+                                    title: 'Type Safety',
+                                    description: 'Full type hints, strict types, and PHPDoc annotations for better IDE support',
+                                    features: ['PHP 8.2+', 'Return types', 'Property types', 'Generics'],
+                                    color: 'from-purple-600 to-violet-600'
+                                },
+                                {
+                                    title: 'PSR Standards',
+                                    description: 'Follows PSR-1, PSR-12, and PSR-4 autoloading standards',
+                                    features: ['Clean code', 'Consistent naming', 'Proper structure', 'Best practices'],
+                                    color: 'from-blue-600 to-cyan-600'
+                                },
+                                {
+                                    title: 'Security First',
+                                    description: 'Built-in protection against common vulnerabilities',
+                                    features: ['SQL injection', 'XSS protection', 'CSRF tokens', 'Mass assignment'],
+                                    color: 'from-emerald-600 to-teal-600'
+                                }
+                            ].map((item, index) => (
+                                <motion.div
+                                    key={index}
+                                    initial={{ y: 50, opacity: 0 }}
+                                    whileInView={{ y: 0, opacity: 1 }}
+                                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                                    viewport={{ once: true }}
+                                    className="glass-card p-8 relative overflow-hidden group"
+                                >
+                                    <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
+                                    
+                                    <div className="relative">
+                                        <h3 className="text-2xl font-bold mb-4 text-white">{item.title}</h3>
+                                        <p className="text-neutral-300 mb-6 leading-relaxed">{item.description}</p>
+                                        
+                                        <div className="space-y-2">
+                                            {item.features.map((feature, i) => (
+                                                <div key={i} className="flex items-center gap-2 text-sm text-neutral-400">
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-purple-400 to-blue-400" />
+                                                    <span>{feature}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
                     </div>
+                </section>
+
+                {/* Integration & Workflow Section */}
+                <section className="py-32 px-6 bg-gradient-to-b from-transparent via-violet-500/5 to-transparent">
+                    <div className="container mx-auto max-w-7xl">
+                        <motion.div
+                            initial={{ y: 50, opacity: 0 }}
+                            whileInView={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 0.8 }}
+                            viewport={{ once: true }}
+                            className="text-center mb-20"
+                        >
+                            <h2 className="text-5xl font-bold mb-6">Fits your workflow</h2>
+                            <p className="text-xl text-neutral-300">Seamlessly integrate with your existing tools</p>
+                        </motion.div>
+
+                        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+                            <motion.div
+                                initial={{ x: -50, opacity: 0 }}
+                                whileInView={{ x: 0, opacity: 1 }}
+                                transition={{ duration: 0.6 }}
+                                viewport={{ once: true }}
+                            >
+                                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-500/20 border border-violet-500/30 mb-6">
+                                    <Github className="h-4 w-4 text-violet-400" />
+                                    <span className="text-xs font-semibold text-violet-200 uppercase tracking-wider">Version Control</span>
+                                </div>
+                                <h3 className="text-4xl font-bold mb-6 text-white">Git-friendly output</h3>
+                                <p className="text-xl text-neutral-300 leading-relaxed mb-6">
+                                    Generated code is clean, readable, and perfect for version control. Track changes, create branches, and collaborate with your team.
+                                </p>
+                                <ul className="space-y-3">
+                                    {['Clean diffs', 'Consistent formatting', 'Meaningful comments', 'No generated noise'].map((item, i) => (
+                                        <li key={i} className="flex items-center gap-3 text-neutral-300">
+                                            <div className="w-5 h-5 rounded-full bg-violet-600/20 flex items-center justify-center flex-shrink-0">
+                                                <div className="w-2 h-2 rounded-full bg-violet-400" />
+                                            </div>
+                                            {item}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </motion.div>
+
+                            <motion.div
+                                initial={{ x: 50, opacity: 0 }}
+                                whileInView={{ x: 0, opacity: 1 }}
+                                transition={{ duration: 0.6 }}
+                                viewport={{ once: true }}
+                                className="glass-card p-8"
+                            >
+                                <div className="space-y-4">
+                                    <div className="flex items-center gap-3 p-4 rounded-lg bg-neutral-900/50 border border-violet-500/20">
+                                        <div className="w-10 h-10 rounded-lg bg-violet-600/20 flex items-center justify-center">
+                                            <Github className="h-5 w-5 text-violet-400" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <div className="font-semibold text-white">GitHub Integration</div>
+                                            <div className="text-xs text-neutral-400">Push directly to repository</div>
+                                        </div>
+                                        <div className="text-xs text-emerald-400 font-medium">Coming Soon</div>
+                                    </div>
+                                    <div className="flex items-center gap-3 p-4 rounded-lg bg-neutral-900/50 border border-violet-500/20">
+                                        <div className="w-10 h-10 rounded-lg bg-blue-600/20 flex items-center justify-center">
+                                            <Code className="h-5 w-5 text-blue-400" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <div className="font-semibold text-white">CLI Tool</div>
+                                            <div className="text-xs text-neutral-400">Generate from terminal</div>
+                                        </div>
+                                        <div className="text-xs text-emerald-400 font-medium">Coming Soon</div>
+                                    </div>
+                                    <div className="flex items-center gap-3 p-4 rounded-lg bg-neutral-900/50 border border-violet-500/20">
+                                        <div className="w-10 h-10 rounded-lg bg-purple-600/20 flex items-center justify-center">
+                                            <Users className="h-5 w-5 text-purple-400" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <div className="font-semibold text-white">Team Collaboration</div>
+                                            <div className="text-xs text-neutral-400">Share schemas with your team</div>
+                                        </div>
+                                        <div className="text-xs text-emerald-400 font-medium">Coming Soon</div>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Performance Section */}
+                <section className="py-32 px-6 bg-gradient-to-b from-transparent via-fuchsia-500/5 to-transparent">
+                    <div className="container mx-auto max-w-7xl">
+                        <div className="grid md:grid-cols-2 gap-12 items-center">
+                            <motion.div
+                                initial={{ x: -50, opacity: 0 }}
+                                whileInView={{ x: 0, opacity: 1 }}
+                                transition={{ duration: 0.6 }}
+                                viewport={{ once: true }}
+                                className="order-2 md:order-1"
+                            >
+                                <div className="glass-card p-8 relative overflow-hidden">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-fuchsia-600/10 to-pink-600/10" />
+                                    
+                                    <div className="relative space-y-6">
+                                        {[
+                                            { label: 'Eager Loading', value: '95%', description: 'N+1 queries eliminated', color: 'from-fuchsia-600 to-pink-600' },
+                                            { label: 'Query Optimization', value: '80%', description: 'Faster database queries', color: 'from-purple-600 to-fuchsia-600' },
+                                            { label: 'Caching Strategy', value: '90%', description: 'Response time improved', color: 'from-pink-600 to-rose-600' }
+                                        ].map((metric, i) => (
+                                            <div key={i} className="space-y-2">
+                                                <div className="flex justify-between items-center">
+                                                    <span className="text-sm font-semibold text-white">{metric.label}</span>
+                                                    <span className="text-2xl font-bold bg-gradient-to-r from-fuchsia-400 to-pink-400 text-transparent bg-clip-text">
+                                                        {metric.value}
+                                                    </span>
+                                                </div>
+                                                <div className="h-2 bg-neutral-900/50 rounded-full overflow-hidden">
+                                                    <motion.div
+                                                        initial={{ width: 0 }}
+                                                        whileInView={{ width: metric.value }}
+                                                        transition={{ duration: 1, delay: i * 0.2 }}
+                                                        viewport={{ once: true }}
+                                                        className={`h-full bg-gradient-to-r ${metric.color} rounded-full`}
+                                                    />
+                                                </div>
+                                                <p className="text-xs text-neutral-400">{metric.description}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </motion.div>
+
+                            <motion.div
+                                initial={{ x: 50, opacity: 0 }}
+                                whileInView={{ x: 0, opacity: 1 }}
+                                transition={{ duration: 0.6 }}
+                                viewport={{ once: true }}
+                                className="order-1 md:order-2"
+                            >
+                                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-fuchsia-500/20 border border-fuchsia-500/30 mb-6">
+                                    <Zap className="h-4 w-4 text-fuchsia-400" />
+                                    <span className="text-xs font-semibold text-fuchsia-200 uppercase tracking-wider">Optimized</span>
+                                </div>
+                                <h3 className="text-4xl font-bold mb-6 text-white">
+                                    Built for <span className="bg-gradient-to-r from-fuchsia-400 to-pink-400 text-transparent bg-clip-text">performance</span>
+                                </h3>
+                                <p className="text-xl text-neutral-300 leading-relaxed mb-8">
+                                    Generated code includes performance optimizations out of the box. From eager loading to query optimization, your app is fast by default.
+                                </p>
+                                <div className="space-y-4">
+                                    {[
+                                        { title: 'Smart Eager Loading', description: 'Automatically prevents N+1 query problems' },
+                                        { title: 'Index Suggestions', description: 'Database indexes for frequently queried fields' },
+                                        { title: 'Pagination Built-in', description: 'Efficient pagination for large datasets' },
+                                        { title: 'Response Caching', description: 'Cache-ready controller responses' }
+                                    ].map((item, i) => (
+                                        <div key={i} className="flex items-start gap-3">
+                                            <div className="w-6 h-6 rounded-full bg-fuchsia-600/20 flex items-center justify-center flex-shrink-0 mt-1">
+                                                <div className="w-2 h-2 rounded-full bg-fuchsia-400" />
+                                            </div>
+                                            <div>
+                                                <div className="font-semibold text-white">{item.title}</div>
+                                                <div className="text-sm text-neutral-400">{item.description}</div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </motion.div>
+                        </div>
+                    </div>
+                </section>
+
+
+
+                {/* Stats Section */}
+                <section className="py-32 px-6 bg-gradient-to-b from-transparent via-emerald-500/5 to-transparent">
+                    <div className="container mx-auto max-w-6xl">
+                        <div className="grid md:grid-cols-4 gap-8">
+                            {[
+                                { value: "50K+", label: "Lines of Code Generated" },
+                                { value: "1,200+", label: "Projects Created" },
+                                { value: "95%", label: "Time Saved" },
+                                { value: "4.9/5", label: "Developer Rating" }
+                            ].map((stat, index) => (
+                                <motion.div
+                                    key={index}
+                                    initial={{ scale: 0.5, opacity: 0 }}
+                                    whileInView={{ scale: 1, opacity: 1 }}
+                                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                                    viewport={{ once: true }}
+                                    className="text-center"
+                                >
+                                    <div className="text-6xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-3">
+                                        {stat.value}
+                                    </div>
+                                    <div className="text-neutral-400 text-lg">{stat.label}</div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* FAQ Section */}
+                <section className="py-32 px-6 bg-gradient-to-b from-transparent via-amber-500/5 to-transparent">
+                    <div className="container mx-auto max-w-4xl">
+                        <motion.div
+                            initial={{ y: 50, opacity: 0 }}
+                            whileInView={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 0.8 }}
+                            viewport={{ once: true }}
+                            className="text-center mb-16"
+                        >
+                            <h2 className="text-5xl font-bold mb-6">Frequently asked questions</h2>
+                            <p className="text-xl text-neutral-300">Everything you need to know</p>
+                        </motion.div>
+
+                        <div className="space-y-4">
+                            {[
+                                {
+                                    question: "Can I customize the generated code?",
+                                    answer: "Absolutely! All generated code is clean, readable, and follows Laravel best practices. You have full control to modify and extend it."
+                                },
+                                {
+                                    question: "Does it work with existing Laravel projects?",
+                                    answer: "Yes! Genesis Builder integrates seamlessly with existing projects. Generate new models and migrations without affecting your current codebase."
+                                },
+                                {
+                                    question: "What frontend frameworks are supported?",
+                                    answer: "We support React, Vue, Blade, Livewire, and pure API mode. Choose the stack that works best for your project."
+                                },
+                                {
+                                    question: "Is there a free trial?",
+                                    answer: "Yes! Try Genesis Builder free for 14 days. No credit card required. Experience the full power before committing."
+                                },
+                                {
+                                    question: "Can I export my schemas?",
+                                    answer: "Yes! Export your schemas as JSON for backup, version control, or sharing with your team."
+                                }
+                            ].map((faq, index) => (
+                                <motion.div
+                                    key={index}
+                                    initial={{ x: -50, opacity: 0 }}
+                                    whileInView={{ x: 0, opacity: 1 }}
+                                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                                    viewport={{ once: true }}
+                                    className="glass-card p-6"
+                                >
+                                    <h3 className="text-xl font-bold mb-3 flex items-center gap-3">
+                                        <div className="w-2 h-2 rounded-full bg-purple-500" />
+                                        {faq.question}
+                                    </h3>
+                                    <p className="text-neutral-400 pl-5">{faq.answer}</p>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* Footer */}
+                <footer className="relative mt-32 backdrop-blur-lg bg-neutral-950/80 border-t border-purple-500/20">
+                    <div className="absolute inset-0 bg-gradient-to-b from-purple-950/20 via-neutral-950/50 to-neutral-950" />
+                    
+                    <div className="relative container mx-auto max-w-7xl px-6 py-16">
+                        <div className="grid md:grid-cols-4 gap-12 mb-12">
+                            {/* Brand Column */}
+                            <div className="md:col-span-1">
+                                <div className="flex items-center gap-2 mb-4">
+                                    <Box className="h-7 w-7 text-purple-500" />
+                                    <span className="text-xl font-bold text-white">Genesis Builder</span>
+                                </div>
+                                <p className="text-sm text-neutral-400 leading-relaxed mb-6">
+                                    Visual Laravel schema builder for modern developers. Build faster, ship sooner.
+                                </p>
+                                <div className="flex items-center gap-3">
+                                    <a 
+                                        href="https://github.com" 
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-10 h-10 rounded-lg bg-neutral-800/50 hover:bg-purple-600/20 border border-neutral-700/50 hover:border-purple-500/50 flex items-center justify-center transition-all duration-300 group"
+                                    >
+                                        <Github className="h-5 w-5 text-neutral-400 group-hover:text-purple-400 transition-colors" />
+                                    </a>
+                                    <a 
+                                        href="https://twitter.com" 
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-10 h-10 rounded-lg bg-neutral-800/50 hover:bg-purple-600/20 border border-neutral-700/50 hover:border-purple-500/50 flex items-center justify-center transition-all duration-300 group"
+                                    >
+                                        <svg className="h-5 w-5 text-neutral-400 group-hover:text-purple-400 transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+
+                            {/* Product Column */}
+                            <div>
+                                <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Product</h4>
+                                <ul className="space-y-3">
+                                    {[
+                                        { label: 'Features', href: '#features' },
+                                        { label: 'Pricing', href: '#pricing' },
+                                        { label: 'Examples', href: '#examples' },
+                                        { label: 'Documentation', href: '/docs' },
+                                        { label: 'Changelog', href: '/changelog' },
+                                    ].map((link, i) => (
+                                        <li key={i}>
+                                            <a 
+                                                href={link.href}
+                                                className="text-sm text-neutral-400 hover:text-purple-400 transition-colors duration-200 flex items-center gap-2 group"
+                                            >
+                                                <span className="w-0 group-hover:w-1.5 h-1.5 rounded-full bg-purple-500 transition-all duration-200" />
+                                                {link.label}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            {/* Resources Column */}
+                            <div>
+                                <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Resources</h4>
+                                <ul className="space-y-3">
+                                    {[
+                                        { label: 'Blog', href: '/blog' },
+                                        { label: 'Guides', href: '/guides' },
+                                        { label: 'API Reference', href: '/api' },
+                                        { label: 'Community', href: '/community' },
+                                        { label: 'Support', href: '/support' },
+                                    ].map((link, i) => (
+                                        <li key={i}>
+                                            <a 
+                                                href={link.href}
+                                                className="text-sm text-neutral-400 hover:text-purple-400 transition-colors duration-200 flex items-center gap-2 group"
+                                            >
+                                                <span className="w-0 group-hover:w-1.5 h-1.5 rounded-full bg-purple-500 transition-all duration-200" />
+                                                {link.label}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            {/* Company Column */}
+                            <div>
+                                <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Company</h4>
+                                <ul className="space-y-3">
+                                    {[
+                                        { label: 'About', href: '/about' },
+                                        { label: 'Careers', href: '/careers' },
+                                        { label: 'Privacy', href: '/privacy' },
+                                        { label: 'Terms', href: '/terms' },
+                                        { label: 'Contact', href: '/contact' },
+                                    ].map((link, i) => (
+                                        <li key={i}>
+                                            <a 
+                                                href={link.href}
+                                                className="text-sm text-neutral-400 hover:text-purple-400 transition-colors duration-200 flex items-center gap-2 group"
+                                            >
+                                                <span className="w-0 group-hover:w-1.5 h-1.5 rounded-full bg-purple-500 transition-all duration-200" />
+                                                {link.label}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+
+                        {/* Footer Bottom */}
+                        <div className="pt-8 border-t border-neutral-800/50">
+                            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                                <div className="text-sm text-neutral-400">
+                                    © {new Date().getFullYear()} Genesis Builder. Built with{' '}
+                                    <span className="text-purple-400">Laravel</span> &{' '}
+                                    <span className="text-blue-400">React</span>.
+                                </div>
+                                <div className="flex items-center gap-6">
+                                    <a href="/privacy" className="text-sm text-neutral-400 hover:text-purple-400 transition-colors">
+                                        Privacy Policy
+                                    </a>
+                                    <a href="/terms" className="text-sm text-neutral-400 hover:text-purple-400 transition-colors">
+                                        Terms of Service
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Decorative gradient at top */}
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
                 </footer>
             </div>
         </>
