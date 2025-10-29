@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Head, Link } from '@inertiajs/react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Zap, Code, Database, Palette, Download, Sparkles, Github, Box, ShoppingCart, MessageSquare, Users, FileText, Calendar } from 'lucide-react';
+import { ArrowRight, Zap, Code, Database, Palette, Download, Sparkles, Github, Box, ShoppingCart, MessageSquare, Users, FileText, Calendar, Mail, Lock, DollarSign } from 'lucide-react';
 
 export default function BuilderLanding() {
     const { scrollYProgress } = useScroll();
@@ -272,47 +272,29 @@ export default function BuilderLanding() {
                                     transition={{ duration: 0.6, delay: 0.2 }}
                                     viewport={{ once: true }}
                                 >
-                                    <div className="glass-card rounded-3xl overflow-hidden group cursor-pointer h-[400px] relative">
+                                    <div className="glass-card rounded-3xl overflow-hidden group cursor-pointer h-[600px] relative">
                                         <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 group-hover:from-blue-900/30 group-hover:to-cyan-900/30 transition-all duration-500" />
                                         
-                                        <div className="relative h-full flex flex-col justify-between p-10">
-                                            <div>
+                                        <div className="relative h-full flex flex-col p-10">
+                                            <div className="mb-6">
                                                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/20 border border-blue-500/30 mb-6">
-                                                    <Box className="h-4 w-4 text-blue-400" />
-                                                    <span className="text-xs font-semibold text-blue-200 uppercase tracking-wider">Flexible Stack</span>
+                                                    <Zap className="h-4 w-4 text-blue-400" />
+                                                    <span className="text-xs font-semibold text-blue-200 uppercase tracking-wider">Smart Validation</span>
                                                 </div>
                                                 <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                                                    Your stack
+                                                    Powerful field
                                                     <br />
                                                     <span className="bg-gradient-to-r from-blue-400 to-cyan-400 text-transparent bg-clip-text">
-                                                        your way
+                                                        validation
                                                     </span>
                                                 </h3>
-                                                <p className="text-neutral-300 mb-6">
-                                                    React, Vue, Blade, Livewire, or pure API. Genesis adapts.
+                                                <p className="text-neutral-300">
+                                                    Complete Laravel validation support with 60+ rules
                                                 </p>
                                             </div>
 
-                                            <div className="flex gap-3">
-                                                {[
-                                                    { name: 'React', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
-                                                    { name: 'Vue', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg' },
-                                                    { name: 'Blade', icon: 'https://laravel.com/img/logomark.min.svg' },
-                                                    { name: 'Livewire', icon: 'https://laravel-livewire.com/img/twitter.png' },
-                                                ].map((stack, i) => (
-                                                    <motion.div
-                                                        key={i}
-                                                        whileHover={{ scale: 1.1 }}
-                                                        className="w-10 h-10 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center"
-                                                        title={stack.name}
-                                                    >
-                                                        <img 
-                                                            src={stack.icon} 
-                                                            alt={stack.name}
-                                                            className="w-6 h-6 object-contain"
-                                                        />
-                                                    </motion.div>
-                                                ))}
+                                            <div className="flex-1 overflow-hidden">
+                                                <ValidationRuleDemo />
                                             </div>
                                         </div>
                                     </div>
@@ -386,12 +368,21 @@ export default function BuilderLanding() {
                                                 <div className="text-sm text-neutral-400">Define hasMany, belongsTo, and more</div>
                                             </div>
                                         </li>
+                                        <li className="flex items-start gap-3">
+                                            <div className="w-6 h-6 rounded-full bg-blue-600/20 flex items-center justify-center flex-shrink-0 mt-1">
+                                                <Sparkles className="h-3 w-3 text-blue-400" />
+                                            </div>
+                                            <div>
+                                                <div className="font-semibold text-white mb-1">Smart Validations</div>
+                                                <div className="text-sm text-neutral-400">60+ Laravel validation rules built-in</div>
+                                            </div>
+                                        </li>
                                     </ul>
                                 </div>
                                 <motion.div
                                     whileHover={{ scale: 1.02 }}
                                     transition={{ duration: 0.3 }}
-                                    className="order-1 md:order-2 glass-card p-8 relative overflow-hidden"
+                                    className="order-1 md:order-2 glass-card p-8 relative overflow-hidden min-h-[600px]"
                                     style={{ willChange: 'transform' }}
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-blue-600/10" />
@@ -400,21 +391,54 @@ export default function BuilderLanding() {
                                             <Database className="h-8 w-8 text-purple-400" />
                                             <div>
                                                 <div className="font-bold text-white">User Model</div>
-                                                <div className="text-xs text-purple-300">3 fields</div>
+                                                <div className="text-xs text-purple-300">4 fields with validations</div>
                                             </div>
                                         </div>
-                                        <div className="pl-6 space-y-2">
-                                            <div className="flex items-center gap-2 text-sm">
-                                                <div className="w-3 h-3 rounded-full bg-green-400" />
-                                                <span className="text-neutral-300 font-mono">name: string</span>
+                                        <div className="pl-6 space-y-3">
+                                            <div className="space-y-1">
+                                                <div className="flex items-center gap-2 text-sm">
+                                                    <div className="w-3 h-3 rounded-full bg-green-400" />
+                                                    <span className="text-neutral-300 font-mono">name: string</span>
+                                                </div>
+                                                <div className="flex flex-wrap gap-1 pl-5">
+                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-green-500/20 text-green-300 border border-green-500/30 font-mono">required</span>
+                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-green-500/20 text-green-300 border border-green-500/30 font-mono">string</span>
+                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-green-500/20 text-green-300 border border-green-500/30 font-mono">max:255</span>
+                                                </div>
                                             </div>
-                                            <div className="flex items-center gap-2 text-sm">
-                                                <div className="w-3 h-3 rounded-full bg-blue-400" />
-                                                <span className="text-neutral-300 font-mono">email: email</span>
+                                            <div className="space-y-1">
+                                                <div className="flex items-center gap-2 text-sm">
+                                                    <div className="w-3 h-3 rounded-full bg-blue-400" />
+                                                    <span className="text-neutral-300 font-mono">email: email</span>
+                                                </div>
+                                                <div className="flex flex-wrap gap-1 pl-5">
+                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-blue-500/20 text-blue-300 border border-blue-500/30 font-mono">required</span>
+                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-blue-500/20 text-blue-300 border border-blue-500/30 font-mono">email</span>
+                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-blue-500/20 text-blue-300 border border-blue-500/30 font-mono">unique:users</span>
+                                                </div>
                                             </div>
-                                            <div className="flex items-center gap-2 text-sm">
-                                                <div className="w-3 h-3 rounded-full bg-purple-400" />
-                                                <span className="text-neutral-300 font-mono">password: string</span>
+                                            <div className="space-y-1">
+                                                <div className="flex items-center gap-2 text-sm">
+                                                    <div className="w-3 h-3 rounded-full bg-purple-400" />
+                                                    <span className="text-neutral-300 font-mono">password: string</span>
+                                                </div>
+                                                <div className="flex flex-wrap gap-1 pl-5">
+                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-purple-500/20 text-purple-300 border border-purple-500/30 font-mono">required</span>
+                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-purple-500/20 text-purple-300 border border-purple-500/30 font-mono">min:8</span>
+                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-purple-500/20 text-purple-300 border border-purple-500/30 font-mono">confirmed</span>
+                                                </div>
+                                            </div>
+                                            <div className="space-y-1">
+                                                <div className="flex items-center gap-2 text-sm">
+                                                    <div className="w-3 h-3 rounded-full bg-amber-400" />
+                                                    <span className="text-neutral-300 font-mono">age: integer</span>
+                                                </div>
+                                                <div className="flex flex-wrap gap-1 pl-5">
+                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/30 font-mono">nullable</span>
+                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/30 font-mono">integer</span>
+                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/30 font-mono">min:18</span>
+                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/30 font-mono">max:120</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -2356,6 +2380,101 @@ const techStack = [
     { name: 'PostgreSQL', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg', category: 'Database', isImage: true },
     { name: 'Pest', icon: 'https://pestphp.com/www/assets/logo.svg', category: 'Testing', isImage: true },
 ];
+
+// Validation Rule Demo Component
+const ValidationRuleDemo = () => {
+    const [activeRule, setActiveRule] = useState(0);
+    
+    const validationRules = [
+        {
+            field: 'email',
+            rules: ['required', 'email', 'unique:users'],
+            color: 'from-emerald-500 to-teal-500',
+            icon: Mail,
+        },
+        {
+            field: 'password',
+            rules: ['required', 'min:8', 'confirmed'],
+            color: 'from-blue-500 to-cyan-500',
+            icon: Lock,
+        },
+        {
+            field: 'price',
+            rules: ['required', 'numeric', 'decimal:2'],
+            color: 'from-amber-500 to-orange-500',
+            icon: DollarSign,
+        },
+    ];
+
+    React.useEffect(() => {
+        const interval = setInterval(() => {
+            setActiveRule((prev) => (prev + 1) % validationRules.length);
+        }, 3000);
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <div className="space-y-2 px-2">
+            {validationRules.map((rule, index) => {
+                const isActive = activeRule === index;
+                
+                return (
+                    <motion.div
+                        key={index}
+                        animate={{
+                            scale: isActive ? 1.02 : 1,
+                            opacity: isActive ? 1 : 0.5,
+                        }}
+                        transition={{ duration: 0.4, ease: 'easeOut' }}
+                        className={`p-2 rounded-lg border ${
+                            isActive
+                                ? 'bg-gradient-to-r border-white/30 shadow-lg shadow-blue-500/20'
+                                : 'bg-neutral-900/30 border-neutral-700/30'
+                        } ${isActive ? rule.color : ''}`}
+                    >
+                        <div className="flex items-center gap-2 mb-2">
+                            <rule.icon className="h-4 w-4 text-white" />
+                            <span className="text-xs font-bold text-white font-mono">{rule.field}</span>
+                        </div>
+                        <div className="flex flex-wrap gap-1">
+                            {rule.rules.map((r, i) => (
+                                <motion.span
+                                    key={i}
+                                    initial={{ scale: 0.8, opacity: 0 }}
+                                    animate={{
+                                        scale: isActive ? 1 : 0.95,
+                                        opacity: isActive ? 1 : 0.6,
+                                    }}
+                                    transition={{ delay: isActive ? i * 0.08 : 0, duration: 0.2 }}
+                                    className={`px-1 py-0.5 rounded text-[10px] font-mono ${
+                                        isActive
+                                            ? 'bg-white/20 text-white border border-white/20'
+                                            : 'bg-neutral-800/50 text-neutral-400'
+                                    }`}
+                                >
+                                    {r}
+                                </motion.span>
+                            ))}
+                        </div>
+                    </motion.div>
+                );
+            })}
+            
+            <motion.div
+                animate={{ opacity: [0.3, 0.6, 0.3] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="text-center pt-1"
+            >
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-500/10 border border-blue-500/20">
+                    <Sparkles className="h-2.5 w-2.5 text-blue-400" />
+                    <span className="text-[10px] font-medium text-blue-300">
+                        60+ rules
+                    </span>
+                </div>
+            </motion.div>
+        </div>
+    );
+};
 
 // Drag & Drop Demo Component
 const DragDropDemo = () => {
