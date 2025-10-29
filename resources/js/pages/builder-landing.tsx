@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Head, Link } from '@inertiajs/react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Zap, Code, Database, Palette, Download, Sparkles, Github, Box, ShoppingCart, MessageSquare, Users, FileText, Calendar, Mail, Lock, DollarSign } from 'lucide-react';
+import { ArrowRight, Zap, Code, Database, Palette, Download, Sparkles, Github, Box, ShoppingCart, MessageSquare, Users, FileText, Calendar, Mail, Lock, DollarSign, Package, Gamepad2, CheckCircle, FileJson } from 'lucide-react';
 
 export default function BuilderLanding() {
     const { scrollYProgress } = useScroll();
@@ -410,83 +410,12 @@ export default function BuilderLanding() {
                                 <motion.div
                                     whileHover={{ scale: 1.02 }}
                                     transition={{ duration: 0.3 }}
-                                    className="glass-card p-8 relative overflow-hidden"
+                                    className="glass-card p-8 relative overflow-hidden min-h-[600px]"
                                     style={{ willChange: 'transform' }}
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-cyan-600/10" />
-                                    <div className="relative">
-                                        <div className="mb-4 p-4 rounded-lg bg-neutral-900/80 border border-blue-500/20">
-                                            <div className="flex items-center gap-2 text-xs text-blue-400 mb-3">
-                                                <Code className="h-4 w-4" />
-                                                <span className="font-semibold">StoreUserRequest.php</span>
-                                            </div>
-                                            <pre className="text-xs font-mono overflow-x-auto leading-relaxed">
-                                                <code>
-                                                    <span className="text-purple-400">public function</span>
-                                                    {' '}<span className="text-yellow-300">rules</span>
-                                                    <span className="text-neutral-500">()</span>
-                                                    <span className="text-neutral-500">: </span>
-                                                    <span className="text-blue-300">array</span>
-                                                    {'\n'}
-                                                    <span className="text-neutral-500">{'{'}</span>
-                                                    {'\n    '}
-                                                    <span className="text-purple-400">return</span>
-                                                    {' ['}
-                                                    {'\n        '}
-                                                    <span className="text-green-400">'name'</span>
-                                                    {' => ['}
-                                                    <span className="text-green-400">'required'</span>
-                                                    <span className="text-neutral-500">, </span>
-                                                    <span className="text-green-400">'string'</span>
-                                                    <span className="text-neutral-500">, </span>
-                                                    <span className="text-green-400">'max:255'</span>
-                                                    <span className="text-neutral-500">],</span>
-                                                    {'\n        '}
-                                                    <span className="text-green-400">'email'</span>
-                                                    {' => ['}
-                                                    <span className="text-green-400">'required'</span>
-                                                    <span className="text-neutral-500">, </span>
-                                                    <span className="text-green-400">'email'</span>
-                                                    <span className="text-neutral-500">, </span>
-                                                    <span className="text-green-400">'unique:users'</span>
-                                                    <span className="text-neutral-500">],</span>
-                                                    {'\n    '}
-                                                    <span className="text-neutral-500">];</span>
-                                                    {'\n'}
-                                                    <span className="text-neutral-500">{'}'}</span>
-                                                </code>
-                                            </pre>
-                                        </div>
-                                        <div className="p-4 rounded-lg bg-neutral-900/80 border border-cyan-500/20">
-                                            <div className="flex items-center gap-2 text-xs text-cyan-400 mb-3">
-                                                <Code className="h-4 w-4" />
-                                                <span className="font-semibold">UserController.php</span>
-                                            </div>
-                                            <pre className="text-xs font-mono overflow-x-auto leading-relaxed">
-                                                <code>
-                                                    <span className="text-purple-400">public function</span>
-                                                    {' '}<span className="text-yellow-300">store</span>
-                                                    <span className="text-neutral-500">(</span>
-                                                    <span className="text-blue-300">StoreUserRequest</span>
-                                                    {' '}<span className="text-orange-300">$request</span>
-                                                    <span className="text-neutral-500">)</span>
-                                                    {'\n'}
-                                                    <span className="text-neutral-500">{'{'}</span>
-                                                    {'\n    '}
-                                                    <span className="text-purple-400">return</span>
-                                                    {' '}<span className="text-blue-300">StoreUserAction</span>
-                                                    <span className="text-neutral-500">::</span>
-                                                    <span className="text-yellow-300">handle</span>
-                                                    <span className="text-neutral-500">(</span>
-                                                    <span className="text-orange-300">$request</span>
-                                                    <span className="text-neutral-500">-&gt;</span>
-                                                    <span className="text-yellow-300">validated</span>
-                                                    <span className="text-neutral-500">());</span>
-                                                    {'\n'}
-                                                    <span className="text-neutral-500">{'}'}</span>
-                                                </code>
-                                            </pre>
-                                        </div>
+                                    <div className="relative h-full">
+                                        <CodeGenerationWorkflowDemo />
                                     </div>
                                 </motion.div>
                                 <div>
@@ -500,7 +429,7 @@ export default function BuilderLanding() {
                                         Generate Production-Ready Code
                                     </h3>
                                     <p className="text-xl text-neutral-300 leading-relaxed mb-8">
-                                        Choose your preferred stack and let Genesis Builder generate clean, maintainable code following Laravel best practices. Everything from models to views.
+                                        With one click, transform your visual schema into a complete Laravel application. Choose your stack, customize options, and get production-ready code instantly.
                                     </p>
                                     <ul className="space-y-4">
                                         <li className="flex items-start gap-3">
@@ -508,8 +437,8 @@ export default function BuilderLanding() {
                                                 <div className="w-2 h-2 rounded-full bg-blue-400" />
                                             </div>
                                             <div>
-                                                <div className="font-semibold text-white mb-1">Multiple Stacks</div>
-                                                <div className="text-sm text-neutral-400">React, Vue, Blade, Livewire, or API</div>
+                                                <div className="font-semibold text-white mb-1">Select Stack</div>
+                                                <div className="text-sm text-neutral-400">Choose React, Vue, Blade, Livewire, or pure API</div>
                                             </div>
                                         </li>
                                         <li className="flex items-start gap-3">
@@ -517,8 +446,8 @@ export default function BuilderLanding() {
                                                 <div className="w-2 h-2 rounded-full bg-blue-400" />
                                             </div>
                                             <div>
-                                                <div className="font-semibold text-white mb-1">Array Validation</div>
-                                                <div className="text-sm text-neutral-400">Modern PHP array syntax for rules</div>
+                                                <div className="font-semibold text-white mb-1">Generate Files</div>
+                                                <div className="text-sm text-neutral-400">Models, Controllers, Actions, Requests, Resources, Migrations</div>
                                             </div>
                                         </li>
                                         <li className="flex items-start gap-3">
@@ -526,8 +455,8 @@ export default function BuilderLanding() {
                                                 <div className="w-2 h-2 rounded-full bg-blue-400" />
                                             </div>
                                             <div>
-                                                <div className="font-semibold text-white mb-1">Action Pattern</div>
-                                                <div className="text-sm text-neutral-400">Single responsibility actions for clean code</div>
+                                                <div className="font-semibold text-white mb-1">Type Safety</div>
+                                                <div className="text-sm text-neutral-400">Full type hints, return types, and PHPDoc blocks</div>
                                             </div>
                                         </li>
                                         <li className="flex items-start gap-3">
@@ -535,8 +464,17 @@ export default function BuilderLanding() {
                                                 <div className="w-2 h-2 rounded-full bg-blue-400" />
                                             </div>
                                             <div>
-                                                <div className="font-semibold text-white mb-1">Best Practices</div>
-                                                <div className="text-sm text-neutral-400">PSR standards, type hints, and documentation</div>
+                                                <div className="font-semibold text-white mb-1">Clean Architecture</div>
+                                                <div className="text-sm text-neutral-400">Action pattern, array validation, PSR-12 standards</div>
+                                            </div>
+                                        </li>
+                                        <li className="flex items-start gap-3">
+                                            <div className="w-6 h-6 rounded-full bg-emerald-600/20 flex items-center justify-center flex-shrink-0 mt-1">
+                                                <Sparkles className="h-3 w-3 text-emerald-400" />
+                                            </div>
+                                            <div>
+                                                <div className="font-semibold text-white mb-1">Preview & Customize</div>
+                                                <div className="text-sm text-neutral-400">Review generated code before downloading</div>
                                             </div>
                                         </li>
                                     </ul>
@@ -2598,6 +2536,158 @@ const SchemaWorkflowDemo = () => {
                 </div>
                 {steps[step].content}
             </motion.div>
+        </div>
+    );
+};
+
+// Code Generation Workflow Demo Component
+const CodeGenerationWorkflowDemo = () => {
+    const [step, setStep] = useState(0);
+    
+    const files = [
+        { name: 'User.php', type: 'Model', icon: Package, color: 'text-purple-400' },
+        { name: 'UserController.php', type: 'Controller', icon: Gamepad2, color: 'text-blue-400' },
+        { name: 'StoreUserRequest.php', type: 'Request', icon: CheckCircle, color: 'text-emerald-400' },
+        { name: 'StoreUserAction.php', type: 'Action', icon: Zap, color: 'text-cyan-400' },
+        { name: 'UserResource.php', type: 'Resource', icon: FileJson, color: 'text-pink-400' },
+    ];
+
+    React.useEffect(() => {
+        const interval = setInterval(() => {
+            setStep((prev) => (prev + 1) % (files.length + 2)); // +2 for select stack and preview
+        }, 2500);
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <div className="flex flex-col h-full space-y-4">
+            {/* Stack Selection */}
+            {step === 0 && (
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="space-y-3"
+                >
+                    <div className="text-sm font-semibold text-blue-300">Step 1: Select Stack</div>
+                    <div className="grid grid-cols-2 gap-2">
+                        {['React + Inertia', 'Vue + Inertia', 'Blade', 'API Only'].map((stack, i) => (
+                            <motion.div
+                                key={stack}
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ 
+                                    opacity: stack === 'React + Inertia' ? 1 : 0.4, 
+                                    scale: 1,
+                                    borderColor: stack === 'React + Inertia' ? 'rgb(59 130 246)' : 'rgb(64 64 64)'
+                                }}
+                                transition={{ delay: i * 0.1 }}
+                                className={`p-3 rounded-lg text-center text-xs border-2 ${
+                                    stack === 'React + Inertia'
+                                        ? 'bg-blue-600/30 text-blue-200 font-bold'
+                                        : 'bg-neutral-800/50 text-neutral-500'
+                                }`}
+                            >
+                                {stack}
+                            </motion.div>
+                        ))}
+                    </div>
+                </motion.div>
+            )}
+
+            {/* File Generation */}
+            {step > 0 && step <= files.length && (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="space-y-3"
+                >
+                    <div className="text-sm font-semibold text-blue-300">Step 2: Generating Files...</div>
+                    <div className="space-y-2">
+                        {files.map((file, i) => {
+                            const isGenerated = i < step;
+                            const isCurrent = i === step - 1;
+                            
+                            return (
+                                <motion.div
+                                    key={file.name}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ 
+                                        opacity: isGenerated ? 1 : 0.3, 
+                                        x: 0,
+                                    }}
+                                    transition={{ delay: isCurrent ? 0.2 : 0 }}
+                                    className={`flex items-center justify-between p-3 rounded-lg border ${
+                                        isGenerated
+                                            ? 'bg-emerald-900/20 border-emerald-500/30'
+                                            : 'bg-neutral-900/30 border-neutral-700/30'
+                                    }`}
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <file.icon className="h-5 w-5 text-white" />
+                                        <div>
+                                            <div className={`text-xs font-mono font-semibold ${file.color}`}>
+                                                {file.name}
+                                            </div>
+                                            <div className="text-[10px] text-neutral-500">{file.type}</div>
+                                        </div>
+                                    </div>
+                                    {isGenerated && (
+                                        <motion.div
+                                            initial={{ scale: 0 }}
+                                            animate={{ scale: 1 }}
+                                            className="w-5 h-5 rounded-full bg-emerald-600 flex items-center justify-center"
+                                        >
+                                            <span className="text-white text-xs">✓</span>
+                                        </motion.div>
+                                    )}
+                                    {isCurrent && (
+                                        <motion.div
+                                            animate={{ rotate: 360 }}
+                                            transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                                            className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full"
+                                        />
+                                    )}
+                                </motion.div>
+                            );
+                        })}
+                    </div>
+                </motion.div>
+            )}
+
+            {/* Preview Code */}
+            {step === files.length + 1 && (
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="space-y-3"
+                >
+                    <div className="text-sm font-semibold text-emerald-300">Step 3: Preview Generated Code</div>
+                    <div className="p-4 rounded-lg bg-neutral-900/80 border border-emerald-500/20">
+                        <div className="flex items-center gap-2 text-xs mb-3">
+                            <Code className="h-4 w-4 text-emerald-400" />
+                            <span className="font-mono font-semibold text-emerald-400">User.php</span>
+                        </div>
+                        <pre className="text-[10px] leading-relaxed font-mono text-neutral-300">
+                            <code dangerouslySetInnerHTML={{ __html: `<span class="text-purple-400">class</span> <span class="text-yellow-300">User</span> <span class="text-purple-400">extends</span> <span class="text-blue-300">Model</span>
+<span class="text-neutral-500">{</span>
+    <span class="text-purple-400">protected</span> <span class="text-orange-300">$fillable</span> <span class="text-neutral-500">= [</span>
+        <span class="text-green-400">'name'</span><span class="text-neutral-500">,</span> <span class="text-green-400">'email'</span>
+    <span class="text-neutral-500">];</span>
+<span class="text-neutral-500">}</span>` }} />
+                        </pre>
+                    </div>
+                    <motion.div
+                        initial={{ scale: 0.9 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 0.3 }}
+                        className="flex gap-2"
+                    >
+                        <button className="flex-1 px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold flex items-center justify-center gap-2">
+                            <Download className="h-4 w-4" />
+                            Download ZIP
+                        </button>
+                    </motion.div>
+                </motion.div>
+            )}
         </div>
     );
 };
