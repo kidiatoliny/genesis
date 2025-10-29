@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Head, Link } from '@inertiajs/react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Zap, Code, Database, Palette, Download, Sparkles, Github, Box, ShoppingCart, MessageSquare, Users, FileText, Calendar, Mail, Lock, DollarSign, Package, Gamepad2, CheckCircle, FileJson, Folder, Terminal, Rocket } from 'lucide-react';
+import { ArrowRight, Zap, Code, Database, Palette, Download, Sparkles, Github, Box, ShoppingCart, MessageSquare, Users, FileText, Calendar, Mail, Lock, DollarSign, Package, Gamepad2, CheckCircle, FileJson, Folder, Terminal, Rocket, Cloud, Server } from 'lucide-react';
 
 export default function BuilderLanding() {
     const { scrollYProgress } = useScroll();
@@ -1016,76 +1016,139 @@ export default function BuilderLanding() {
                             viewport={{ once: true }}
                             className="text-center mb-20"
                         >
-                            <h2 className="text-5xl font-bold mb-6">Fits your workflow</h2>
-                            <p className="text-xl text-neutral-300">Seamlessly integrate with your existing tools</p>
+                            <h2 className="text-5xl font-bold mb-6">Deploy with One Click</h2>
+                            <p className="text-xl text-neutral-300">Ship to production faster with direct integrations</p>
                         </motion.div>
 
-                        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+                        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-20">
                             <motion.div
-                                initial={{ x: -50, opacity: 0 }}
-                                whileInView={{ x: 0, opacity: 1 }}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.6 }}
                                 viewport={{ once: true }}
+                                className="glass-card p-8 relative overflow-hidden group"
                             >
-                                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-500/20 border border-violet-500/30 mb-6">
-                                    <Github className="h-4 w-4 text-violet-400" />
-                                    <span className="text-xs font-semibold text-violet-200 uppercase tracking-wider">Version Control</span>
+                                <div className="absolute inset-0 bg-gradient-to-br from-orange-600/10 to-red-600/10 group-hover:from-orange-600/20 group-hover:to-red-600/20 transition-all duration-500" />
+                                
+                                <div className="relative">
+                                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-600 to-red-600 flex items-center justify-center mb-6 shadow-lg group-hover:shadow-orange-500/50 transition-shadow">
+                                        <Cloud className="h-8 w-8 text-white" />
+                                    </div>
+                                    <h3 className="text-2xl font-bold mb-3 text-white">Laravel Cloud</h3>
+                                    <p className="text-neutral-300 mb-4 leading-relaxed">
+                                        Deploy directly from Genesis Builder to Laravel Cloud. One click and your app is live with zero configuration.
+                                    </p>
+                                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-500/20 border border-orange-500/30">
+                                        <Sparkles className="h-3 w-3 text-orange-400" />
+                                        <span className="text-xs font-bold text-orange-300">Coming Soon</span>
+                                    </div>
                                 </div>
-                                <h3 className="text-4xl font-bold mb-6 text-white">Git-friendly output</h3>
-                                <p className="text-xl text-neutral-300 leading-relaxed mb-6">
-                                    Generated code is clean, readable, and perfect for version control. Track changes, create branches, and collaborate with your team.
-                                </p>
-                                <ul className="space-y-3">
-                                    {['Clean diffs', 'Consistent formatting', 'Meaningful comments', 'No generated noise'].map((item, i) => (
-                                        <li key={i} className="flex items-center gap-3 text-neutral-300">
-                                            <div className="w-5 h-5 rounded-full bg-violet-600/20 flex items-center justify-center flex-shrink-0">
-                                                <div className="w-2 h-2 rounded-full bg-violet-400" />
-                                            </div>
-                                            {item}
-                                        </li>
-                                    ))}
-                                </ul>
                             </motion.div>
 
                             <motion.div
-                                initial={{ x: 50, opacity: 0 }}
-                                whileInView={{ x: 0, opacity: 1 }}
-                                transition={{ duration: 0.6 }}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.1 }}
                                 viewport={{ once: true }}
-                                className="glass-card p-8"
+                                className="glass-card p-8 relative overflow-hidden group"
                             >
-                                <div className="space-y-4">
-                                    <div className="flex items-center gap-3 p-4 rounded-lg bg-neutral-900/50 border border-violet-500/20">
-                                        <div className="w-10 h-10 rounded-lg bg-violet-600/20 flex items-center justify-center">
-                                            <Github className="h-5 w-5 text-violet-400" />
-                                        </div>
-                                        <div className="flex-1">
-                                            <div className="font-semibold text-white">GitHub Integration</div>
-                                            <div className="text-xs text-neutral-400">Push directly to repository</div>
-                                        </div>
-                                        <div className="text-xs text-emerald-400 font-medium">Coming Soon</div>
+                                <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/10 to-teal-600/10 group-hover:from-emerald-600/20 group-hover:to-teal-600/20 transition-all duration-500" />
+                                
+                                <div className="relative">
+                                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-600 flex items-center justify-center mb-6 shadow-lg group-hover:shadow-emerald-500/50 transition-shadow">
+                                        <Rocket className="h-8 w-8 text-white" />
                                     </div>
-                                    <div className="flex items-center gap-3 p-4 rounded-lg bg-neutral-900/50 border border-violet-500/20">
-                                        <div className="w-10 h-10 rounded-lg bg-blue-600/20 flex items-center justify-center">
-                                            <Code className="h-5 w-5 text-blue-400" />
-                                        </div>
-                                        <div className="flex-1">
-                                            <div className="font-semibold text-white">CLI Tool</div>
-                                            <div className="text-xs text-neutral-400">Generate from terminal</div>
-                                        </div>
-                                        <div className="text-xs text-emerald-400 font-medium">Coming Soon</div>
-                                    </div>
-                                    <div className="flex items-center gap-3 p-4 rounded-lg bg-neutral-900/50 border border-violet-500/20">
-                                        <div className="w-10 h-10 rounded-lg bg-purple-600/20 flex items-center justify-center">
-                                            <Users className="h-5 w-5 text-purple-400" />
-                                        </div>
-                                        <div className="flex-1">
-                                            <div className="font-semibold text-white">Team Collaboration</div>
-                                            <div className="text-xs text-neutral-400">Share schemas with your team</div>
-                                        </div>
-                                        <div className="text-xs text-emerald-400 font-medium">Coming Soon</div>
+                                    <h3 className="text-2xl font-bold mb-3 text-white">Laravel Forge</h3>
+                                    <p className="text-neutral-300 mb-4 leading-relaxed">
+                                        Connect your Forge account and deploy to any server. Automatic deployment pipelines included.
+                                    </p>
+                                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/30">
+                                        <Sparkles className="h-3 w-3 text-emerald-400" />
+                                        <span className="text-xs font-bold text-emerald-300">Coming Soon</span>
                                     </div>
                                 </div>
+                            </motion.div>
+
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.2 }}
+                                viewport={{ once: true }}
+                                className="glass-card p-8 relative overflow-hidden group"
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-cyan-600/10 group-hover:from-blue-600/20 group-hover:to-cyan-600/20 transition-all duration-500" />
+                                
+                                <div className="relative">
+                                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center mb-6 shadow-lg group-hover:shadow-blue-500/50 transition-shadow">
+                                        <Server className="h-8 w-8 text-white" />
+                                    </div>
+                                    <h3 className="text-2xl font-bold mb-3 text-white">Custom VPS</h3>
+                                    <p className="text-neutral-300 mb-4 leading-relaxed">
+                                        Deploy to your own VPS with SSH. Works with DigitalOcean, Linode, AWS, or any Linux server.
+                                    </p>
+                                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/20 border border-blue-500/30">
+                                        <Sparkles className="h-3 w-3 text-blue-400" />
+                                        <span className="text-xs font-bold text-blue-300">Coming Soon</span>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </div>
+
+                        <motion.div
+                            initial={{ y: 50, opacity: 0 }}
+                            whileInView={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 0.8 }}
+                            viewport={{ once: true }}
+                            className="text-center mb-12"
+                        >
+                            <h3 className="text-3xl font-bold mb-4 text-white">More Integrations Coming</h3>
+                            <p className="text-lg text-neutral-400">We're building the tools you need</p>
+                        </motion.div>
+
+                        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6 }}
+                                viewport={{ once: true }}
+                                className="glass-card p-6"
+                            >
+                                <div className="w-12 h-12 rounded-xl bg-violet-600/20 flex items-center justify-center mb-4">
+                                    <Github className="h-6 w-6 text-violet-400" />
+                                </div>
+                                <h4 className="text-lg font-bold mb-2 text-white">GitHub Integration</h4>
+                                <p className="text-sm text-neutral-400 mb-3">Push generated code directly to your repository</p>
+                                <div className="text-xs text-neutral-500 font-medium">Coming Soon</div>
+                            </motion.div>
+
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.1 }}
+                                viewport={{ once: true }}
+                                className="glass-card p-6"
+                            >
+                                <div className="w-12 h-12 rounded-xl bg-blue-600/20 flex items-center justify-center mb-4">
+                                    <Terminal className="h-6 w-6 text-blue-400" />
+                                </div>
+                                <h4 className="text-lg font-bold mb-2 text-white">CLI Tool</h4>
+                                <p className="text-sm text-neutral-400 mb-3">Generate schemas from your terminal</p>
+                                <div className="text-xs text-neutral-500 font-medium">Coming Soon</div>
+                            </motion.div>
+
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.2 }}
+                                viewport={{ once: true }}
+                                className="glass-card p-6"
+                            >
+                                <div className="w-12 h-12 rounded-xl bg-purple-600/20 flex items-center justify-center mb-4">
+                                    <Users className="h-6 w-6 text-purple-400" />
+                                </div>
+                                <h4 className="text-lg font-bold mb-2 text-white">Team Collaboration</h4>
+                                <p className="text-sm text-neutral-400 mb-3">Share and collaborate on schemas</p>
+                                <div className="text-xs text-neutral-500 font-medium">Coming Soon</div>
                             </motion.div>
                         </div>
                     </div>
