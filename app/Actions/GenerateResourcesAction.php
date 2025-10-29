@@ -26,7 +26,7 @@ final readonly class GenerateResourcesAction
             $fields = $model['fields'] ?? [];
 
             $resourceFields = collect($fields)
-                ->map(fn ($field) => "'{$field['name']}' => \$this->{$field['name']}")
+                ->map(fn (array $field) => "'{$field['name']}' => \$this->{$field['name']}")
                 ->implode(','.PHP_EOL.'            ');
 
             $firstField = $fields[0]['name'] ?? 'name';

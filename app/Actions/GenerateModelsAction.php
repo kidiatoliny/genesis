@@ -26,11 +26,11 @@ final readonly class GenerateModelsAction
             $fields = $model['fields'] ?? [];
 
             $fillableFields = collect($fields)
-                ->map(fn ($field) => "'{$field['name']}'")
+                ->map(fn (array $field) => "'{$field['name']}'")
                 ->implode(','.PHP_EOL.'        ');
 
             $castFields = collect($fields)
-                ->map(function ($field) {
+                ->map(function (array $field) {
                     $type = $this->mapFieldType($field['type'] ?? 'string');
 
                     return "'{$field['name']}' => '{$type}'";
