@@ -1,3 +1,4 @@
+import LandingNavbar from '@/components/landing/navbar';
 import { Button } from '@/components/ui/button';
 import { Head, Link } from '@inertiajs/react';
 import { motion, useScroll, useTransform } from 'framer-motion';
@@ -8,7 +9,6 @@ import {
     CheckCircle,
     Cloud,
     Code,
-    CreditCard,
     Database,
     DollarSign,
     Download,
@@ -17,13 +17,11 @@ import {
     Folder,
     Gamepad2,
     Github,
-    Layers,
     Lock,
     Mail,
     MessageSquare,
     Package,
     Palette,
-    Play,
     Rocket,
     Server,
     ShoppingCart,
@@ -62,73 +60,7 @@ export default function BuilderLanding() {
             </Head>
 
             <div className="min-h-screen overflow-hidden bg-gradient-to-br from-neutral-950 via-purple-950/70 to-neutral-950 text-white">
-                {/* Navigation */}
-                <motion.nav
-                    initial={{ y: -100, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.6 }}
-                    className={`fixed top-0 right-0 left-0 z-50 transition-all duration-300 ${
-                        scrolled
-                            ? 'border-b border-purple-500/20 bg-neutral-950/80 shadow-lg backdrop-blur-lg'
-                            : 'border-b border-transparent bg-transparent'
-                    }`}
-                >
-                    <div className="relative container mx-auto flex items-center justify-between px-6 py-4">
-                        <div className="flex w-48 items-center gap-2">
-                            <Box className="h-6 w-6 text-purple-500" />
-                            <span className="text-xl font-bold">
-                                Genesis Builder
-                            </span>
-                        </div>
-
-                        <div className="absolute left-1/2 hidden -translate-x-1/2 transform items-center gap-6 md:flex">
-                            <a
-                                href="#features"
-                                className="group flex items-center gap-2 text-sm font-medium text-neutral-300 transition-colors hover:text-white"
-                            >
-                                <Sparkles className="h-4 w-4 text-purple-400 transition-colors group-hover:text-purple-300" />
-                                Features
-                            </a>
-                            <a
-                                href="#how-it-works"
-                                className="group flex items-center gap-2 text-sm font-medium text-neutral-300 transition-colors hover:text-white"
-                            >
-                                <Play className="h-4 w-4 text-blue-400 transition-colors group-hover:text-blue-300" />
-                                How it Works
-                            </a>
-                            <a
-                                href="#deploy"
-                                className="group flex items-center gap-2 text-sm font-medium text-neutral-300 transition-colors hover:text-white"
-                            >
-                                <Rocket className="h-4 w-4 text-orange-400 transition-colors group-hover:text-orange-300" />
-                                Deploy
-                            </a>
-                            <a
-                                href="#examples"
-                                className="group flex items-center gap-2 text-sm font-medium text-neutral-300 transition-colors hover:text-white"
-                            >
-                                <Layers className="h-4 w-4 text-emerald-400 transition-colors group-hover:text-emerald-300" />
-                                Examples
-                            </a>
-                            <a
-                                href="#pricing"
-                                className="group flex items-center gap-2 text-sm font-medium text-neutral-300 transition-colors hover:text-white"
-                            >
-                                <CreditCard className="h-4 w-4 text-emerald-400 transition-colors group-hover:text-emerald-300" />
-                                Pricing
-                            </a>
-                        </div>
-
-                        <div className="flex w-48 items-center justify-end gap-4">
-                            <Link
-                                href="/builder"
-                                className="rounded-lg bg-purple-600 px-6 py-2 font-medium transition-colors hover:bg-purple-700"
-                            >
-                                Get Started
-                            </Link>
-                        </div>
-                    </div>
-                </motion.nav>
+                <LandingNavbar scrolled={scrolled} />
 
                 {/* Hero Section */}
                 <section className="relative flex min-h-screen items-center justify-center px-6 pt-32 md:pt-48">
@@ -136,8 +68,8 @@ export default function BuilderLanding() {
                         style={{ y, opacity }}
                         className="absolute inset-0 overflow-hidden"
                     >
-                        <div className="absolute top-1/4 left-1/4 w-64 h-64 md:w-96 md:h-96 rounded-full bg-purple-600/30 blur-3xl" />
-                        <div className="absolute right-1/4 bottom-1/4 w-64 h-64 md:w-96 md:h-96 rounded-full bg-blue-600/20 blur-3xl" />
+                        <div className="absolute top-1/4 left-1/4 h-64 w-64 rounded-full bg-purple-600/30 blur-3xl md:h-96 md:w-96" />
+                        <div className="absolute right-1/4 bottom-1/4 h-64 w-64 rounded-full bg-blue-600/20 blur-3xl md:h-96 md:w-96" />
                     </motion.div>
 
                     <div className="relative z-10 mx-auto max-w-6xl text-center">
@@ -163,7 +95,7 @@ export default function BuilderLanding() {
                             <Link href="/builder">
                                 <Button
                                     size="lg"
-                                    className="bg-purple-600 px-6 py-4 md:px-8 md:py-6 text-base md:text-lg transition-all hover:scale-105 hover:bg-purple-700"
+                                    className="bg-purple-600 px-6 py-4 text-base transition-all hover:scale-105 hover:bg-purple-700 md:px-8 md:py-6 md:text-lg"
                                 >
                                     Start Building
                                     <ArrowRight className="ml-2 h-5 w-5" />
@@ -207,7 +139,7 @@ export default function BuilderLanding() {
                             whileInView={{ y: 0, opacity: 1 }}
                             transition={{ duration: 0.8 }}
                             viewport={{ once: true }}
-                            className="relative mb-12 md:mb-24 text-center"
+                            className="relative mb-12 text-center md:mb-24"
                         >
                             {/* Decorative elements */}
                             <div className="pointer-events-none absolute -top-20 left-1/2 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-gradient-to-r from-purple-600/20 to-blue-600/20 opacity-50 blur-3xl" />
@@ -225,7 +157,7 @@ export default function BuilderLanding() {
                                 </span>
                             </motion.div>
 
-                            <h2 className="relative mb-4 md:mb-6 text-3xl md:text-5xl leading-[1.1] font-bold md:text-6xl lg:text-7xl">
+                            <h2 className="relative mb-4 text-3xl leading-[1.1] font-bold md:mb-6 md:text-5xl md:text-6xl lg:text-7xl">
                                 <span className="text-white">
                                     Everything you need to
                                 </span>
@@ -270,25 +202,25 @@ export default function BuilderLanding() {
                                 viewport={{ once: true }}
                                 className="w-full"
                             >
-                                <div className="glass-card group relative h-[500px] md:h-[700px] cursor-pointer overflow-hidden rounded-2xl md:rounded-3xl">
+                                <div className="glass-card group relative h-[500px] cursor-pointer overflow-hidden rounded-2xl md:h-[700px] md:rounded-3xl">
                                     <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-transparent to-blue-900/20 transition-all duration-500 group-hover:from-purple-900/30 group-hover:to-blue-900/30" />
 
-                                    <div className="relative flex h-full flex-col gap-4 md:gap-8 p-6 md:p-12">
+                                    <div className="relative flex h-full flex-col gap-4 p-6 md:gap-8 md:p-12">
                                         <div>
-                                            <div className="mb-3 md:mb-6 inline-flex items-center gap-2 rounded-full border border-purple-500/30 bg-purple-500/20 px-2 md:px-3 py-1 md:py-1.5">
-                                                <Palette className="h-3 w-3 md:h-4 md:w-4 text-purple-400" />
-                                                <span className="text-[10px] md:text-xs font-semibold tracking-wider text-purple-200 uppercase">
+                                            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-purple-500/30 bg-purple-500/20 px-2 py-1 md:mb-6 md:px-3 md:py-1.5">
+                                                <Palette className="h-3 w-3 text-purple-400 md:h-4 md:w-4" />
+                                                <span className="text-[10px] font-semibold tracking-wider text-purple-200 uppercase md:text-xs">
                                                     Visual Designer
                                                 </span>
                                             </div>
-                                            <h3 className="mb-3 md:mb-4 text-xl md:text-2xl lg:text-5xl font-bold text-white">
+                                            <h3 className="mb-3 text-xl font-bold text-white md:mb-4 md:text-2xl lg:text-5xl">
                                                 Design your schema
                                                 <br />
                                                 <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
                                                     visually
                                                 </span>
                                             </h3>
-                                            <p className="max-w-2xl text-sm md:text-lg text-neutral-300">
+                                            <p className="max-w-2xl text-sm text-neutral-300 md:text-lg">
                                                 Drag models, drop fields,
                                                 connect relationships. Watch
                                                 your database come alive with
@@ -297,7 +229,7 @@ export default function BuilderLanding() {
                                         </div>
 
                                         {/* Animated Drag & Drop Demo */}
-                                        <div className="relative flex-1 overflow-hidden rounded-lg md:rounded-xl border border-purple-500/20 bg-neutral-950/50">
+                                        <div className="relative flex-1 overflow-hidden rounded-lg border border-purple-500/20 bg-neutral-950/50 md:rounded-xl">
                                             <DragDropDemo />
                                         </div>
                                     </div>
@@ -312,31 +244,31 @@ export default function BuilderLanding() {
                                     transition={{ duration: 0.6, delay: 0.1 }}
                                     viewport={{ once: true }}
                                 >
-                                    <div className="glass-card group relative h-[550px] md:h-[600px] cursor-pointer overflow-hidden rounded-2xl md:rounded-3xl">
+                                    <div className="glass-card group relative h-[550px] cursor-pointer overflow-hidden rounded-2xl md:h-[600px] md:rounded-3xl">
                                         <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/20 to-teal-900/20 transition-all duration-500 group-hover:from-emerald-900/30 group-hover:to-teal-900/30" />
 
                                         <div className="relative flex h-full flex-col p-6 md:p-10">
                                             <div className="mb-4 md:mb-6">
-                                                <div className="mb-3 md:mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/20 px-2 md:px-3 py-1 md:py-1.5">
-                                                    <Code className="h-3 w-3 md:h-4 md:w-4 text-emerald-400" />
-                                                    <span className="text-[10px] md:text-xs font-semibold tracking-wider text-emerald-200 uppercase">
+                                                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/20 px-2 py-1 md:mb-6 md:px-3 md:py-1.5">
+                                                    <Code className="h-3 w-3 text-emerald-400 md:h-4 md:w-4" />
+                                                    <span className="text-[10px] font-semibold tracking-wider text-emerald-200 uppercase md:text-xs">
                                                         Code Generation
                                                     </span>
                                                 </div>
-                                                <h3 className="mb-3 md:mb-4 text-xl md:text-3xl lg:text-4xl font-bold text-white">
+                                                <h3 className="mb-3 text-xl font-bold text-white md:mb-4 md:text-3xl lg:text-4xl">
                                                     Production code
                                                     <br />
                                                     <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
                                                         instantly
                                                     </span>
                                                 </h3>
-                                                <p className="mb-4 md:mb-6 text-sm md:text-base text-neutral-300">
+                                                <p className="mb-4 text-sm text-neutral-300 md:mb-6 md:text-base">
                                                     Clean Laravel code following
                                                     best practices
                                                 </p>
                                             </div>
 
-                                            <div className="md:flex-1 overflow-hidden">
+                                            <div className="overflow-hidden md:flex-1">
                                                 <CodeGenerationDemo />
                                             </div>
                                         </div>
@@ -349,31 +281,31 @@ export default function BuilderLanding() {
                                     transition={{ duration: 0.6, delay: 0.2 }}
                                     viewport={{ once: true }}
                                 >
-                                    <div className="glass-card group relative h-auto min-h-[400px] md:h-[600px] cursor-pointer overflow-hidden rounded-2xl md:rounded-3xl">
+                                    <div className="glass-card group relative h-auto min-h-[400px] cursor-pointer overflow-hidden rounded-2xl md:h-[600px] md:rounded-3xl">
                                         <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 transition-all duration-500 group-hover:from-blue-900/30 group-hover:to-cyan-900/30" />
 
                                         <div className="relative flex h-full flex-col p-6 md:p-10">
                                             <div className="mb-4 md:mb-6">
-                                                <div className="mb-3 md:mb-6 inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/20 px-2 md:px-3 py-1 md:py-1.5">
-                                                    <Zap className="h-3 w-3 md:h-4 md:w-4 text-blue-400" />
-                                                    <span className="text-[10px] md:text-xs font-semibold tracking-wider text-blue-200 uppercase">
+                                                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/20 px-2 py-1 md:mb-6 md:px-3 md:py-1.5">
+                                                    <Zap className="h-3 w-3 text-blue-400 md:h-4 md:w-4" />
+                                                    <span className="text-[10px] font-semibold tracking-wider text-blue-200 uppercase md:text-xs">
                                                         Smart Validation
                                                     </span>
                                                 </div>
-                                                <h3 className="mb-3 md:mb-4 text-xl md:text-3xl lg:text-4xl font-bold text-white">
+                                                <h3 className="mb-3 text-xl font-bold text-white md:mb-4 md:text-3xl lg:text-4xl">
                                                     Powerful field
                                                     <br />
                                                     <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
                                                         validation
                                                     </span>
                                                 </h3>
-                                                <p className="text-sm md:text-base text-neutral-300">
+                                                <p className="text-sm text-neutral-300 md:text-base">
                                                     Complete Laravel validation
                                                     support with 60+ rules
                                                 </p>
                                             </div>
 
-                                            <div className="md:flex-1 overflow-hidden">
+                                            <div className="overflow-hidden md:flex-1">
                                                 <ValidationRuleDemo />
                                             </div>
                                         </div>
@@ -512,7 +444,7 @@ export default function BuilderLanding() {
                                 <motion.div
                                     whileHover={{ scale: 1.02 }}
                                     transition={{ duration: 0.3 }}
-                                    className="glass-card relative h-[420px] md:h-[600px] overflow-hidden p-6 md:p-8 md:order-2"
+                                    className="glass-card relative h-[420px] overflow-hidden p-6 md:order-2 md:h-[600px] md:p-8"
                                     style={{ willChange: 'transform' }}
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-blue-600/10" />
@@ -535,7 +467,7 @@ export default function BuilderLanding() {
                                 <motion.div
                                     whileHover={{ scale: 1.02 }}
                                     transition={{ duration: 0.3 }}
-                                    className="glass-card relative h-[420px] md:h-[600px] overflow-hidden p-6 md:p-8"
+                                    className="glass-card relative h-[420px] overflow-hidden p-6 md:h-[600px] md:p-8"
                                     style={{ willChange: 'transform' }}
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-cyan-600/10" />
@@ -727,7 +659,7 @@ export default function BuilderLanding() {
                                 <motion.div
                                     whileHover={{ scale: 1.02 }}
                                     transition={{ duration: 0.3 }}
-                                    className="glass-card relative order-1 h-[420px] md:h-[600px] overflow-hidden p-6 md:p-8 md:order-2"
+                                    className="glass-card relative order-1 h-[420px] overflow-hidden p-6 md:order-2 md:h-[600px] md:p-8"
                                     style={{ willChange: 'transform' }}
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/10 to-teal-600/10" />
@@ -1776,20 +1708,20 @@ export default function BuilderLanding() {
                 </section>
 
                 {/* Footer */}
-                <footer className="relative mt-16 md:mt-32 border-t border-purple-500/20 bg-neutral-950/80 backdrop-blur-lg">
+                <footer className="relative mt-16 border-t border-purple-500/20 bg-neutral-950/80 backdrop-blur-lg md:mt-32">
                     <div className="absolute inset-0 bg-gradient-to-b from-purple-950/20 via-neutral-950/50 to-neutral-950" />
 
                     <div className="relative container mx-auto max-w-7xl px-6 py-8 md:py-16">
-                        <div className="mb-8 md:mb-12 grid gap-8 md:gap-12 grid-cols-2 md:grid-cols-4">
+                        <div className="mb-8 grid grid-cols-2 gap-8 md:mb-12 md:grid-cols-4 md:gap-12">
                             {/* Brand Column - Full width on mobile */}
                             <div className="col-span-3 md:col-span-1">
-                                <div className="mb-3 md:mb-4 flex items-center gap-2">
-                                    <Box className="h-6 w-6 md:h-7 md:w-7 text-purple-500" />
-                                    <span className="text-lg md:text-xl font-bold text-white">
+                                <div className="mb-3 flex items-center gap-2 md:mb-4">
+                                    <Box className="h-6 w-6 text-purple-500 md:h-7 md:w-7" />
+                                    <span className="text-lg font-bold text-white md:text-xl">
                                         Genesis Builder
                                     </span>
                                 </div>
-                                <p className="mb-4 md:mb-6 text-xs md:text-sm leading-relaxed text-neutral-400">
+                                <p className="mb-4 text-xs leading-relaxed text-neutral-400 md:mb-6 md:text-sm">
                                     Visual Laravel schema builder for modern
                                     developers. Build faster, ship sooner.
                                 </p>
@@ -1798,18 +1730,18 @@ export default function BuilderLanding() {
                                         href="https://github.com"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="group flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-lg border border-neutral-700/50 bg-neutral-800/50 transition-all duration-300 hover:border-purple-500/50 hover:bg-purple-600/20"
+                                        className="group flex h-8 w-8 items-center justify-center rounded-lg border border-neutral-700/50 bg-neutral-800/50 transition-all duration-300 hover:border-purple-500/50 hover:bg-purple-600/20 md:h-10 md:w-10"
                                     >
-                                        <Github className="h-4 w-4 md:h-5 md:w-5 text-neutral-400 transition-colors group-hover:text-purple-400" />
+                                        <Github className="h-4 w-4 text-neutral-400 transition-colors group-hover:text-purple-400 md:h-5 md:w-5" />
                                     </a>
                                     <a
                                         href="https://twitter.com"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="group flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-lg border border-neutral-700/50 bg-neutral-800/50 transition-all duration-300 hover:border-purple-500/50 hover:bg-purple-600/20"
+                                        className="group flex h-8 w-8 items-center justify-center rounded-lg border border-neutral-700/50 bg-neutral-800/50 transition-all duration-300 hover:border-purple-500/50 hover:bg-purple-600/20 md:h-10 md:w-10"
                                     >
                                         <svg
-                                            className="h-4 w-4 md:h-5 md:w-5 text-neutral-400 transition-colors group-hover:text-purple-400"
+                                            className="h-4 w-4 text-neutral-400 transition-colors group-hover:text-purple-400 md:h-5 md:w-5"
                                             fill="currentColor"
                                             viewBox="0 0 24 24"
                                         >
@@ -1821,7 +1753,7 @@ export default function BuilderLanding() {
 
                             {/* Product Column */}
                             <div>
-                                <h4 className="mb-3 md:mb-4 text-xs md:text-sm font-semibold tracking-wider text-white uppercase">
+                                <h4 className="mb-3 text-xs font-semibold tracking-wider text-white uppercase md:mb-4 md:text-sm">
                                     Product
                                 </h4>
                                 <ul className="space-y-2 md:space-y-3">
@@ -1847,9 +1779,9 @@ export default function BuilderLanding() {
                                         <li key={i}>
                                             <a
                                                 href={link.href}
-                                                className="group flex items-center gap-2 text-xs md:text-sm text-neutral-400 transition-colors duration-200 hover:text-purple-400"
+                                                className="group flex items-center gap-2 text-xs text-neutral-400 transition-colors duration-200 hover:text-purple-400 md:text-sm"
                                             >
-                                                <span className="h-1 w-0 md:h-1.5 rounded-full bg-purple-500 transition-all duration-200 group-hover:w-1 md:group-hover:w-1.5" />
+                                                <span className="h-1 w-0 rounded-full bg-purple-500 transition-all duration-200 group-hover:w-1 md:h-1.5 md:group-hover:w-1.5" />
                                                 {link.label}
                                             </a>
                                         </li>
@@ -1859,7 +1791,7 @@ export default function BuilderLanding() {
 
                             {/* Resources Column */}
                             <div>
-                                <h4 className="mb-3 md:mb-4 text-xs md:text-sm font-semibold tracking-wider text-white uppercase">
+                                <h4 className="mb-3 text-xs font-semibold tracking-wider text-white uppercase md:mb-4 md:text-sm">
                                     Resources
                                 </h4>
                                 <ul className="space-y-2 md:space-y-3">
@@ -1879,9 +1811,9 @@ export default function BuilderLanding() {
                                         <li key={i}>
                                             <a
                                                 href={link.href}
-                                                className="group flex items-center gap-2 text-xs md:text-sm text-neutral-400 transition-colors duration-200 hover:text-purple-400"
+                                                className="group flex items-center gap-2 text-xs text-neutral-400 transition-colors duration-200 hover:text-purple-400 md:text-sm"
                                             >
-                                                <span className="h-1 w-0 md:h-1.5 rounded-full bg-purple-500 transition-all duration-200 group-hover:w-1 md:group-hover:w-1.5" />
+                                                <span className="h-1 w-0 rounded-full bg-purple-500 transition-all duration-200 group-hover:w-1 md:h-1.5 md:group-hover:w-1.5" />
                                                 {link.label}
                                             </a>
                                         </li>
@@ -1891,7 +1823,7 @@ export default function BuilderLanding() {
 
                             {/* Company Column */}
                             <div>
-                                <h4 className="mb-3 md:mb-4 text-xs md:text-sm font-semibold tracking-wider text-white uppercase">
+                                <h4 className="mb-3 text-xs font-semibold tracking-wider text-white uppercase md:mb-4 md:text-sm">
                                     Company
                                 </h4>
                                 <ul className="space-y-2 md:space-y-3">
@@ -1905,9 +1837,9 @@ export default function BuilderLanding() {
                                         <li key={i}>
                                             <a
                                                 href={link.href}
-                                                className="group flex items-center gap-2 text-xs md:text-sm text-neutral-400 transition-colors duration-200 hover:text-purple-400"
+                                                className="group flex items-center gap-2 text-xs text-neutral-400 transition-colors duration-200 hover:text-purple-400 md:text-sm"
                                             >
-                                                <span className="h-1 w-0 md:h-1.5 rounded-full bg-purple-500 transition-all duration-200 group-hover:w-1 md:group-hover:w-1.5" />
+                                                <span className="h-1 w-0 rounded-full bg-purple-500 transition-all duration-200 group-hover:w-1 md:h-1.5 md:group-hover:w-1.5" />
                                                 {link.label}
                                             </a>
                                         </li>
@@ -1918,8 +1850,8 @@ export default function BuilderLanding() {
 
                         {/* Footer Bottom */}
                         <div className="border-t border-neutral-800/50 pt-6 md:pt-8">
-                            <div className="flex flex-col items-center justify-between gap-3 md:gap-4 md:flex-row">
-                                <div className="text-xs md:text-sm text-neutral-400 text-center md:text-left">
+                            <div className="flex flex-col items-center justify-between gap-3 md:flex-row md:gap-4">
+                                <div className="text-center text-xs text-neutral-400 md:text-left md:text-sm">
                                     © {new Date().getFullYear()} Genesis
                                     Builder. Built with{' '}
                                     <span className="text-purple-400">
@@ -1932,13 +1864,13 @@ export default function BuilderLanding() {
                                 <div className="flex items-center gap-4 md:gap-6">
                                     <a
                                         href="/privacy"
-                                        className="text-xs md:text-sm text-neutral-400 transition-colors hover:text-purple-400"
+                                        className="text-xs text-neutral-400 transition-colors hover:text-purple-400 md:text-sm"
                                     >
                                         Privacy Policy
                                     </a>
                                     <a
                                         href="/terms"
-                                        className="text-xs md:text-sm text-neutral-400 transition-colors hover:text-purple-400"
+                                        className="text-xs text-neutral-400 transition-colors hover:text-purple-400 md:text-sm"
                                     >
                                         Terms of Service
                                     </a>
@@ -1957,7 +1889,7 @@ export default function BuilderLanding() {
 
 const AnimatedSchemaDemo = () => {
     return (
-        <div className="relative mx-auto h-[400px] md:h-[600px] w-full max-w-5xl overflow-hidden rounded-xl md:rounded-2xl border border-purple-500/20 bg-gradient-to-br from-neutral-950 via-purple-950/30 to-neutral-950 shadow-2xl backdrop-blur-xl">
+        <div className="relative mx-auto h-[400px] w-full max-w-5xl overflow-hidden rounded-xl border border-purple-500/20 bg-gradient-to-br from-neutral-950 via-purple-950/30 to-neutral-950 shadow-2xl backdrop-blur-xl md:h-[600px] md:rounded-2xl">
             {/* Animated Grid Background - ReactFlow style - LIGHTER ON MOBILE */}
             <div className="absolute inset-0 opacity-30 md:opacity-100">
                 <div
@@ -1983,9 +1915,9 @@ const AnimatedSchemaDemo = () => {
             </div>
 
             {/* Ambient light effects - SMALLER ON MOBILE */}
-            <div className="absolute top-0 left-1/4 w-0 h-0 md:w-96 md:h-96 animate-pulse rounded-full bg-purple-600/20 blur-3xl" />
+            <div className="absolute top-0 left-1/4 h-0 w-0 animate-pulse rounded-full bg-purple-600/20 blur-3xl md:h-96 md:w-96" />
             <div
-                className="absolute right-1/4 bottom-0 w-0 h-0 md:w-96 md:h-96 animate-pulse rounded-full bg-blue-600/20 blur-3xl"
+                className="absolute right-1/4 bottom-0 h-0 w-0 animate-pulse rounded-full bg-blue-600/20 blur-3xl md:h-96 md:w-96"
                 style={{ animationDelay: '1s' }}
             />
 
@@ -1994,30 +1926,30 @@ const AnimatedSchemaDemo = () => {
                 initial={{ x: -50, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.8, delay: 1 }}
-                className="group absolute top-12 md:top-32 left-3 md:left-20"
+                className="group absolute top-12 left-3 md:top-32 md:left-20"
             >
-                <div className="relative overflow-hidden rounded-lg md:rounded-xl border md:border-2 border-purple-400/50 bg-gradient-to-br from-purple-600/90 to-purple-700/90 shadow-lg md:shadow-2xl backdrop-blur-sm scale-100 md:scale-100 origin-top-left">
+                <div className="relative origin-top-left scale-100 overflow-hidden rounded-lg border border-purple-400/50 bg-gradient-to-br from-purple-600/90 to-purple-700/90 shadow-lg backdrop-blur-sm md:scale-100 md:rounded-xl md:border-2 md:shadow-2xl">
                     {/* Node header */}
-                    <div className="flex items-center gap-2 md:gap-3 border-b border-purple-400/30 bg-purple-700/50 px-3 md:px-6 py-2 md:py-3">
-                        <div className="flex h-6 w-6 md:h-8 md:w-8 items-center justify-center rounded-lg bg-purple-500/40">
-                            <Database className="h-3 w-3 md:h-4 md:w-4 text-white" />
+                    <div className="flex items-center gap-2 border-b border-purple-400/30 bg-purple-700/50 px-3 py-2 md:gap-3 md:px-6 md:py-3">
+                        <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-purple-500/40 md:h-8 md:w-8">
+                            <Database className="h-3 w-3 text-white md:h-4 md:w-4" />
                         </div>
-                        <span className="text-sm md:text-base font-bold text-white">
+                        <span className="text-sm font-bold text-white md:text-base">
                             User
                         </span>
                     </div>
                     {/* Node body */}
-                    <div className="space-y-1.5 md:space-y-2 px-3 md:px-6 py-2.5 md:py-4">
-                        <div className="flex items-center gap-2 text-[10px] md:text-xs text-purple-100">
-                            <div className="h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-green-400" />
+                    <div className="space-y-1.5 px-3 py-2.5 md:space-y-2 md:px-6 md:py-4">
+                        <div className="flex items-center gap-2 text-[10px] text-purple-100 md:text-xs">
+                            <div className="h-1.5 w-1.5 rounded-full bg-green-400 md:h-2 md:w-2" />
                             <span className="font-mono">id: integer</span>
                         </div>
-                        <div className="flex items-center gap-2 text-[10px] md:text-xs text-purple-100">
-                            <div className="h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-emerald-400" />
+                        <div className="flex items-center gap-2 text-[10px] text-purple-100 md:text-xs">
+                            <div className="h-1.5 w-1.5 rounded-full bg-emerald-400 md:h-2 md:w-2" />
                             <span className="font-mono">name: string</span>
                         </div>
-                        <div className="flex items-center gap-2 text-[10px] md:text-xs text-purple-100">
-                            <div className="h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-teal-400" />
+                        <div className="flex items-center gap-2 text-[10px] text-purple-100 md:text-xs">
+                            <div className="h-1.5 w-1.5 rounded-full bg-teal-400 md:h-2 md:w-2" />
                             <span className="font-mono">email: email</span>
                         </div>
                     </div>
@@ -2028,30 +1960,30 @@ const AnimatedSchemaDemo = () => {
                 initial={{ x: 50, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.8, delay: 1.2 }}
-                className="group absolute top-10 md:top-28 right-3 md:right-24"
+                className="group absolute top-10 right-3 md:top-28 md:right-24"
             >
-                <div className="relative overflow-hidden rounded-lg md:rounded-xl border md:border-2 border-blue-400/50 bg-gradient-to-br from-blue-600/90 to-blue-700/90 shadow-lg md:shadow-2xl backdrop-blur-sm scale-100 md:scale-100 origin-top-right">
+                <div className="relative origin-top-right scale-100 overflow-hidden rounded-lg border border-blue-400/50 bg-gradient-to-br from-blue-600/90 to-blue-700/90 shadow-lg backdrop-blur-sm md:scale-100 md:rounded-xl md:border-2 md:shadow-2xl">
                     {/* Node header */}
-                    <div className="flex items-center gap-2 md:gap-3 border-b border-blue-400/30 bg-blue-700/50 px-3 md:px-6 py-2 md:py-3">
-                        <div className="flex h-6 w-6 md:h-8 md:w-8 items-center justify-center rounded-lg bg-blue-500/40">
-                            <Database className="h-3 w-3 md:h-4 md:w-4 text-white" />
+                    <div className="flex items-center gap-2 border-b border-blue-400/30 bg-blue-700/50 px-3 py-2 md:gap-3 md:px-6 md:py-3">
+                        <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-blue-500/40 md:h-8 md:w-8">
+                            <Database className="h-3 w-3 text-white md:h-4 md:w-4" />
                         </div>
-                        <span className="text-sm md:text-base font-bold text-white">
+                        <span className="text-sm font-bold text-white md:text-base">
                             Post
                         </span>
                     </div>
                     {/* Node body */}
-                    <div className="space-y-1.5 md:space-y-2 px-3 md:px-6 py-2.5 md:py-4">
-                        <div className="flex items-center gap-2 text-[10px] md:text-xs text-blue-100">
-                            <div className="h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-orange-400" />
+                    <div className="space-y-1.5 px-3 py-2.5 md:space-y-2 md:px-6 md:py-4">
+                        <div className="flex items-center gap-2 text-[10px] text-blue-100 md:text-xs">
+                            <div className="h-1.5 w-1.5 rounded-full bg-orange-400 md:h-2 md:w-2" />
                             <span className="font-mono">title: string</span>
                         </div>
-                        <div className="flex items-center gap-2 text-[10px] md:text-xs text-blue-100">
-                            <div className="h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-yellow-400" />
+                        <div className="flex items-center gap-2 text-[10px] text-blue-100 md:text-xs">
+                            <div className="h-1.5 w-1.5 rounded-full bg-yellow-400 md:h-2 md:w-2" />
                             <span className="font-mono">content: text</span>
                         </div>
-                        <div className="flex items-center gap-2 text-[10px] md:text-xs text-blue-100">
-                            <div className="h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-purple-400" />
+                        <div className="flex items-center gap-2 text-[10px] text-blue-100 md:text-xs">
+                            <div className="h-1.5 w-1.5 rounded-full bg-purple-400 md:h-2 md:w-2" />
                             <span className="font-mono">user_id: integer</span>
                         </div>
                     </div>
@@ -2063,37 +1995,36 @@ const AnimatedSchemaDemo = () => {
                 initial={{ y: 50, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.8, delay: 1.4 }}
-                className="group absolute bottom-10 md:bottom-28 left-1/2 -translate-x-1/2"
+                className="group absolute bottom-10 left-1/2 -translate-x-1/2 md:bottom-28"
             >
-                <div className="relative overflow-hidden rounded-lg md:rounded-xl border md:border-2 border-cyan-400/50 bg-gradient-to-br from-cyan-600/90 to-cyan-700/90 shadow-lg md:shadow-2xl backdrop-blur-sm scale-100 md:scale-100">
+                <div className="relative scale-100 overflow-hidden rounded-lg border border-cyan-400/50 bg-gradient-to-br from-cyan-600/90 to-cyan-700/90 shadow-lg backdrop-blur-sm md:scale-100 md:rounded-xl md:border-2 md:shadow-2xl">
                     {/* Node header */}
-                    <div className="flex items-center gap-2 md:gap-3 border-b border-cyan-400/30 bg-cyan-700/50 px-3 md:px-6 py-2 md:py-3">
-                        <div className="flex h-6 w-6 md:h-8 md:w-8 items-center justify-center rounded-lg bg-cyan-500/40">
-                            <Database className="h-3 w-3 md:h-4 md:w-4 text-white" />
+                    <div className="flex items-center gap-2 border-b border-cyan-400/30 bg-cyan-700/50 px-3 py-2 md:gap-3 md:px-6 md:py-3">
+                        <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-cyan-500/40 md:h-8 md:w-8">
+                            <Database className="h-3 w-3 text-white md:h-4 md:w-4" />
                         </div>
-                        <span className="text-sm md:text-base font-bold text-white">
+                        <span className="text-sm font-bold text-white md:text-base">
                             Comment
                         </span>
                     </div>
                     {/* Node body */}
-                    <div className="space-y-1.5 md:space-y-2 px-3 md:px-6 py-2.5 md:py-4">
-                        <div className="flex items-center gap-2 text-[10px] md:text-xs text-cyan-100">
-                            <div className="h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-pink-400" />
+                    <div className="space-y-1.5 px-3 py-2.5 md:space-y-2 md:px-6 md:py-4">
+                        <div className="flex items-center gap-2 text-[10px] text-cyan-100 md:text-xs">
+                            <div className="h-1.5 w-1.5 rounded-full bg-pink-400 md:h-2 md:w-2" />
                             <span className="font-mono">body: text</span>
                         </div>
-                        <div className="flex items-center gap-2 text-[10px] md:text-xs text-cyan-100">
-                            <div className="h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-violet-400" />
+                        <div className="flex items-center gap-2 text-[10px] text-cyan-100 md:text-xs">
+                            <div className="h-1.5 w-1.5 rounded-full bg-violet-400 md:h-2 md:w-2" />
                             <span className="font-mono">rating: integer</span>
                         </div>
-                        <div className="flex items-center gap-2 text-[10px] md:text-xs text-cyan-100">
-                            <div className="h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-blue-400" />
+                        <div className="flex items-center gap-2 text-[10px] text-cyan-100 md:text-xs">
+                            <div className="h-1.5 w-1.5 rounded-full bg-blue-400 md:h-2 md:w-2" />
                             <span className="font-mono">post_id: integer</span>
                         </div>
                     </div>
                     {/* Connection handles - removed for simplicity */}
                 </div>
             </motion.div>
-
 
             {/* Mini toolbar - ReactFlow inspired */}
             <motion.div
@@ -2118,13 +2049,13 @@ const AnimatedSchemaDemo = () => {
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.6, delay: 3 }}
-                className="absolute right-2 md:right-6 bottom-2 md:bottom-6 h-16 w-20 md:h-24 md:w-32 rounded-md md:rounded-lg border border-purple-500/20 bg-neutral-900/90 p-1.5 md:p-2 shadow-xl backdrop-blur-xl"
+                className="absolute right-2 bottom-2 h-16 w-20 rounded-md border border-purple-500/20 bg-neutral-900/90 p-1.5 shadow-xl backdrop-blur-xl md:right-6 md:bottom-6 md:h-24 md:w-32 md:rounded-lg md:p-2"
             >
                 <div className="relative h-full w-full">
-                    <div className="absolute top-0.5 md:top-1 left-0.5 md:left-1 h-1.5 w-1.5 md:h-2 md:w-2 rounded-sm bg-purple-500" />
-                    <div className="absolute top-0.5 md:top-1 right-1 md:right-2 h-1.5 w-1.5 md:h-2 md:w-2 rounded-sm bg-blue-500" />
-                    <div className="absolute bottom-1 md:bottom-2 left-1/2 h-1.5 w-1.5 md:h-2 md:w-2 -translate-x-1/2 rounded-sm bg-cyan-500" />
-                    <div className="absolute inset-1 md:inset-2 rounded border border-purple-500/30" />
+                    <div className="absolute top-0.5 left-0.5 h-1.5 w-1.5 rounded-sm bg-purple-500 md:top-1 md:left-1 md:h-2 md:w-2" />
+                    <div className="absolute top-0.5 right-1 h-1.5 w-1.5 rounded-sm bg-blue-500 md:top-1 md:right-2 md:h-2 md:w-2" />
+                    <div className="absolute bottom-1 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-sm bg-cyan-500 md:bottom-2 md:h-2 md:w-2" />
+                    <div className="absolute inset-1 rounded border border-purple-500/30 md:inset-2" />
                 </div>
             </motion.div>
 
@@ -2133,11 +2064,13 @@ const AnimatedSchemaDemo = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 3.2 }}
-                className="absolute top-3 md:top-6 left-1/2 -translate-x-1/2 rounded-full border border-purple-500/20 bg-neutral-900/90 px-2 md:px-4 py-1 md:py-2 shadow-xl backdrop-blur-xl"
+                className="absolute top-3 left-1/2 -translate-x-1/2 rounded-full border border-purple-500/20 bg-neutral-900/90 px-2 py-1 shadow-xl backdrop-blur-xl md:top-6 md:px-4 md:py-2"
             >
-                <span className="flex items-center gap-1 md:gap-2 text-[10px] md:text-xs font-medium text-purple-300">
+                <span className="flex items-center gap-1 text-[10px] font-medium text-purple-300 md:gap-2 md:text-xs">
                     <Sparkles className="h-2.5 w-2.5 md:h-3 md:w-3" />
-                    <span className="hidden sm:inline">Drag to connect • Click to edit</span>
+                    <span className="hidden sm:inline">
+                        Drag to connect • Click to edit
+                    </span>
                     <span className="sm:hidden">Drag • Edit</span>
                 </span>
             </motion.div>
@@ -3954,14 +3887,14 @@ const CodeGenerationDemo = () => {
     }, []);
 
     return (
-        <div className="space-y-3 w-full overflow-hidden">
+        <div className="w-full space-y-3 overflow-hidden">
             {/* Tabs */}
             <div className="mb-3 flex flex-wrap items-center gap-2">
                 {codeExamples.map((example, index) => (
                     <button
                         key={index}
                         onClick={() => setActiveTab(index)}
-                        className={`flex items-center gap-2 rounded-lg px-2 md:px-3 py-1 md:py-1.5 text-[10px] md:text-xs font-medium transition-all duration-200 ${
+                        className={`flex items-center gap-2 rounded-lg px-2 py-1 text-[10px] font-medium transition-all duration-200 md:px-3 md:py-1.5 md:text-xs ${
                             activeTab === index
                                 ? 'border border-emerald-500/30 bg-emerald-600/30 text-emerald-200'
                                 : 'border border-transparent text-neutral-400 hover:text-neutral-300'
@@ -3979,17 +3912,19 @@ const CodeGenerationDemo = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                className="rounded-lg border border-emerald-500/20 bg-neutral-900/80 p-3 md:p-4 overflow-hidden"
+                className="overflow-hidden rounded-lg border border-emerald-500/20 bg-neutral-900/80 p-3 md:p-4"
             >
-                <div className="mb-2 md:mb-3 flex items-center gap-2 text-[10px] md:text-xs">
-                    <div className={`h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-emerald-400`} />
+                <div className="mb-2 flex items-center gap-2 text-[10px] md:mb-3 md:text-xs">
+                    <div
+                        className={`h-1.5 w-1.5 rounded-full bg-emerald-400 md:h-2 md:w-2`}
+                    />
                     <span
-                        className={`font-mono font-semibold truncate ${codeExamples[activeTab].color}`}
+                        className={`truncate font-mono font-semibold ${codeExamples[activeTab].color}`}
                     >
                         {codeExamples[activeTab].file}
                     </span>
                 </div>
-                <pre className="overflow-x-auto font-mono text-[9px] md:text-[11px] leading-relaxed max-w-full">
+                <pre className="max-w-full overflow-x-auto font-mono text-[9px] leading-relaxed md:text-[11px]">
                     <code
                         dangerouslySetInnerHTML={{
                             __html: codeExamples[activeTab].code,
@@ -3999,12 +3934,12 @@ const CodeGenerationDemo = () => {
             </motion.div>
 
             {/* Features badges */}
-            <div className="flex flex-wrap gap-1 md:gap-1.5 pt-1 md:pt-2">
+            <div className="flex flex-wrap gap-1 pt-1 md:gap-1.5 md:pt-2">
                 {['Type hints', 'Validation', 'PSR-12', 'Best practices'].map(
                     (item, i) => (
                         <span
                             key={i}
-                            className="rounded border border-emerald-500/30 bg-emerald-600/20 px-1.5 md:px-2 py-0.5 text-[9px] md:text-[10px] font-medium text-emerald-200"
+                            className="rounded border border-emerald-500/30 bg-emerald-600/20 px-1.5 py-0.5 text-[9px] font-medium text-emerald-200 md:px-2 md:text-[10px]"
                         >
                             {item}
                         </span>
@@ -4168,10 +4103,10 @@ const DragDropDemo = () => {
     }, []);
 
     return (
-        <div className="relative flex h-full gap-3 md:gap-6 p-3 md:p-6">
+        <div className="relative flex h-full gap-3 p-3 md:gap-6 md:p-6">
             {/* Field Types Palette */}
             <div className="flex w-1/3 flex-col gap-2 md:gap-3">
-                <div className="mb-0.5 md:mb-1 text-[10px] md:text-xs font-semibold tracking-wider text-neutral-400 uppercase">
+                <div className="mb-0.5 text-[10px] font-semibold tracking-wider text-neutral-400 uppercase md:mb-1 md:text-xs">
                     <span className="hidden md:inline">Field Types</span>
                     <span className="md:hidden">Fields</span>
                 </div>
@@ -4192,11 +4127,11 @@ const DragDropDemo = () => {
                                 : 1,
                         }}
                         transition={{ duration: 0.5, ease: 'easeInOut' }}
-                        className={`rounded-md md:rounded-lg px-2 md:px-4 py-2 md:py-3 ${field.color} flex cursor-move items-center gap-1 md:gap-2 shadow-lg`}
+                        className={`rounded-md px-2 py-2 md:rounded-lg md:px-4 md:py-3 ${field.color} flex cursor-move items-center gap-1 shadow-lg md:gap-2`}
                         style={{ willChange: 'transform' }}
                     >
-                        <div className="h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-white/80" />
-                        <span className="text-[10px] md:text-sm font-medium text-white">
+                        <div className="h-1.5 w-1.5 rounded-full bg-white/80 md:h-2 md:w-2" />
+                        <span className="text-[10px] font-medium text-white md:text-sm">
                             {field.name}: {field.type}
                         </span>
                     </motion.div>
@@ -4205,11 +4140,11 @@ const DragDropDemo = () => {
 
             {/* Drop Zone - Model Card */}
             <div className="relative flex-1">
-                <div className="absolute inset-0 rounded-lg md:rounded-xl border md:border-2 border-dashed border-purple-500/30 bg-gradient-to-br from-purple-900/30 to-blue-900/30">
+                <div className="absolute inset-0 rounded-lg border border-dashed border-purple-500/30 bg-gradient-to-br from-purple-900/30 to-blue-900/30 md:rounded-xl md:border-2">
                     <div className="p-2 md:p-4">
-                        <div className="mb-2 md:mb-4 flex items-center gap-2 md:gap-3 border-b border-purple-500/30 pb-2 md:pb-3">
-                            <Database className="h-3 w-3 md:h-5 md:w-5 text-purple-400" />
-                            <span className="text-xs md:text-base font-bold text-white">
+                        <div className="mb-2 flex items-center gap-2 border-b border-purple-500/30 pb-2 md:mb-4 md:gap-3 md:pb-3">
+                            <Database className="h-3 w-3 text-purple-400 md:h-5 md:w-5" />
+                            <span className="text-xs font-bold text-white md:text-base">
                                 User Model
                             </span>
                         </div>
@@ -4221,10 +4156,10 @@ const DragDropDemo = () => {
                                     initial={{ opacity: 0, scale: 0.8, y: -20 }}
                                     animate={{ opacity: 1, scale: 1, y: 0 }}
                                     transition={{ duration: 0.3, delay: 0.1 }}
-                                    className={`rounded-md md:rounded-lg px-2 md:px-4 py-2 md:py-3 ${field.color} flex items-center gap-1 md:gap-2 shadow-lg`}
+                                    className={`rounded-md px-2 py-2 md:rounded-lg md:px-4 md:py-3 ${field.color} flex items-center gap-1 shadow-lg md:gap-2`}
                                 >
-                                    <div className="h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-white/80" />
-                                    <span className="text-[10px] md:text-sm font-medium text-white">
+                                    <div className="h-1.5 w-1.5 rounded-full bg-white/80 md:h-2 md:w-2" />
+                                    <span className="text-[10px] font-medium text-white md:text-sm">
                                         {field.name}: {field.type}
                                     </span>
                                 </motion.div>
@@ -4235,10 +4170,10 @@ const DragDropDemo = () => {
                             <motion.div
                                 animate={{ opacity: [0.5, 0.8, 0.5] }}
                                 transition={{ duration: 2, repeat: Infinity }}
-                                className="py-6 md:py-12 text-center"
+                                className="py-6 text-center md:py-12"
                             >
-                                <Sparkles className="mx-auto mb-1 md:mb-2 h-5 w-5 md:h-8 md:w-8 text-purple-400/50" />
-                                <p className="text-[10px] md:text-sm text-purple-300/50">
+                                <Sparkles className="mx-auto mb-1 h-5 w-5 text-purple-400/50 md:mb-2 md:h-8 md:w-8" />
+                                <p className="text-[10px] text-purple-300/50 md:text-sm">
                                     Drag fields here
                                 </p>
                             </motion.div>
@@ -4259,7 +4194,7 @@ const DragDropDemo = () => {
                         top: '30%',
                     }}
                 >
-                    <div className="h-4 w-4 md:h-6 md:w-6 rounded-full bg-purple-500/50 blur-sm" />
+                    <div className="h-4 w-4 rounded-full bg-purple-500/50 blur-sm md:h-6 md:w-6" />
                 </motion.div>
             )}
         </div>
