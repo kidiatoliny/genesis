@@ -312,7 +312,7 @@ export default function BuilderLanding() {
                                     transition={{ duration: 0.6, delay: 0.1 }}
                                     viewport={{ once: true }}
                                 >
-                                    <div className="glass-card group relative h-auto min-h-[400px] md:h-[600px] cursor-pointer overflow-hidden rounded-2xl md:rounded-3xl">
+                                    <div className="glass-card group relative h-[550px] md:h-[600px] cursor-pointer overflow-hidden rounded-2xl md:rounded-3xl">
                                         <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/20 to-teal-900/20 transition-all duration-500 group-hover:from-emerald-900/30 group-hover:to-teal-900/30" />
 
                                         <div className="relative flex h-full flex-col p-6 md:p-10">
@@ -423,7 +423,7 @@ export default function BuilderLanding() {
                                             Design Phase
                                         </span>
                                     </div>
-                                    <h3 className="mb-6 text-4xl font-bold text-white">
+                                    <h3 className="mb-4 text-4xl font-bold text-white">
                                         Design Your Schema Visually
                                     </h3>
                                     <p className="mb-8 text-xl leading-relaxed text-neutral-300">
@@ -512,7 +512,7 @@ export default function BuilderLanding() {
                                 <motion.div
                                     whileHover={{ scale: 1.02 }}
                                     transition={{ duration: 0.3 }}
-                                    className="glass-card relative min-h-[400px] md:min-h-[600px] overflow-hidden p-6 md:p-8 md:order-2"
+                                    className="glass-card relative h-[420px] md:h-[600px] overflow-hidden p-6 md:p-8 md:order-2"
                                     style={{ willChange: 'transform' }}
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-blue-600/10" />
@@ -535,7 +535,7 @@ export default function BuilderLanding() {
                                 <motion.div
                                     whileHover={{ scale: 1.02 }}
                                     transition={{ duration: 0.3 }}
-                                    className="glass-card relative min-h-[400px] md:min-h-[600px] overflow-hidden p-6 md:p-8"
+                                    className="glass-card relative h-[420px] md:h-[600px] overflow-hidden p-6 md:p-8"
                                     style={{ willChange: 'transform' }}
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-cyan-600/10" />
@@ -727,7 +727,7 @@ export default function BuilderLanding() {
                                 <motion.div
                                     whileHover={{ scale: 1.02 }}
                                     transition={{ duration: 0.3 }}
-                                    className="glass-card relative order-1 min-h-[400px] md:min-h-[600px] overflow-hidden p-6 md:p-8 md:order-2"
+                                    className="glass-card relative order-1 h-[420px] md:h-[600px] overflow-hidden p-6 md:p-8 md:order-2"
                                     style={{ willChange: 'transform' }}
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/10 to-teal-600/10" />
@@ -2021,8 +2021,6 @@ const AnimatedSchemaDemo = () => {
                             <span className="font-mono">email: email</span>
                         </div>
                     </div>
-                    {/* Connection handles */}
-                    <div className="hidden md:block absolute top-1/2 -right-2 h-4 w-4 -translate-y-1/2 rounded-full border-2 border-purple-200 bg-purple-400 shadow-lg" />
                 </div>
             </motion.div>
 
@@ -2057,9 +2055,7 @@ const AnimatedSchemaDemo = () => {
                             <span className="font-mono">user_id: integer</span>
                         </div>
                     </div>
-                    {/* Connection handles */}
-                    <div className="hidden md:block absolute top-1/2 -left-2 h-4 w-4 -translate-y-1/2 rounded-full border-2 border-blue-200 bg-blue-400 shadow-lg" />
-                    <div className="hidden md:block absolute top-1/2 -right-2 h-4 w-4 -translate-y-1/2 rounded-full border-2 border-blue-200 bg-blue-400 shadow-lg" />
+                    {/* Connection handles - removed for simplicity */}
                 </div>
             </motion.div>
 
@@ -2094,122 +2090,10 @@ const AnimatedSchemaDemo = () => {
                             <span className="font-mono">post_id: integer</span>
                         </div>
                     </div>
-                    {/* Connection handles */}
-                    <div className="hidden md:block absolute top-1/2 -left-2 h-4 w-4 -translate-y-1/2 rounded-full border-2 border-cyan-200 bg-cyan-400 shadow-lg" />
-                    <div className="hidden md:block absolute -top-2 left-1/2 h-4 w-4 -translate-x-1/2 rounded-full border-2 border-cyan-200 bg-cyan-400 shadow-lg" />
+                    {/* Connection handles - removed for simplicity */}
                 </div>
             </motion.div>
 
-            {/* Connection Lines - ReactFlow style with better paths */}
-            <svg
-                className="pointer-events-none absolute inset-0 h-full w-full"
-                style={{ zIndex: 1 }}
-            >
-                <defs>
-                    <filter id="glow">
-                        <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-                        <feMerge>
-                            <feMergeNode in="coloredBlur" />
-                            <feMergeNode in="coloredBlur" />
-                            <feMergeNode in="SourceGraphic" />
-                        </feMerge>
-                    </filter>
-                    <marker
-                        id="arrowPurple"
-                        markerWidth="10"
-                        markerHeight="10"
-                        refX="9"
-                        refY="3"
-                        orient="auto"
-                        markerUnits="strokeWidth"
-                    >
-                        <path
-                            d="M0,0 L0,6 L9,3 z"
-                            fill="rgba(168, 85, 247, 0.8)"
-                        />
-                    </marker>
-                    <marker
-                        id="arrowBlue"
-                        markerWidth="10"
-                        markerHeight="10"
-                        refX="9"
-                        refY="3"
-                        orient="auto"
-                        markerUnits="strokeWidth"
-                    >
-                        <path
-                            d="M0,0 L0,6 L9,3 z"
-                            fill="rgba(59, 130, 246, 0.8)"
-                        />
-                    </marker>
-                </defs>
-
-                {/* User to Post - Responsive path */}
-                <motion.path
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 1 }}
-                    transition={{
-                        duration: 1.5,
-                        delay: 2.2,
-                        ease: 'easeInOut',
-                    }}
-                    d="M 210 190 L 620 190"
-                    className="hidden md:block"
-                    stroke="rgba(168, 85, 247, 0.6)"
-                    strokeWidth="3"
-                    fill="none"
-                    filter="url(#glow)"
-                    markerEnd="url(#arrowPurple)"
-                />
-                <motion.path
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 1 }}
-                    transition={{
-                        duration: 1.5,
-                        delay: 2.2,
-                        ease: 'easeInOut',
-                    }}
-                    d="M 120 110 L 200 100"
-                    className="md:hidden"
-                    stroke="rgba(168, 85, 247, 0.5)"
-                    strokeWidth="1.5"
-                    fill="none"
-                    markerEnd="url(#arrowPurple)"
-                />
-
-                {/* Post to Comment - Responsive path */}
-                <motion.path
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 1 }}
-                    transition={{
-                        duration: 1.5,
-                        delay: 2.4,
-                        ease: 'easeInOut',
-                    }}
-                    d="M 680 260 Q 680 340, 540 380"
-                    className="hidden md:block"
-                    stroke="rgba(59, 130, 246, 0.6)"
-                    strokeWidth="3"
-                    fill="none"
-                    filter="url(#glow)"
-                    markerEnd="url(#arrowBlue)"
-                />
-                <motion.path
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 1 }}
-                    transition={{
-                        duration: 1.5,
-                        delay: 2.4,
-                        ease: 'easeInOut',
-                    }}
-                    d="M 240 140 Q 220 200, 200 240"
-                    className="md:hidden"
-                    stroke="rgba(59, 130, 246, 0.5)"
-                    strokeWidth="1.5"
-                    fill="none"
-                    markerEnd="url(#arrowBlue)"
-                />
-            </svg>
 
             {/* Mini toolbar - ReactFlow inspired */}
             <motion.div
