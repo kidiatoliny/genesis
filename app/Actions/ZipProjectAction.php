@@ -25,7 +25,9 @@ final readonly class ZipProjectAction
         $zip = new ZipArchive();
 
         if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
+            // @codeCoverageIgnoreStart
             throw new RuntimeException('Cannot create zip file: '.$zipPath);
+            // @codeCoverageIgnoreEnd
         }
 
         $this->addFilesRecursive($zip, $projectPath, '');

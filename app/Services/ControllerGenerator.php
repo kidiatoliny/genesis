@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Enums\ProjectType;
-use App\Enums\ResponseType;
-use App\Enums\ViewEngine;
 
 final readonly class ControllerGenerator
 {
@@ -17,8 +15,6 @@ final readonly class ControllerGenerator
         string $modelVar,
         string $modelPlural,
         ProjectType $projectType,
-        ResponseType $responseType,
-        ?ViewEngine $viewEngine,
     ): string {
         return match (true) {
             $projectType === ProjectType::API_JSON => $this->generateApiJsonController($modelName, $modelVar, $modelPlural),

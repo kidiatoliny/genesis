@@ -20,9 +20,4 @@ final class ProjectBootstrapperProvider extends ServiceProvider
             ProjectBootstrapper::class
         );
     }
-
-    /**
-     * Bootstrap services.
-     */
-    public function boot(): void {}
 }

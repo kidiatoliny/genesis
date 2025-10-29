@@ -29,15 +29,11 @@ final readonly class TemplateEngine
      */
     public function renderFromFile(string $path, array $replacements): string
     {
-        if (! file_exists($path)) {
-            throw new InvalidArgumentException("Stub file not found: {$path}");
-        }
+        throw_unless(file_exists($path), InvalidArgumentException::class, "Stub file not found: {$path}");
 
         $stub = file_get_contents($path);
 
-        if ($stub === false) {
-            throw new RuntimeException("Failed to read stub file: {$path}");
-        }
+        throw_if($stub === false, RuntimeException::class, "Failed to read stub file: {$path}");
 
         return $this->render($stub, $replacements);
     }

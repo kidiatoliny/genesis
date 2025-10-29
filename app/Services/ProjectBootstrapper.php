@@ -37,9 +37,7 @@ final readonly class ProjectBootstrapper implements ProjectBootstrapperContract
             "git clone {$repository} {$projectPath}"
         );
 
-        if (! $result->successful()) {
-            throw new RuntimeException("Failed to clone repository: {$result->errorOutput()}");
-        }
+        throw_unless($result->successful(), RuntimeException::class, "Failed to clone repository: {$result->errorOutput()}");
     }
 
     private function removeGitDirectory(string $projectPath): void
@@ -48,9 +46,7 @@ final readonly class ProjectBootstrapper implements ProjectBootstrapperContract
             "rm -rf {$projectPath}/.git"
         );
 
-        if (! $result->successful()) {
-            throw new RuntimeException("Failed to remove .git directory: {$result->errorOutput()}");
-        }
+        throw_unless($result->successful(), RuntimeException::class, "Failed to remove .git directory: {$result->errorOutput()}");
     }
 
     private function copyEnvFile(string $projectPath): void
@@ -59,9 +55,7 @@ final readonly class ProjectBootstrapper implements ProjectBootstrapperContract
             "cp {$projectPath}/.env.example {$projectPath}/.env"
         );
 
-        if (! $result->successful()) {
-            throw new RuntimeException("Failed to copy .env file: {$result->errorOutput()}");
-        }
+        throw_unless($result->successful(), RuntimeException::class, "Failed to copy .env file: {$result->errorOutput()}");
     }
 
     private function composerInstall(string $projectPath): void
@@ -70,9 +64,7 @@ final readonly class ProjectBootstrapper implements ProjectBootstrapperContract
             'composer install --no-interaction'
         );
 
-        if (! $result->successful()) {
-            throw new RuntimeException("Failed to install composer dependencies: {$result->errorOutput()}");
-        }
+        throw_unless($result->successful(), RuntimeException::class, "Failed to install composer dependencies: {$result->errorOutput()}");
     }
 
     private function generateAppKey(string $projectPath): void
@@ -81,8 +73,6 @@ final readonly class ProjectBootstrapper implements ProjectBootstrapperContract
             'php artisan key:generate --no-interaction'
         );
 
-        if (! $result->successful()) {
-            throw new RuntimeException("Failed to generate app key: {$result->errorOutput()}");
-        }
+        throw_unless($result->successful(), RuntimeException::class, "Failed to generate app key: {$result->errorOutput()}");
     }
 }

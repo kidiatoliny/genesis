@@ -11,7 +11,7 @@ use App\Http\Requests\StoreSchemaRequest;
 use App\Models\Schema;
 use Inertia\Inertia;
 use Inertia\Response;
-use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 final readonly class SchemaController
 {
@@ -30,7 +30,7 @@ final readonly class SchemaController
 
     public function store(StoreSchemaRequest $request): Response
     {
-        $schema = $this->storeSchema->handle($request);
+        $this->storeSchema->handle($request);
 
         return Inertia::render('builder', [
             'schemas' => Schema::query()->latest()->get(),
@@ -38,7 +38,7 @@ final readonly class SchemaController
         ]);
     }
 
-    public function download(Schema $schema): StreamedResponse
+    public function download(Schema $schema): BinaryFileResponse
     {
         $generatedProject = $this->generateProject->handle($schema);
         $zipPath = $this->zipProject->handle($generatedProject);

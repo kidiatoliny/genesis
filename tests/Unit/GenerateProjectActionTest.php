@@ -18,7 +18,7 @@ use App\Services\RequestGenerator;
 use App\Services\RouteGenerator;
 use App\Services\TemplateEngine;
 
-it('generates project structure from schema', function () {
+it('generates project structure from schema', function (): void {
     $schema = Schema::factory()->create([
         'project_type' => 'web_inertia',
         'response_type' => 'inertia',
@@ -65,7 +65,7 @@ it('generates project structure from schema', function () {
         ->and($result['schemaName'])->toBe($schema->name);
 });
 
-it('throws error for invalid schema definition', function () {
+it('throws error for invalid schema definition', function (): void {
     $schema = Schema::factory()->create([
         'definition' => 'invalid json',
     ]);
@@ -92,5 +92,5 @@ it('throws error for invalid schema definition', function () {
         new GenerateRoutesAction($routeGenerator),
     );
 
-    expect(fn () => $action->handle($schema))->toThrow(InvalidArgumentException::class);
+    expect(fn (): array => $action->handle($schema))->toThrow(InvalidArgumentException::class);
 });

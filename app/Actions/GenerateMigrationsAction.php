@@ -29,7 +29,7 @@ final readonly class GenerateMigrationsAction
             $fields = $model['fields'] ?? [];
 
             $columns = collect($fields)
-                ->map(function (array $field) {
+                ->map(function (array $field): string {
                     $name = $field['name'];
                     $type = $field['type'] ?? 'string';
 

@@ -6,7 +6,7 @@ use App\Actions\StoreSchemaAction;
 use App\Http\Requests\StoreSchemaRequest;
 use App\Models\Schema;
 
-it('stores a schema with valid data', function () {
+it('stores a schema with valid data', function (): void {
     $request = new StoreSchemaRequest();
     $request->replace([
         'name' => 'Blog Schema',
@@ -35,7 +35,7 @@ it('stores a schema with valid data', function () {
     ]);
 });
 
-it('validates schema name is required', function () {
+it('validates schema name is required', function (): void {
     $request = new StoreSchemaRequest();
     $request->replace([
         'definition' => json_encode(['models' => []]),
@@ -46,7 +46,7 @@ it('validates schema name is required', function () {
     expect($rules['name'])->toContain('required');
 });
 
-it('validates definition is valid json', function () {
+it('validates definition is valid json', function (): void {
     $request = new StoreSchemaRequest();
     $request->replace([
         'name' => 'Test',

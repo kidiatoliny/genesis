@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
-use App\Services\TemplateEngine;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 final readonly class GenerateActionsAction
 {
-    public function __construct(private TemplateEngine $engine) {}
-
     /**
      * @param  array<string, mixed>  $definition
      */

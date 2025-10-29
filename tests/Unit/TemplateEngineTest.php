@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use App\Services\TemplateEngine;
 
-it('renders template with replacements', function () {
+it('renders template with replacements', function (): void {
     $engine = new TemplateEngine();
     $stub = 'Hello {{ name }}, you are {{ age }} years old';
 
@@ -16,7 +16,7 @@ it('renders template with replacements', function () {
     expect($result)->toBe('Hello John, you are 30 years old');
 });
 
-it('handles multiple spacing formats', function () {
+it('handles multiple spacing formats', function (): void {
     $engine = new TemplateEngine();
     $stub = 'Hello {{ name }}, welcome {{company}}';
 
@@ -28,7 +28,7 @@ it('handles multiple spacing formats', function () {
     expect($result)->toBe('Hello John, welcome Acme Corp');
 });
 
-it('renders from file', function () {
+it('renders from file', function (): void {
     $stubPath = base_path('stubs/model.stub');
     $engine = new TemplateEngine();
 
@@ -44,9 +44,9 @@ it('renders from file', function () {
         ->toContain("'content'");
 });
 
-it('throws error for non-existent file', function () {
+it('throws error for non-existent file', function (): void {
     $engine = new TemplateEngine();
 
-    expect(fn () => $engine->renderFromFile('/non/existent/file.stub', []))
+    expect(fn (): string => $engine->renderFromFile('/non/existent/file.stub', []))
         ->toThrow(InvalidArgumentException::class);
 });

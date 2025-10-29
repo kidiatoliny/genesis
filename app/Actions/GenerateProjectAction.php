@@ -6,9 +6,6 @@ namespace App\Actions;
 
 use App\Models\Schema;
 use App\Services\Contracts\ProjectBootstrapperContract;
-use App\Services\ControllerGenerator;
-use App\Services\RequestGenerator;
-use App\Services\TemplateEngine;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
@@ -16,9 +13,6 @@ final readonly class GenerateProjectAction
 {
     public function __construct(
         private ProjectBootstrapperContract $bootstrapper,
-        private TemplateEngine $engine,
-        private ControllerGenerator $controllerGenerator,
-        private RequestGenerator $requestGenerator,
         private GenerateModelsAction $generateModels,
         private GenerateMigrationsAction $generateMigrations,
         private GenerateControllersAction $generateControllers,
@@ -36,9 +30,7 @@ final readonly class GenerateProjectAction
     {
         $definition = json_decode($schema->definition, true);
 
-        if (! is_array($definition)) {
-            throw new InvalidArgumentException('Invalid schema definition');
-        }
+        throw_unless(is_array($definition), InvalidArgumentException::class, 'Invalid schema definition');
 
         $projectPath = storage_path('generated_projects/'.Str::random(16));
         $projectType = \App\Enums\ProjectType::from($schema->project_type);

@@ -29,3 +29,5 @@ yarn-error.log
 /tmp/
 
 storage/generated_projects/
+/storage/zips/
+/storage/framework/

@@ -41,9 +41,9 @@ final readonly class RequestGenerator
      */
     private function buildValidationRules(array $fields, bool $isCreate = true): string
     {
-        
+
         return collect($fields)
-            ->map(function (array $field) use ($isCreate) {
+            ->map(function (array $field) use ($isCreate): string {
                 $name = $field['name'];
                 $type = $field['type'] ?? 'string';
                 $required = $field['required'] ?? true;
