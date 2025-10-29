@@ -1,15 +1,15 @@
-import React, { useState, useRef } from 'react';
-import { Head, router, usePage, useForm } from '@inertiajs/react';
-import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
+import { FieldValidations } from '@/components/field-validations';
+import { NewSchemaModal } from '@/components/new-schema-modal';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
 import {
     Select,
     SelectContent,
@@ -17,22 +17,29 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import {
-    Checkbox,
-} from '@/components/ui/checkbox';
-import { Download, Plus, Save, Trash2, MoreVertical, GripVertical, Edit2, Grip, X } from 'lucide-react';
-import { NewSchemaModal } from '@/components/new-schema-modal';
-import { FieldValidations } from '@/components/field-validations';
+import { LARAVEL_VALIDATIONS } from '@/constants/laravel-validations';
+import AppLayout from '@/layouts/app-layout';
 import { useBuilderStore } from '@/stores/builder-store';
 import { useBuilderUIStore } from '@/stores/builder-ui-store';
-import { LARAVEL_VALIDATIONS } from '@/constants/laravel-validations';
-import { DndContext, DragEndEvent, DragStartEvent, MouseSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { type BreadcrumbItem } from '@/types';
+import {
+    DndContext,
+    DragEndEvent,
+    MouseSensor,
+    useSensor,
+    useSensors,
+} from '@dnd-kit/core';
+import { Head, router, useForm, usePage } from '@inertiajs/react';
+import {
+    Download,
+    Edit2,
+    MoreVertical,
+    Plus,
+    Save,
+    Trash2,
+    X,
+} from 'lucide-react';
+import React, { useRef, useState } from 'react';
 
 interface SavedSchema {
     id: number;
@@ -92,77 +99,288 @@ const VIEW_ENGINES = [
     { value: 'livewire', label: 'Livewire' },
 ];
 
-const FIELD_TYPE_COLORS: Record<string, { bg: string; text: string; border: string }> = {
-    string: { bg: 'bg-blue-600', text: 'text-white', border: 'border-blue-700' },
-    integer: { bg: 'bg-green-600', text: 'text-white', border: 'border-green-700' },
-    boolean: { bg: 'bg-purple-600', text: 'text-white', border: 'border-purple-700' },
-    text: { bg: 'bg-indigo-600', text: 'text-white', border: 'border-indigo-700' },
-    datetime: { bg: 'bg-rose-600', text: 'text-white', border: 'border-rose-700' },
-    date: { bg: 'bg-orange-600', text: 'text-white', border: 'border-orange-700' },
-    time: { bg: 'bg-yellow-600', text: 'text-white', border: 'border-yellow-700' },
+const FIELD_TYPE_COLORS: Record<
+    string,
+    { bg: string; text: string; border: string }
+> = {
+    string: {
+        bg: 'bg-blue-600',
+        text: 'text-white',
+        border: 'border-blue-700',
+    },
+    integer: {
+        bg: 'bg-green-600',
+        text: 'text-white',
+        border: 'border-green-700',
+    },
+    boolean: {
+        bg: 'bg-purple-600',
+        text: 'text-white',
+        border: 'border-purple-700',
+    },
+    text: {
+        bg: 'bg-indigo-600',
+        text: 'text-white',
+        border: 'border-indigo-700',
+    },
+    datetime: {
+        bg: 'bg-rose-600',
+        text: 'text-white',
+        border: 'border-rose-700',
+    },
+    date: {
+        bg: 'bg-orange-600',
+        text: 'text-white',
+        border: 'border-orange-700',
+    },
+    time: {
+        bg: 'bg-yellow-600',
+        text: 'text-white',
+        border: 'border-yellow-700',
+    },
     json: { bg: 'bg-cyan-600', text: 'text-white', border: 'border-cyan-700' },
     uuid: { bg: 'bg-teal-600', text: 'text-white', border: 'border-teal-700' },
-    email: { bg: 'bg-emerald-600', text: 'text-white', border: 'border-emerald-700' },
+    email: {
+        bg: 'bg-emerald-600',
+        text: 'text-white',
+        border: 'border-emerald-700',
+    },
     url: { bg: 'bg-sky-600', text: 'text-white', border: 'border-sky-700' },
-    enum: { bg: 'bg-violet-600', text: 'text-white', border: 'border-violet-700' },
-    decimal: { bg: 'bg-fuchsia-600', text: 'text-white', border: 'border-fuchsia-700' },
+    enum: {
+        bg: 'bg-violet-600',
+        text: 'text-white',
+        border: 'border-violet-700',
+    },
+    decimal: {
+        bg: 'bg-fuchsia-600',
+        text: 'text-white',
+        border: 'border-fuchsia-700',
+    },
     float: { bg: 'bg-pink-600', text: 'text-white', border: 'border-pink-700' },
 };
 
-const VALIDATION_COLORS: Record<string, { bg: string; text: string; border: string }> = {
+const VALIDATION_COLORS: Record<
+    string,
+    { bg: string; text: string; border: string }
+> = {
     // String validations
-    string: { bg: 'bg-blue-100 dark:bg-blue-900/30', text: 'text-blue-700 dark:text-blue-300', border: 'border-blue-300 dark:border-blue-700' },
-    min: { bg: 'bg-amber-100 dark:bg-amber-900/30', text: 'text-amber-700 dark:text-amber-300', border: 'border-amber-300 dark:border-amber-700' },
-    max: { bg: 'bg-amber-100 dark:bg-amber-900/30', text: 'text-amber-700 dark:text-amber-300', border: 'border-amber-300 dark:border-amber-700' },
-    email: { bg: 'bg-emerald-100 dark:bg-emerald-900/30', text: 'text-emerald-700 dark:text-emerald-300', border: 'border-emerald-300 dark:border-emerald-700' },
-    url: { bg: 'bg-sky-100 dark:bg-sky-900/30', text: 'text-sky-700 dark:text-sky-300', border: 'border-sky-300 dark:border-sky-700' },
+    string: {
+        bg: 'bg-blue-100 dark:bg-blue-900/30',
+        text: 'text-blue-700 dark:text-blue-300',
+        border: 'border-blue-300 dark:border-blue-700',
+    },
+    min: {
+        bg: 'bg-amber-100 dark:bg-amber-900/30',
+        text: 'text-amber-700 dark:text-amber-300',
+        border: 'border-amber-300 dark:border-amber-700',
+    },
+    max: {
+        bg: 'bg-amber-100 dark:bg-amber-900/30',
+        text: 'text-amber-700 dark:text-amber-300',
+        border: 'border-amber-300 dark:border-amber-700',
+    },
+    email: {
+        bg: 'bg-emerald-100 dark:bg-emerald-900/30',
+        text: 'text-emerald-700 dark:text-emerald-300',
+        border: 'border-emerald-300 dark:border-emerald-700',
+    },
+    url: {
+        bg: 'bg-sky-100 dark:bg-sky-900/30',
+        text: 'text-sky-700 dark:text-sky-300',
+        border: 'border-sky-300 dark:border-sky-700',
+    },
     // Numeric validations
-    integer: { bg: 'bg-green-100 dark:bg-green-900/30', text: 'text-green-700 dark:text-green-300', border: 'border-green-300 dark:border-green-700' },
-    numeric: { bg: 'bg-green-100 dark:bg-green-900/30', text: 'text-green-700 dark:text-green-300', border: 'border-green-300 dark:border-green-700' },
-    between: { bg: 'bg-lime-100 dark:bg-lime-900/30', text: 'text-lime-700 dark:text-lime-300', border: 'border-lime-300 dark:border-lime-700' },
-    gt: { bg: 'bg-lime-100 dark:bg-lime-900/30', text: 'text-lime-700 dark:text-lime-300', border: 'border-lime-300 dark:border-lime-700' },
-    gte: { bg: 'bg-lime-100 dark:bg-lime-900/30', text: 'text-lime-700 dark:text-lime-300', border: 'border-lime-300 dark:border-lime-700' },
-    lt: { bg: 'bg-lime-100 dark:bg-lime-900/30', text: 'text-lime-700 dark:text-lime-300', border: 'border-lime-300 dark:border-lime-700' },
-    lte: { bg: 'bg-lime-100 dark:bg-lime-900/30', text: 'text-lime-700 dark:text-lime-300', border: 'border-lime-300 dark:border-lime-700' },
+    integer: {
+        bg: 'bg-green-100 dark:bg-green-900/30',
+        text: 'text-green-700 dark:text-green-300',
+        border: 'border-green-300 dark:border-green-700',
+    },
+    numeric: {
+        bg: 'bg-green-100 dark:bg-green-900/30',
+        text: 'text-green-700 dark:text-green-300',
+        border: 'border-green-300 dark:border-green-700',
+    },
+    between: {
+        bg: 'bg-lime-100 dark:bg-lime-900/30',
+        text: 'text-lime-700 dark:text-lime-300',
+        border: 'border-lime-300 dark:border-lime-700',
+    },
+    gt: {
+        bg: 'bg-lime-100 dark:bg-lime-900/30',
+        text: 'text-lime-700 dark:text-lime-300',
+        border: 'border-lime-300 dark:border-lime-700',
+    },
+    gte: {
+        bg: 'bg-lime-100 dark:bg-lime-900/30',
+        text: 'text-lime-700 dark:text-lime-300',
+        border: 'border-lime-300 dark:border-lime-700',
+    },
+    lt: {
+        bg: 'bg-lime-100 dark:bg-lime-900/30',
+        text: 'text-lime-700 dark:text-lime-300',
+        border: 'border-lime-300 dark:border-lime-700',
+    },
+    lte: {
+        bg: 'bg-lime-100 dark:bg-lime-900/30',
+        text: 'text-lime-700 dark:text-lime-300',
+        border: 'border-lime-300 dark:border-lime-700',
+    },
     // Database validations
-    unique: { bg: 'bg-purple-100 dark:bg-purple-900/30', text: 'text-purple-700 dark:text-purple-300', border: 'border-purple-300 dark:border-purple-700' },
-    exists: { bg: 'bg-purple-100 dark:bg-purple-900/30', text: 'text-purple-700 dark:text-purple-300', border: 'border-purple-300 dark:border-purple-700' },
+    unique: {
+        bg: 'bg-purple-100 dark:bg-purple-900/30',
+        text: 'text-purple-700 dark:text-purple-300',
+        border: 'border-purple-300 dark:border-purple-700',
+    },
+    exists: {
+        bg: 'bg-purple-100 dark:bg-purple-900/30',
+        text: 'text-purple-700 dark:text-purple-300',
+        border: 'border-purple-300 dark:border-purple-700',
+    },
     // Date validations
-    date: { bg: 'bg-rose-100 dark:bg-rose-900/30', text: 'text-rose-700 dark:text-rose-300', border: 'border-rose-300 dark:border-rose-700' },
-    date_format: { bg: 'bg-rose-100 dark:bg-rose-900/30', text: 'text-rose-700 dark:text-rose-300', border: 'border-rose-300 dark:border-rose-700' },
-    before: { bg: 'bg-rose-100 dark:bg-rose-900/30', text: 'text-rose-700 dark:text-rose-300', border: 'border-rose-300 dark:border-rose-700' },
-    after: { bg: 'bg-rose-100 dark:bg-rose-900/30', text: 'text-rose-700 dark:text-rose-300', border: 'border-rose-300 dark:border-rose-700' },
+    date: {
+        bg: 'bg-rose-100 dark:bg-rose-900/30',
+        text: 'text-rose-700 dark:text-rose-300',
+        border: 'border-rose-300 dark:border-rose-700',
+    },
+    date_format: {
+        bg: 'bg-rose-100 dark:bg-rose-900/30',
+        text: 'text-rose-700 dark:text-rose-300',
+        border: 'border-rose-300 dark:border-rose-700',
+    },
+    before: {
+        bg: 'bg-rose-100 dark:bg-rose-900/30',
+        text: 'text-rose-700 dark:text-rose-300',
+        border: 'border-rose-300 dark:border-rose-700',
+    },
+    after: {
+        bg: 'bg-rose-100 dark:bg-rose-900/30',
+        text: 'text-rose-700 dark:text-rose-300',
+        border: 'border-rose-300 dark:border-rose-700',
+    },
     // Pattern & Enum
-    regex: { bg: 'bg-orange-100 dark:bg-orange-900/30', text: 'text-orange-700 dark:text-orange-300', border: 'border-orange-300 dark:border-orange-700' },
-    in: { bg: 'bg-cyan-100 dark:bg-cyan-900/30', text: 'text-cyan-700 dark:text-cyan-300', border: 'border-cyan-300 dark:border-cyan-700' },
-    not_in: { bg: 'bg-cyan-100 dark:bg-cyan-900/30', text: 'text-cyan-700 dark:text-cyan-300', border: 'border-cyan-300 dark:border-cyan-700' },
+    regex: {
+        bg: 'bg-orange-100 dark:bg-orange-900/30',
+        text: 'text-orange-700 dark:text-orange-300',
+        border: 'border-orange-300 dark:border-orange-700',
+    },
+    in: {
+        bg: 'bg-cyan-100 dark:bg-cyan-900/30',
+        text: 'text-cyan-700 dark:text-cyan-300',
+        border: 'border-cyan-300 dark:border-cyan-700',
+    },
+    not_in: {
+        bg: 'bg-cyan-100 dark:bg-cyan-900/30',
+        text: 'text-cyan-700 dark:text-cyan-300',
+        border: 'border-cyan-300 dark:border-cyan-700',
+    },
     // File validations
-    file: { bg: 'bg-indigo-100 dark:bg-indigo-900/30', text: 'text-indigo-700 dark:text-indigo-300', border: 'border-indigo-300 dark:border-indigo-700' },
-    mimes: { bg: 'bg-indigo-100 dark:bg-indigo-900/30', text: 'text-indigo-700 dark:text-indigo-300', border: 'border-indigo-300 dark:border-indigo-700' },
-    image: { bg: 'bg-indigo-100 dark:bg-indigo-900/30', text: 'text-indigo-700 dark:text-indigo-300', border: 'border-indigo-300 dark:border-indigo-700' },
+    file: {
+        bg: 'bg-indigo-100 dark:bg-indigo-900/30',
+        text: 'text-indigo-700 dark:text-indigo-300',
+        border: 'border-indigo-300 dark:border-indigo-700',
+    },
+    mimes: {
+        bg: 'bg-indigo-100 dark:bg-indigo-900/30',
+        text: 'text-indigo-700 dark:text-indigo-300',
+        border: 'border-indigo-300 dark:border-indigo-700',
+    },
+    image: {
+        bg: 'bg-indigo-100 dark:bg-indigo-900/30',
+        text: 'text-indigo-700 dark:text-indigo-300',
+        border: 'border-indigo-300 dark:border-indigo-700',
+    },
     // Other validations
-    json: { bg: 'bg-violet-100 dark:bg-violet-900/30', text: 'text-violet-700 dark:text-violet-300', border: 'border-violet-300 dark:border-violet-700' },
-    uuid: { bg: 'bg-teal-100 dark:bg-teal-900/30', text: 'text-teal-700 dark:text-teal-300', border: 'border-teal-300 dark:border-teal-700' },
-    boolean: { bg: 'bg-fuchsia-100 dark:bg-fuchsia-900/30', text: 'text-fuchsia-700 dark:text-fuchsia-300', border: 'border-fuchsia-300 dark:border-fuchsia-700' },
-    confirmed: { bg: 'bg-green-100 dark:bg-green-900/30', text: 'text-green-700 dark:text-green-300', border: 'border-green-300 dark:border-green-700' },
-    same: { bg: 'bg-pink-100 dark:bg-pink-900/30', text: 'text-pink-700 dark:text-pink-300', border: 'border-pink-300 dark:border-pink-700' },
-    different: { bg: 'bg-pink-100 dark:bg-pink-900/30', text: 'text-pink-700 dark:text-pink-300', border: 'border-pink-300 dark:border-pink-700' },
-    array: { bg: 'bg-red-100 dark:bg-red-900/30', text: 'text-red-700 dark:text-red-300', border: 'border-red-300 dark:border-red-700' },
-    list: { bg: 'bg-red-100 dark:bg-red-900/30', text: 'text-red-700 dark:text-red-300', border: 'border-red-300 dark:border-red-700' },
-    nullable: { bg: 'bg-gray-100 dark:bg-gray-900/30', text: 'text-gray-700 dark:text-gray-300', border: 'border-gray-300 dark:border-gray-700' },
-    filled: { bg: 'bg-gray-100 dark:bg-gray-900/30', text: 'text-gray-700 dark:text-gray-300', border: 'border-gray-300 dark:border-gray-700' },
-    distinct: { bg: 'bg-slate-100 dark:bg-slate-900/30', text: 'text-slate-700 dark:text-slate-300', border: 'border-slate-300 dark:border-slate-700' },
-    ip: { bg: 'bg-cyan-100 dark:bg-cyan-900/30', text: 'text-cyan-700 dark:text-cyan-300', border: 'border-cyan-300 dark:border-cyan-700' },
-    ipv4: { bg: 'bg-cyan-100 dark:bg-cyan-900/30', text: 'text-cyan-700 dark:text-cyan-300', border: 'border-cyan-300 dark:border-cyan-700' },
-    ipv6: { bg: 'bg-cyan-100 dark:bg-cyan-900/30', text: 'text-cyan-700 dark:text-cyan-300', border: 'border-cyan-300 dark:border-cyan-700' },
-    slug: { bg: 'bg-indigo-100 dark:bg-indigo-900/30', text: 'text-indigo-700 dark:text-indigo-300', border: 'border-indigo-300 dark:border-indigo-700' },
-    timezone: { bg: 'bg-orange-100 dark:bg-orange-900/30', text: 'text-orange-700 dark:text-orange-300', border: 'border-orange-300 dark:border-orange-700' },
+    json: {
+        bg: 'bg-violet-100 dark:bg-violet-900/30',
+        text: 'text-violet-700 dark:text-violet-300',
+        border: 'border-violet-300 dark:border-violet-700',
+    },
+    uuid: {
+        bg: 'bg-teal-100 dark:bg-teal-900/30',
+        text: 'text-teal-700 dark:text-teal-300',
+        border: 'border-teal-300 dark:border-teal-700',
+    },
+    boolean: {
+        bg: 'bg-fuchsia-100 dark:bg-fuchsia-900/30',
+        text: 'text-fuchsia-700 dark:text-fuchsia-300',
+        border: 'border-fuchsia-300 dark:border-fuchsia-700',
+    },
+    confirmed: {
+        bg: 'bg-green-100 dark:bg-green-900/30',
+        text: 'text-green-700 dark:text-green-300',
+        border: 'border-green-300 dark:border-green-700',
+    },
+    same: {
+        bg: 'bg-pink-100 dark:bg-pink-900/30',
+        text: 'text-pink-700 dark:text-pink-300',
+        border: 'border-pink-300 dark:border-pink-700',
+    },
+    different: {
+        bg: 'bg-pink-100 dark:bg-pink-900/30',
+        text: 'text-pink-700 dark:text-pink-300',
+        border: 'border-pink-300 dark:border-pink-700',
+    },
+    array: {
+        bg: 'bg-red-100 dark:bg-red-900/30',
+        text: 'text-red-700 dark:text-red-300',
+        border: 'border-red-300 dark:border-red-700',
+    },
+    list: {
+        bg: 'bg-red-100 dark:bg-red-900/30',
+        text: 'text-red-700 dark:text-red-300',
+        border: 'border-red-300 dark:border-red-700',
+    },
+    nullable: {
+        bg: 'bg-gray-100 dark:bg-gray-900/30',
+        text: 'text-gray-700 dark:text-gray-300',
+        border: 'border-gray-300 dark:border-gray-700',
+    },
+    filled: {
+        bg: 'bg-gray-100 dark:bg-gray-900/30',
+        text: 'text-gray-700 dark:text-gray-300',
+        border: 'border-gray-300 dark:border-gray-700',
+    },
+    distinct: {
+        bg: 'bg-slate-100 dark:bg-slate-900/30',
+        text: 'text-slate-700 dark:text-slate-300',
+        border: 'border-slate-300 dark:border-slate-700',
+    },
+    ip: {
+        bg: 'bg-cyan-100 dark:bg-cyan-900/30',
+        text: 'text-cyan-700 dark:text-cyan-300',
+        border: 'border-cyan-300 dark:border-cyan-700',
+    },
+    ipv4: {
+        bg: 'bg-cyan-100 dark:bg-cyan-900/30',
+        text: 'text-cyan-700 dark:text-cyan-300',
+        border: 'border-cyan-300 dark:border-cyan-700',
+    },
+    ipv6: {
+        bg: 'bg-cyan-100 dark:bg-cyan-900/30',
+        text: 'text-cyan-700 dark:text-cyan-300',
+        border: 'border-cyan-300 dark:border-cyan-700',
+    },
+    slug: {
+        bg: 'bg-indigo-100 dark:bg-indigo-900/30',
+        text: 'text-indigo-700 dark:text-indigo-300',
+        border: 'border-indigo-300 dark:border-indigo-700',
+    },
+    timezone: {
+        bg: 'bg-orange-100 dark:bg-orange-900/30',
+        text: 'text-orange-700 dark:text-orange-300',
+        border: 'border-orange-300 dark:border-orange-700',
+    },
 };
 
 const getValidationColor = (rule: string) => {
-    return VALIDATION_COLORS[rule] || { bg: 'bg-neutral-100 dark:bg-neutral-900/30', text: 'text-neutral-700 dark:text-neutral-300', border: 'border-neutral-300 dark:border-neutral-700' };
+    return (
+        VALIDATION_COLORS[rule] || {
+            bg: 'bg-neutral-100 dark:bg-neutral-900/30',
+            text: 'text-neutral-700 dark:text-neutral-300',
+            border: 'border-neutral-300 dark:border-neutral-700',
+        }
+    );
 };
-
 
 export default function Builder() {
     const { schemas, saved } = usePage<{
@@ -173,7 +391,9 @@ export default function Builder() {
     const [isNewModalOpen, setIsNewModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isFieldDetailsOpen, setIsFieldDetailsOpen] = useState(false);
-    const [fieldDetailsModelId, setFieldDetailsModelId] = useState<string | null>(null);
+    const [fieldDetailsModelId, setFieldDetailsModelId] = useState<
+        string | null
+    >(null);
 
     // Builder Data Store
     const {
@@ -235,7 +455,9 @@ export default function Builder() {
     const selectedField = schema?.models
         .flatMap((m) => m.fields.map((f) => ({ ...f, modelId: m.id })))
         .find((f) => f.id === selectedFieldId);
-    const fieldModelId = selectedField ? (selectedField as any).modelId : selectedModelId;
+    const fieldModelId = selectedField
+        ? (selectedField as any).modelId
+        : selectedModelId;
 
     const handleAddModel = () => {
         if (newModelName.trim()) {
@@ -255,7 +477,7 @@ export default function Builder() {
                 required: true,
             });
 
-            const model = schema?.models.find(m => m.id === selectedModelId);
+            const model = schema?.models.find((m) => m.id === selectedModelId);
             const fieldIndex = model?.fields.length || 0;
             initializeFieldPosition(selectedModelId, newFieldId, fieldIndex);
 
@@ -354,7 +576,9 @@ export default function Builder() {
                 <div className="flex h-full flex-col gap-4 rounded-xl bg-white dark:bg-neutral-900">
                     <div className="flex items-center justify-between border-b border-neutral-200 px-6 py-4 dark:border-neutral-800">
                         <div>
-                            <h1 className="text-2xl font-bold">Schema Builder</h1>
+                            <h1 className="text-2xl font-bold">
+                                Schema Builder
+                            </h1>
                             <p className="text-sm text-neutral-500">
                                 Create and manage your database schemas visually
                             </p>
@@ -384,9 +608,9 @@ export default function Builder() {
                                                 <CardTitle className="text-lg">
                                                     {schemaRecord.name}
                                                 </CardTitle>
-                                                <p className="text-xs text-neutral-400 mt-1">
+                                                <p className="mt-1 text-xs text-neutral-400">
                                                     {new Date(
-                                                        schemaRecord.created_at
+                                                        schemaRecord.created_at,
                                                     ).toLocaleDateString()}
                                                 </p>
                                             </div>
@@ -401,7 +625,9 @@ export default function Builder() {
                                         </CardHeader>
                                         <CardContent>
                                             <Button
-                                                onClick={() => handleDownload(schemaRecord)}
+                                                onClick={() =>
+                                                    handleDownload(schemaRecord)
+                                                }
                                                 className="w-full bg-purple-500 hover:bg-purple-600"
                                             >
                                                 <Download className="mr-2 h-4 w-4" />
@@ -414,7 +640,9 @@ export default function Builder() {
                         ) : (
                             <div className="flex flex-1 items-center justify-center">
                                 <div className="text-center">
-                                    <h2 className="text-lg font-semibold">No schemas yet</h2>
+                                    <h2 className="text-lg font-semibold">
+                                        No schemas yet
+                                    </h2>
                                     <p className="text-neutral-500">
                                         Create your first schema to get started
                                     </p>
@@ -439,7 +667,7 @@ export default function Builder() {
             activationConstraint: {
                 distance: 5,
             },
-        })
+        }),
     );
 
     const handleDragEnd = (event: DragEndEvent) => {
@@ -456,24 +684,45 @@ export default function Builder() {
                         <div>
                             <h2 className="text-xl font-bold">{schema.name}</h2>
                             <p className="text-sm text-neutral-500">
-                                {schema.models.length} models • {schema.models.reduce((sum, m) => sum + m.fields.length, 0)} fields
+                                {schema.models.length} models •{' '}
+                                {schema.models.reduce(
+                                    (sum, m) => sum + m.fields.length,
+                                    0,
+                                )}{' '}
+                                fields
                             </p>
                         </div>
-                        <div className="flex gap-2 items-center">
-                            <div className="flex gap-1 bg-neutral-100 dark:bg-neutral-800 rounded-lg p-1">
+                        <div className="flex items-center gap-2">
+                            <div className="flex gap-1 rounded-lg bg-neutral-100 p-1 dark:bg-neutral-800">
                                 <Button
                                     size="sm"
-                                    variant={viewMode === 'canvas' ? 'default' : 'outline'}
+                                    variant={
+                                        viewMode === 'canvas'
+                                            ? 'default'
+                                            : 'outline'
+                                    }
                                     onClick={() => setViewMode('canvas')}
-                                    className={viewMode === 'canvas' ? 'bg-purple-500 hover:bg-purple-600' : ''}
+                                    className={
+                                        viewMode === 'canvas'
+                                            ? 'bg-purple-500 hover:bg-purple-600'
+                                            : ''
+                                    }
                                 >
                                     Canvas
                                 </Button>
                                 <Button
                                     size="sm"
-                                    variant={viewMode === 'card' ? 'default' : 'outline'}
+                                    variant={
+                                        viewMode === 'card'
+                                            ? 'default'
+                                            : 'outline'
+                                    }
                                     onClick={() => setViewMode('card')}
-                                    className={viewMode === 'card' ? 'bg-purple-500 hover:bg-purple-600' : ''}
+                                    className={
+                                        viewMode === 'card'
+                                            ? 'bg-purple-500 hover:bg-purple-600'
+                                            : ''
+                                    }
                                 >
                                     Cards
                                 </Button>
@@ -507,37 +756,44 @@ export default function Builder() {
 
                 {/* Edit Schema Modal */}
                 {isEditModalOpen && (
-                    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
-                        <Card className="max-w-md w-full mx-4">
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                        <Card className="mx-4 w-full max-w-md">
                             <CardHeader>
                                 <CardTitle>Edit Schema</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium mb-2">
+                                    <label className="mb-2 block text-sm font-medium">
                                         Schema Name
                                     </label>
                                     <Input
                                         value={schema.name}
-                                        onChange={(e) => setSchemaName(e.target.value)}
+                                        onChange={(e) =>
+                                            setSchemaName(e.target.value)
+                                        }
                                         placeholder="e.g., Blog App"
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium mb-2">
+                                    <label className="mb-2 block text-sm font-medium">
                                         Project Type
                                     </label>
                                     <Select
                                         value={schema.projectType}
-                                        onValueChange={(value: any) => setProjectType(value)}
+                                        onValueChange={(value: any) =>
+                                            setProjectType(value)
+                                        }
                                     >
                                         <SelectTrigger>
                                             <SelectValue />
                                         </SelectTrigger>
                                         <SelectContent>
                                             {PROJECT_TYPES.map((type) => (
-                                                <SelectItem key={type.value} value={type.value}>
+                                                <SelectItem
+                                                    key={type.value}
+                                                    value={type.value}
+                                                >
                                                     {type.label}
                                                 </SelectItem>
                                             ))}
@@ -546,19 +802,24 @@ export default function Builder() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium mb-2">
+                                    <label className="mb-2 block text-sm font-medium">
                                         Response Type
                                     </label>
                                     <Select
                                         value={schema.responseType}
-                                        onValueChange={(value: any) => setResponseType(value)}
+                                        onValueChange={(value: any) =>
+                                            setResponseType(value)
+                                        }
                                     >
                                         <SelectTrigger>
                                             <SelectValue />
                                         </SelectTrigger>
                                         <SelectContent>
                                             {RESPONSE_TYPES.map((type) => (
-                                                <SelectItem key={type.value} value={type.value}>
+                                                <SelectItem
+                                                    key={type.value}
+                                                    value={type.value}
+                                                >
                                                     {type.label}
                                                 </SelectItem>
                                             ))}
@@ -567,19 +828,24 @@ export default function Builder() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium mb-2">
+                                    <label className="mb-2 block text-sm font-medium">
                                         View Engine
                                     </label>
                                     <Select
                                         value={schema.viewEngine}
-                                        onValueChange={(value: any) => setViewEngine(value)}
+                                        onValueChange={(value: any) =>
+                                            setViewEngine(value)
+                                        }
                                     >
                                         <SelectTrigger>
                                             <SelectValue />
                                         </SelectTrigger>
                                         <SelectContent>
                                             {VIEW_ENGINES.map((engine) => (
-                                                <SelectItem key={engine.value} value={engine.value}>
+                                                <SelectItem
+                                                    key={engine.value}
+                                                    value={engine.value}
+                                                >
                                                     {engine.label}
                                                 </SelectItem>
                                             ))}
@@ -600,487 +866,765 @@ export default function Builder() {
                     </div>
                 )}
 
-                <DndContext sensors={sensors} onDragEnd={handleDragEnd} className="flex flex-1">
+                <DndContext
+                    sensors={sensors}
+                    onDragEnd={handleDragEnd}
+                    className="flex flex-1"
+                >
                     {viewMode === 'canvas' ? (
-                    <div className="flex flex-1 gap-4 overflow-hidden px-6 py-4">
-                        {/* Left: Field Types & Validations Sidebar */}
-                        <Card className="w-40 flex flex-col h-full">
-                            <CardHeader>
-                                <CardTitle className="text-sm">Field Types</CardTitle>
-                            </CardHeader>
-                            <CardContent className="flex-1 space-y-2">
-                                {FIELD_TYPES.map((type) => {
-                                    const colors = FIELD_TYPE_COLORS[type] || FIELD_TYPE_COLORS.string;
-                                    return (
-                                    <div
-                                        key={type}
-                                        draggable
-                                        onDragStart={(e) => {
-                                            e.dataTransfer.effectAllowed = 'copy';
-                                            e.dataTransfer.setData('fieldType', type);
-                                        }}
-                                        className={`p-2 ${colors.bg} rounded cursor-move text-sm font-medium ${colors.text} hover:opacity-90 transition-opacity border ${colors.border}`}
-                                    >
-                                        {type}
-                                    </div>
-                                    );
-                                })}
-                            </CardContent>
-                        </Card>
-
-                        {/* Center: Models Canvas */}
-                        <div
-                            ref={canvasRef}
-                            className="flex-1 overflow-auto rounded-lg border border-neutral-200 bg-gradient-to-br from-neutral-50 to-neutral-100 dark:border-neutral-800 dark:from-neutral-900 dark:to-neutral-800 p-6 relative h-full"
-                            onDragOver={(e) => e.preventDefault()}
-                        >
-                            {schema.models.length === 0 ? (
-                                <div className="flex h-full items-center justify-center">
-                                    <div className="text-center">
-                                        <h2 className="text-lg font-semibold text-neutral-700 dark:text-neutral-300">
-                                            No models yet
-                                        </h2>
-                                        <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-2">
-                                            Add your first model using the button below
-                                        </p>
-                                    </div>
-                                </div>
-                            ) : (
-                                <>
-                                    {/* SVG para desenhar as linhas de conexão */}
-                                    <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 0 }}>
-                                        {schema.models.flatMap((model) => {
-                                            const modelPos = schema.modelPositions?.[model.id] || { x: 0, y: 0 };
-                                            const modelWidth = modelWidths[model.id] || 80;
-                                            const modelCenterX = modelPos.x + modelWidth / 2;
-                                            const modelCenterY = modelPos.y + 20;
-
-                                            return model.fields.map((field, index) => {
-                                                const fieldPos = schema.fieldPositions?.[field.id] || {
-                                                    x: modelPos.x + 450,
-                                                    y: modelPos.y + 30 + (index * 80)
-                                                };
-                                                const fieldCenterX = fieldPos.x + 40;
-                                                const fieldCenterY = fieldPos.y + 20;
-
-                                                return (
-                                                    <line
-                                                        key={`${model.id}-${field.id}`}
-                                                        x1={modelCenterX}
-                                                        y1={modelCenterY}
-                                                        x2={fieldCenterX}
-                                                        y2={fieldCenterY}
-                                                        stroke={selectedFieldId === field.id ? '#a855f7' : '#d1d5db'}
-                                                        strokeWidth={selectedFieldId === field.id ? '2' : '1'}
-                                                        strokeDasharray={selectedFieldId === field.id ? '0' : '5,5'}
-                                                    />
-                                                );
-                                            });
-                                        })}
-                                    </svg>
-
-                                    {/* Modelos */}
-                                    {schema.models.map((model, modelIndex) => {
-                                        const pos = schema.modelPositions?.[model.id] || { x: modelIndex * 450, y: 50 };
+                        <div className="flex flex-1 gap-4 overflow-hidden px-6 py-4">
+                            {/* Left: Field Types & Validations Sidebar */}
+                            <Card className="flex h-full w-40 flex-col">
+                                <CardHeader>
+                                    <CardTitle className="text-sm">
+                                        Field Types
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent className="flex-1 space-y-2">
+                                    {FIELD_TYPES.map((type) => {
+                                        const colors =
+                                            FIELD_TYPE_COLORS[type] ||
+                                            FIELD_TYPE_COLORS.string;
                                         return (
                                             <div
-                                                key={model.id}
-                                                className="absolute"
-                                                style={{
-                                                    left: `${pos.x}px`,
-                                                    top: `${pos.y}px`,
-                                                    zIndex: 10,
+                                                key={type}
+                                                draggable
+                                                onDragStart={(e) => {
+                                                    e.dataTransfer.effectAllowed =
+                                                        'copy';
+                                                    e.dataTransfer.setData(
+                                                        'fieldType',
+                                                        type,
+                                                    );
                                                 }}
-                                                onMouseDown={(e) => {
-                                                    if ((e.target as HTMLElement).closest('[class*="grip"], [class*="delete"]')) {
-                                                        return;
-                                                    }
-                                                    setDraggingModelId(model.id);
-                                                    setDragOffset({
-                                                        x: e.clientX - pos.x,
-                                                        y: e.clientY - pos.y,
-                                                    });
-                                                }}
+                                                className={`p-2 ${colors.bg} cursor-move rounded text-sm font-medium ${colors.text} border transition-opacity hover:opacity-90 ${colors.border}`}
                                             >
-                                                <div
-                                                ref={(el) => {
-                                                    if (el) {
-                                                        const width = el.offsetWidth;
-                                                        if (modelWidths[model.id] !== width) {
-                                                            setModelWidth(model.id, width);
-                                                        }
-                                                    }
-                                                }}
-                                                className={`cursor-grab active:cursor-grabbing border-2 rounded-lg px-3 py-2 transition-all w-fit ${
-                                                    selectedModelId === model.id
-                                                        ? 'border-purple-500 bg-purple-100 dark:bg-purple-900'
-                                                        : 'border-neutral-300 bg-neutral-50 dark:border-neutral-600 dark:bg-neutral-800'
-                                                }`}
-                                                onClick={() => selectModel(model.id)}
-                                                onDragOver={(e) => e.preventDefault()}
-                                                onDrop={(e) => {
-                                                    e.preventDefault();
-                                                    e.stopPropagation();
-                                                    const fieldType = e.dataTransfer.getData('fieldType');
-                                                    if (fieldType) {
-                                                        setDraggedFieldType(fieldType);
-                                                        setDragTargetModelId(model.id);
-                                                        setIsAddingField(true);
-                                                        setNewFieldType(fieldType);
-                                                    }
-                                                }}
-                                            >
-                                                <div className="flex items-center justify-between gap-2">
-                                                    <p className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 whitespace-nowrap">
-                                                        {model.name}
-                                                    </p>
-                                                    <DropdownMenu>
-                                                        <DropdownMenuTrigger asChild>
-                                                            <Button variant="ghost" size="sm" className="h-5 w-5 p-0" onClick={(e) => e.stopPropagation()}>
-                                                                <MoreVertical className="h-3 w-3" />
-                                                            </Button>
-                                                        </DropdownMenuTrigger>
-                                                        <DropdownMenuContent align="end">
-                                                            <DropdownMenuItem
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    deleteModel(model.id);
-                                                                }}
-                                                                className="text-red-600"
-                                                            >
-                                                                <Trash2 className="mr-2 h-4 w-4" />
-                                                                Delete
-                                                            </DropdownMenuItem>
-                                                        </DropdownMenuContent>
-                                                    </DropdownMenu>
-                                                </div>
-                                            </div>
+                                                {type}
                                             </div>
                                         );
                                     })}
+                                </CardContent>
+                            </Card>
 
-                                    {/* Nós dos campos */}
-                                    {schema.models.flatMap((model) => {
-                                        return model.fields.map((field, index) => {
-                                            const modelPos = schema.modelPositions?.[model.id] || { x: 0, y: 0 };
-                                            const fieldPos = schema.fieldPositions?.[field.id] || {
-                                                x: modelPos.x + 450,
-                                                y: modelPos.y + 30 + (index * 80)
-                                            };
-                                            return (
-                                                <div
-                                                    key={field.id}
-                                                    className="absolute"
-                                                    style={{
-                                                        left: `${fieldPos.x}px`,
-                                                        top: `${fieldPos.y}px`,
-                                                        zIndex: 20,
-                                                    }}
-                                                    onMouseDown={(e) => {
-                                                        setDraggingFieldId(field.id);
-                                                        setDragOffset({
-                                                            x: e.clientX - fieldPos.x,
-                                                            y: e.clientY - fieldPos.y,
-                                                        });
-                                                    }}
-                                                >
-                                                    <div
-                                                        onClick={() => selectField(field.id)}
-                                                        onDoubleClick={() => {
-                                                            selectField(field.id);
-                                                            selectModel(model.id);
-                                                            setFieldDetailsModelId(model.id);
-                                                            setIsFieldDetailsOpen(true);
-                                                        }}
-                                                        onDragOver={(e) => e.preventDefault()}
-                                                        onDrop={(e) => {
-                                                            e.preventDefault();
-                                                            e.stopPropagation();
-                                                            const validationData = e.dataTransfer.getData('validation');
-                                                            if (validationData) {
-                                                                try {
-                                                                    const validation = JSON.parse(validationData);
-                                                                    const currentValidations = field.validations || [];
-                                                                    const alreadyExists = currentValidations.some((v) => v.rule === validation.rule);
-                                                                    if (!alreadyExists) {
-                                                                        updateField(model.id, field.id, {
-                                                                            validations: [...currentValidations, { rule: validation.rule }],
-                                                                        });
-                                                                    }
-                                                                } catch (e) {
-                                                                    console.error('Error parsing validation data:', e);
-                                                                }
-                                                            }
-                                                        }}
-                                                        className={`cursor-grab active:cursor-grabbing h-10 px-3 rounded-full flex items-center justify-center text-xs font-medium transition-all border-2 ${
-                                                            selectedFieldId === field.id
-                                                                ? `${FIELD_TYPE_COLORS[field.type]?.bg || FIELD_TYPE_COLORS.string.bg} text-white shadow-lg border-2`
-                                                                : `${FIELD_TYPE_COLORS[field.type]?.bg || FIELD_TYPE_COLORS.string.bg} text-white hover:opacity-90 border-2 ${FIELD_TYPE_COLORS[field.type]?.border || FIELD_TYPE_COLORS.string.border}`
-                                                        }`}
-                                                        title={field.type}
-                                                    >
-                                                        <span className="text-center truncate">{field.name}</span>
-                                                    </div>
-                                                </div>
-                                            );
-                                        });
-                                    })}
-                                </>
-                            )}
-
-                            {/* Add Model FAB - Bottom Right */}
-                            {viewMode === 'canvas' && (
-                            <div className="absolute bottom-6 right-6">
-                                {!isAddingModel ? (
-                                    <Button
-                                        onClick={() => setIsAddingModel(true)}
-                                        className="rounded-full bg-purple-500 hover:bg-purple-600 shadow-lg h-14 w-14 p-0"
-                                    >
-                                        <Plus className="h-6 w-6" />
-                                    </Button>
-                                ) : (
-                                    <div className="flex flex-col gap-2 bg-white dark:bg-neutral-800 p-4 rounded-lg shadow-lg border border-neutral-200 dark:border-neutral-700 w-56">
-                                        <label className="text-sm font-medium">Model name</label>
-                                        <Input
-                                            placeholder="e.g., User"
-                                            value={newModelName}
-                                            onChange={(e) => setNewModelName(e.target.value)}
-                                            onKeyDown={(e) => {
-                                                if (e.key === 'Enter') {
-                                                    handleAddModel();
-                                                    setIsAddingModel(false);
-                                                }
-                                                if (e.key === 'Escape') setIsAddingModel(false);
-                                            }}
-                                            autoFocus
-                                            className="text-sm"
-                                        />
-                                        <div className="flex gap-2">
-                                            <Button
-                                                onClick={() => {
-                                                    handleAddModel();
-                                                    setIsAddingModel(false);
-                                                }}
-                                                className="flex-1 bg-purple-500 hover:bg-purple-600"
-                                                size="sm"
-                                            >
-                                                <Plus className="mr-2 h-4 w-4" />
-                                                Add
-                                            </Button>
-                                            <Button
-                                                onClick={() => {
-                                                    setIsAddingModel(false);
-                                                    setNewModelName('');
-                                                }}
-                                                variant="outline"
-                                                size="sm"
-                                                className="flex-1"
-                                            >
-                                                Cancel
-                                            </Button>
+                            {/* Center: Models Canvas */}
+                            <div
+                                ref={canvasRef}
+                                className="relative h-full flex-1 overflow-auto rounded-lg border border-neutral-200 bg-gradient-to-br from-neutral-50 to-neutral-100 p-6 dark:border-neutral-800 dark:from-neutral-900 dark:to-neutral-800"
+                                onDragOver={(e) => e.preventDefault()}
+                            >
+                                {schema.models.length === 0 ? (
+                                    <div className="flex h-full items-center justify-center">
+                                        <div className="text-center">
+                                            <h2 className="text-lg font-semibold text-neutral-700 dark:text-neutral-300">
+                                                No models yet
+                                            </h2>
+                                            <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
+                                                Add your first model using the
+                                                button below
+                                            </p>
                                         </div>
+                                    </div>
+                                ) : (
+                                    <>
+                                        {/* SVG para desenhar as linhas de conexão */}
+                                        <svg
+                                            className="pointer-events-none absolute inset-0 h-full w-full"
+                                            style={{ zIndex: 0 }}
+                                        >
+                                            {schema.models.flatMap((model) => {
+                                                const modelPos = schema
+                                                    .modelPositions?.[
+                                                    model.id
+                                                ] || { x: 0, y: 0 };
+                                                const modelWidth =
+                                                    modelWidths[model.id] || 80;
+                                                const modelCenterX =
+                                                    modelPos.x + modelWidth / 2;
+                                                const modelCenterY =
+                                                    modelPos.y + 20;
+
+                                                return model.fields.map(
+                                                    (field, index) => {
+                                                        const fieldPos = schema
+                                                            .fieldPositions?.[
+                                                            field.id
+                                                        ] || {
+                                                            x: modelPos.x + 450,
+                                                            y:
+                                                                modelPos.y +
+                                                                30 +
+                                                                index * 80,
+                                                        };
+                                                        const fieldCenterX =
+                                                            fieldPos.x + 40;
+                                                        const fieldCenterY =
+                                                            fieldPos.y + 20;
+
+                                                        return (
+                                                            <line
+                                                                key={`${model.id}-${field.id}`}
+                                                                x1={
+                                                                    modelCenterX
+                                                                }
+                                                                y1={
+                                                                    modelCenterY
+                                                                }
+                                                                x2={
+                                                                    fieldCenterX
+                                                                }
+                                                                y2={
+                                                                    fieldCenterY
+                                                                }
+                                                                stroke={
+                                                                    selectedFieldId ===
+                                                                    field.id
+                                                                        ? '#a855f7'
+                                                                        : '#d1d5db'
+                                                                }
+                                                                strokeWidth={
+                                                                    selectedFieldId ===
+                                                                    field.id
+                                                                        ? '2'
+                                                                        : '1'
+                                                                }
+                                                                strokeDasharray={
+                                                                    selectedFieldId ===
+                                                                    field.id
+                                                                        ? '0'
+                                                                        : '5,5'
+                                                                }
+                                                            />
+                                                        );
+                                                    },
+                                                );
+                                            })}
+                                        </svg>
+
+                                        {/* Modelos */}
+                                        {schema.models.map(
+                                            (model, modelIndex) => {
+                                                const pos = schema
+                                                    .modelPositions?.[
+                                                    model.id
+                                                ] || {
+                                                    x: modelIndex * 450,
+                                                    y: 50,
+                                                };
+                                                return (
+                                                    <div
+                                                        key={model.id}
+                                                        className="absolute"
+                                                        style={{
+                                                            left: `${pos.x}px`,
+                                                            top: `${pos.y}px`,
+                                                            zIndex: 10,
+                                                        }}
+                                                        onMouseDown={(e) => {
+                                                            if (
+                                                                (
+                                                                    e.target as HTMLElement
+                                                                ).closest(
+                                                                    '[class*="grip"], [class*="delete"]',
+                                                                )
+                                                            ) {
+                                                                return;
+                                                            }
+                                                            setDraggingModelId(
+                                                                model.id,
+                                                            );
+                                                            setDragOffset({
+                                                                x:
+                                                                    e.clientX -
+                                                                    pos.x,
+                                                                y:
+                                                                    e.clientY -
+                                                                    pos.y,
+                                                            });
+                                                        }}
+                                                    >
+                                                        <div
+                                                            ref={(el) => {
+                                                                if (el) {
+                                                                    const width =
+                                                                        el.offsetWidth;
+                                                                    if (
+                                                                        modelWidths[
+                                                                            model
+                                                                                .id
+                                                                        ] !==
+                                                                        width
+                                                                    ) {
+                                                                        setModelWidth(
+                                                                            model.id,
+                                                                            width,
+                                                                        );
+                                                                    }
+                                                                }
+                                                            }}
+                                                            className={`w-fit cursor-grab rounded-lg border-2 px-3 py-2 transition-all active:cursor-grabbing ${
+                                                                selectedModelId ===
+                                                                model.id
+                                                                    ? 'border-purple-500 bg-purple-100 dark:bg-purple-900'
+                                                                    : 'border-neutral-300 bg-neutral-50 dark:border-neutral-600 dark:bg-neutral-800'
+                                                            }`}
+                                                            onClick={() =>
+                                                                selectModel(
+                                                                    model.id,
+                                                                )
+                                                            }
+                                                            onDragOver={(e) =>
+                                                                e.preventDefault()
+                                                            }
+                                                            onDrop={(e) => {
+                                                                e.preventDefault();
+                                                                e.stopPropagation();
+                                                                const fieldType =
+                                                                    e.dataTransfer.getData(
+                                                                        'fieldType',
+                                                                    );
+                                                                if (fieldType) {
+                                                                    setDraggedFieldType(
+                                                                        fieldType,
+                                                                    );
+                                                                    setDragTargetModelId(
+                                                                        model.id,
+                                                                    );
+                                                                    setIsAddingField(
+                                                                        true,
+                                                                    );
+                                                                    setNewFieldType(
+                                                                        fieldType,
+                                                                    );
+                                                                }
+                                                            }}
+                                                        >
+                                                            <div className="flex items-center justify-between gap-2">
+                                                                <p className="text-sm font-semibold whitespace-nowrap text-neutral-900 dark:text-neutral-100">
+                                                                    {model.name}
+                                                                </p>
+                                                                <DropdownMenu>
+                                                                    <DropdownMenuTrigger
+                                                                        asChild
+                                                                    >
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            className="h-5 w-5 p-0"
+                                                                            onClick={(
+                                                                                e,
+                                                                            ) =>
+                                                                                e.stopPropagation()
+                                                                            }
+                                                                        >
+                                                                            <MoreVertical className="h-3 w-3" />
+                                                                        </Button>
+                                                                    </DropdownMenuTrigger>
+                                                                    <DropdownMenuContent align="end">
+                                                                        <DropdownMenuItem
+                                                                            onClick={(
+                                                                                e,
+                                                                            ) => {
+                                                                                e.stopPropagation();
+                                                                                deleteModel(
+                                                                                    model.id,
+                                                                                );
+                                                                            }}
+                                                                            className="text-red-600"
+                                                                        >
+                                                                            <Trash2 className="mr-2 h-4 w-4" />
+                                                                            Delete
+                                                                        </DropdownMenuItem>
+                                                                    </DropdownMenuContent>
+                                                                </DropdownMenu>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            },
+                                        )}
+
+                                        {/* Nós dos campos */}
+                                        {schema.models.flatMap((model) => {
+                                            return model.fields.map(
+                                                (field, index) => {
+                                                    const modelPos = schema
+                                                        .modelPositions?.[
+                                                        model.id
+                                                    ] || { x: 0, y: 0 };
+                                                    const fieldPos = schema
+                                                        .fieldPositions?.[
+                                                        field.id
+                                                    ] || {
+                                                        x: modelPos.x + 450,
+                                                        y:
+                                                            modelPos.y +
+                                                            30 +
+                                                            index * 80,
+                                                    };
+                                                    return (
+                                                        <div
+                                                            key={field.id}
+                                                            className="absolute"
+                                                            style={{
+                                                                left: `${fieldPos.x}px`,
+                                                                top: `${fieldPos.y}px`,
+                                                                zIndex: 20,
+                                                            }}
+                                                            onMouseDown={(
+                                                                e,
+                                                            ) => {
+                                                                setDraggingFieldId(
+                                                                    field.id,
+                                                                );
+                                                                setDragOffset({
+                                                                    x:
+                                                                        e.clientX -
+                                                                        fieldPos.x,
+                                                                    y:
+                                                                        e.clientY -
+                                                                        fieldPos.y,
+                                                                });
+                                                            }}
+                                                        >
+                                                            <div
+                                                                onClick={() =>
+                                                                    selectField(
+                                                                        field.id,
+                                                                    )
+                                                                }
+                                                                onDoubleClick={() => {
+                                                                    selectField(
+                                                                        field.id,
+                                                                    );
+                                                                    selectModel(
+                                                                        model.id,
+                                                                    );
+                                                                    setFieldDetailsModelId(
+                                                                        model.id,
+                                                                    );
+                                                                    setIsFieldDetailsOpen(
+                                                                        true,
+                                                                    );
+                                                                }}
+                                                                onDragOver={(
+                                                                    e,
+                                                                ) =>
+                                                                    e.preventDefault()
+                                                                }
+                                                                onDrop={(e) => {
+                                                                    e.preventDefault();
+                                                                    e.stopPropagation();
+                                                                    const validationData =
+                                                                        e.dataTransfer.getData(
+                                                                            'validation',
+                                                                        );
+                                                                    if (
+                                                                        validationData
+                                                                    ) {
+                                                                        try {
+                                                                            const validation =
+                                                                                JSON.parse(
+                                                                                    validationData,
+                                                                                );
+                                                                            const currentValidations =
+                                                                                field.validations ||
+                                                                                [];
+                                                                            const alreadyExists =
+                                                                                currentValidations.some(
+                                                                                    (
+                                                                                        v,
+                                                                                    ) =>
+                                                                                        v.rule ===
+                                                                                        validation.rule,
+                                                                                );
+                                                                            if (
+                                                                                !alreadyExists
+                                                                            ) {
+                                                                                updateField(
+                                                                                    model.id,
+                                                                                    field.id,
+                                                                                    {
+                                                                                        validations:
+                                                                                            [
+                                                                                                ...currentValidations,
+                                                                                                {
+                                                                                                    rule: validation.rule,
+                                                                                                },
+                                                                                            ],
+                                                                                    },
+                                                                                );
+                                                                            }
+                                                                        } catch (e) {
+                                                                            console.error(
+                                                                                'Error parsing validation data:',
+                                                                                e,
+                                                                            );
+                                                                        }
+                                                                    }
+                                                                }}
+                                                                className={`flex h-10 cursor-grab items-center justify-center rounded-full border-2 px-3 text-xs font-medium transition-all active:cursor-grabbing ${
+                                                                    selectedFieldId ===
+                                                                    field.id
+                                                                        ? `${FIELD_TYPE_COLORS[field.type]?.bg || FIELD_TYPE_COLORS.string.bg} border-2 text-white shadow-lg`
+                                                                        : `${FIELD_TYPE_COLORS[field.type]?.bg || FIELD_TYPE_COLORS.string.bg} border-2 text-white hover:opacity-90 ${FIELD_TYPE_COLORS[field.type]?.border || FIELD_TYPE_COLORS.string.border}`
+                                                                }`}
+                                                                title={
+                                                                    field.type
+                                                                }
+                                                            >
+                                                                <span className="truncate text-center">
+                                                                    {field.name}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                },
+                                            );
+                                        })}
+                                    </>
+                                )}
+
+                                {/* Add Model FAB - Bottom Right */}
+                                {viewMode === 'canvas' && (
+                                    <div className="absolute right-6 bottom-6">
+                                        {!isAddingModel ? (
+                                            <Button
+                                                onClick={() =>
+                                                    setIsAddingModel(true)
+                                                }
+                                                className="h-14 w-14 rounded-full bg-purple-500 p-0 shadow-lg hover:bg-purple-600"
+                                            >
+                                                <Plus className="h-6 w-6" />
+                                            </Button>
+                                        ) : (
+                                            <div className="flex w-56 flex-col gap-2 rounded-lg border border-neutral-200 bg-white p-4 shadow-lg dark:border-neutral-700 dark:bg-neutral-800">
+                                                <label className="text-sm font-medium">
+                                                    Model name
+                                                </label>
+                                                <Input
+                                                    placeholder="e.g., User"
+                                                    value={newModelName}
+                                                    onChange={(e) =>
+                                                        setNewModelName(
+                                                            e.target.value,
+                                                        )
+                                                    }
+                                                    onKeyDown={(e) => {
+                                                        if (e.key === 'Enter') {
+                                                            handleAddModel();
+                                                            setIsAddingModel(
+                                                                false,
+                                                            );
+                                                        }
+                                                        if (e.key === 'Escape')
+                                                            setIsAddingModel(
+                                                                false,
+                                                            );
+                                                    }}
+                                                    autoFocus
+                                                    className="text-sm"
+                                                />
+                                                <div className="flex gap-2">
+                                                    <Button
+                                                        onClick={() => {
+                                                            handleAddModel();
+                                                            setIsAddingModel(
+                                                                false,
+                                                            );
+                                                        }}
+                                                        className="flex-1 bg-purple-500 hover:bg-purple-600"
+                                                        size="sm"
+                                                    >
+                                                        <Plus className="mr-2 h-4 w-4" />
+                                                        Add
+                                                    </Button>
+                                                    <Button
+                                                        onClick={() => {
+                                                            setIsAddingModel(
+                                                                false,
+                                                            );
+                                                            setNewModelName('');
+                                                        }}
+                                                        variant="outline"
+                                                        size="sm"
+                                                        className="flex-1"
+                                                    >
+                                                        Cancel
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 )}
                             </div>
-                            )}
-                        </div>
 
-                        {/* Right: All Validations Sidebar */}
-                        <Card className="w-48 flex flex-col h-full">
-                            <CardHeader>
-                                <CardTitle className="text-sm">Validations</CardTitle>
-                            </CardHeader>
-                            <CardContent className="flex-1 space-y-2 overflow-y-auto">
-                                {LARAVEL_VALIDATIONS.map((validation) => {
-                                    const colors = getValidationColor(validation.rule);
-                                    return (
-                                        <div
-                                            key={validation.rule}
-                                            draggable
-                                            onDragStart={(e) => {
-                                                e.dataTransfer.effectAllowed = 'copy';
-                                                e.dataTransfer.setData('validation', JSON.stringify(validation));
-                                            }}
-                                            className={`p-2 rounded cursor-move text-xs font-medium transition-colors hover:opacity-90 border ${colors.bg} ${colors.text} ${colors.border}`}
-                                            title={validation.description}
-                                        >
-                                            {validation.rule}
-                                        </div>
-                                    );
-                                })}
-                            </CardContent>
-                        </Card>
-                    </div>
+                            {/* Right: All Validations Sidebar */}
+                            <Card className="flex h-full w-48 flex-col">
+                                <CardHeader>
+                                    <CardTitle className="text-sm">
+                                        Validations
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent className="flex-1 space-y-2 overflow-y-auto">
+                                    {LARAVEL_VALIDATIONS.map((validation) => {
+                                        const colors = getValidationColor(
+                                            validation.rule,
+                                        );
+                                        return (
+                                            <div
+                                                key={validation.rule}
+                                                draggable
+                                                onDragStart={(e) => {
+                                                    e.dataTransfer.effectAllowed =
+                                                        'copy';
+                                                    e.dataTransfer.setData(
+                                                        'validation',
+                                                        JSON.stringify(
+                                                            validation,
+                                                        ),
+                                                    );
+                                                }}
+                                                className={`cursor-move rounded border p-2 text-xs font-medium transition-colors hover:opacity-90 ${colors.bg} ${colors.text} ${colors.border}`}
+                                                title={validation.description}
+                                            >
+                                                {validation.rule}
+                                            </div>
+                                        );
+                                    })}
+                                </CardContent>
+                            </Card>
+                        </div>
                     ) : (
-                    <div className="flex-1 overflow-auto px-6 py-4 relative">
-                        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                            {schema.models.map((model) => (
-                                <Card key={model.id} className="flex flex-col">
-                                    <CardHeader>
-                                        <div className="flex items-center justify-between">
-                                            <CardTitle className="text-lg">{model.name}</CardTitle>
-                                            <DropdownMenu>
-                                                <DropdownMenuTrigger asChild>
-                                                    <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
-                                                        <MoreVertical className="h-4 w-4" />
-                                                    </Button>
-                                                </DropdownMenuTrigger>
-                                                <DropdownMenuContent align="end">
-                                                    <DropdownMenuItem
-                                                        onClick={() => deleteModel(model.id)}
-                                                        className="text-red-600"
+                        <div className="relative flex-1 overflow-auto px-6 py-4">
+                            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                                {schema.models.map((model) => (
+                                    <Card
+                                        key={model.id}
+                                        className="flex flex-col"
+                                    >
+                                        <CardHeader>
+                                            <div className="flex items-center justify-between">
+                                                <CardTitle className="text-lg">
+                                                    {model.name}
+                                                </CardTitle>
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger
+                                                        asChild
                                                     >
-                                                        <Trash2 className="mr-2 h-4 w-4" />
-                                                        Delete
-                                                    </DropdownMenuItem>
-                                                </DropdownMenuContent>
-                                            </DropdownMenu>
-                                        </div>
-                                    </CardHeader>
-                                    <CardContent className="flex-1 space-y-3">
-                                        <div>
-                                            <p className="text-xs font-medium text-neutral-500 mb-2">Fields</p>
-                                            {model.fields.length > 0 ? (
-                                                <div className="space-y-2">
-                                                    {model.fields.map((field) => (
-                                                        <div
-                                                            key={field.id}
-                                                            className={`flex items-center justify-between rounded-md border px-2 py-1.5 text-xs transition-colors cursor-pointer hover:opacity-90 ${
-                                                                selectedFieldId === field.id
-                                                                    ? `${FIELD_TYPE_COLORS[field.type]?.bg || FIELD_TYPE_COLORS.string.bg} text-white ring-2 ring-offset-1`
-                                                                    : `${FIELD_TYPE_COLORS[field.type]?.bg || FIELD_TYPE_COLORS.string.bg} text-white`
-                                                            }`}
-                                                            onClick={() => {
-                                                                selectModel(model.id);
-                                                                selectField(field.id);
-                                                                setFieldDetailsModelId(model.id);
-                                                                setIsFieldDetailsOpen(true);
-                                                            }}
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            className="h-6 w-6 p-0"
                                                         >
-                                                            <span>{field.name}</span>
-                                                            <Button
-                                                                variant="ghost"
-                                                                size="sm"
-                                                                className="h-4 w-4 p-0 ml-1 hover:bg-black/20"
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    deleteField(model.id, field.id);
-                                                                }}
-                                                            >
-                                                                <Trash2 className="h-3 w-3" />
-                                                            </Button>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            ) : (
-                                                <p className="text-xs text-neutral-400">No fields yet</p>
-                                            )}
-                                        </div>
-                                        <Button
-                                            variant="outline"
-                                            size="sm"
-                                            onClick={() => {
-                                                selectModel(model.id);
-                                                setIsAddingField(true);
-                                                setDragTargetModelId(model.id);
-                                            }}
-                                            className="w-full"
-                                        >
-                                            <Plus className="mr-2 h-4 w-4" />
-                                            Add Field
-                                        </Button>
-                                    </CardContent>
-                                </Card>
-                            ))}
-                            {schema.models.length === 0 && (
-                                <div className="col-span-full flex h-32 items-center justify-center">
-                                    <p className="text-neutral-500">No models yet</p>
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Add Model FAB - Bottom Right */}
-                        {viewMode === 'card' && (
-                        <div className="fixed bottom-6 right-6">
-                            {!isAddingModel ? (
-                                <Button
-                                    onClick={() => setIsAddingModel(true)}
-                                    className="rounded-full bg-purple-500 hover:bg-purple-600 shadow-lg h-14 w-14 p-0"
-                                >
-                                    <Plus className="h-6 w-6" />
-                                </Button>
-                            ) : (
-                                <div className="flex flex-col gap-2 bg-white dark:bg-neutral-800 p-4 rounded-lg shadow-lg border border-neutral-200 dark:border-neutral-700 w-56">
-                                    <label className="text-sm font-medium">Model name</label>
-                                    <Input
-                                        placeholder="e.g., User"
-                                        value={newModelName}
-                                        onChange={(e) => setNewModelName(e.target.value)}
-                                        onKeyDown={(e) => {
-                                            if (e.key === 'Enter') {
-                                                handleAddModel();
-                                                setIsAddingModel(false);
-                                            }
-                                            if (e.key === 'Escape') setIsAddingModel(false);
-                                        }}
-                                        autoFocus
-                                        className="text-sm"
-                                    />
-                                    <div className="flex gap-2">
-                                        <Button
-                                            onClick={() => {
-                                                handleAddModel();
-                                                setIsAddingModel(false);
-                                            }}
-                                            className="flex-1 bg-purple-500 hover:bg-purple-600"
-                                            size="sm"
-                                        >
-                                            <Plus className="mr-2 h-4 w-4" />
-                                            Add
-                                        </Button>
-                                        <Button
-                                            onClick={() => {
-                                                setIsAddingModel(false);
-                                                setNewModelName('');
-                                            }}
-                                            variant="outline"
-                                            size="sm"
-                                            className="flex-1"
-                                        >
-                                            Cancel
-                                        </Button>
+                                                            <MoreVertical className="h-4 w-4" />
+                                                        </Button>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent align="end">
+                                                        <DropdownMenuItem
+                                                            onClick={() =>
+                                                                deleteModel(
+                                                                    model.id,
+                                                                )
+                                                            }
+                                                            className="text-red-600"
+                                                        >
+                                                            <Trash2 className="mr-2 h-4 w-4" />
+                                                            Delete
+                                                        </DropdownMenuItem>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
+                                            </div>
+                                        </CardHeader>
+                                        <CardContent className="flex-1 space-y-3">
+                                            <div>
+                                                <p className="mb-2 text-xs font-medium text-neutral-500">
+                                                    Fields
+                                                </p>
+                                                {model.fields.length > 0 ? (
+                                                    <div className="space-y-2">
+                                                        {model.fields.map(
+                                                            (field) => (
+                                                                <div
+                                                                    key={
+                                                                        field.id
+                                                                    }
+                                                                    className={`flex cursor-pointer items-center justify-between rounded-md border px-2 py-1.5 text-xs transition-colors hover:opacity-90 ${
+                                                                        selectedFieldId ===
+                                                                        field.id
+                                                                            ? `${FIELD_TYPE_COLORS[field.type]?.bg || FIELD_TYPE_COLORS.string.bg} text-white ring-2 ring-offset-1`
+                                                                            : `${FIELD_TYPE_COLORS[field.type]?.bg || FIELD_TYPE_COLORS.string.bg} text-white`
+                                                                    }`}
+                                                                    onClick={() => {
+                                                                        selectModel(
+                                                                            model.id,
+                                                                        );
+                                                                        selectField(
+                                                                            field.id,
+                                                                        );
+                                                                        setFieldDetailsModelId(
+                                                                            model.id,
+                                                                        );
+                                                                        setIsFieldDetailsOpen(
+                                                                            true,
+                                                                        );
+                                                                    }}
+                                                                >
+                                                                    <span>
+                                                                        {
+                                                                            field.name
+                                                                        }
+                                                                    </span>
+                                                                    <Button
+                                                                        variant="ghost"
+                                                                        size="sm"
+                                                                        className="ml-1 h-4 w-4 p-0 hover:bg-black/20"
+                                                                        onClick={(
+                                                                            e,
+                                                                        ) => {
+                                                                            e.stopPropagation();
+                                                                            deleteField(
+                                                                                model.id,
+                                                                                field.id,
+                                                                            );
+                                                                        }}
+                                                                    >
+                                                                        <Trash2 className="h-3 w-3" />
+                                                                    </Button>
+                                                                </div>
+                                                            ),
+                                                        )}
+                                                    </div>
+                                                ) : (
+                                                    <p className="text-xs text-neutral-400">
+                                                        No fields yet
+                                                    </p>
+                                                )}
+                                            </div>
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => {
+                                                    selectModel(model.id);
+                                                    setIsAddingField(true);
+                                                    setDragTargetModelId(
+                                                        model.id,
+                                                    );
+                                                }}
+                                                className="w-full"
+                                            >
+                                                <Plus className="mr-2 h-4 w-4" />
+                                                Add Field
+                                            </Button>
+                                        </CardContent>
+                                    </Card>
+                                ))}
+                                {schema.models.length === 0 && (
+                                    <div className="col-span-full flex h-32 items-center justify-center">
+                                        <p className="text-neutral-500">
+                                            No models yet
+                                        </p>
                                     </div>
+                                )}
+                            </div>
+
+                            {/* Add Model FAB - Bottom Right */}
+                            {viewMode === 'card' && (
+                                <div className="fixed right-6 bottom-6">
+                                    {!isAddingModel ? (
+                                        <Button
+                                            onClick={() =>
+                                                setIsAddingModel(true)
+                                            }
+                                            className="h-14 w-14 rounded-full bg-purple-500 p-0 shadow-lg hover:bg-purple-600"
+                                        >
+                                            <Plus className="h-6 w-6" />
+                                        </Button>
+                                    ) : (
+                                        <div className="flex w-56 flex-col gap-2 rounded-lg border border-neutral-200 bg-white p-4 shadow-lg dark:border-neutral-700 dark:bg-neutral-800">
+                                            <label className="text-sm font-medium">
+                                                Model name
+                                            </label>
+                                            <Input
+                                                placeholder="e.g., User"
+                                                value={newModelName}
+                                                onChange={(e) =>
+                                                    setNewModelName(
+                                                        e.target.value,
+                                                    )
+                                                }
+                                                onKeyDown={(e) => {
+                                                    if (e.key === 'Enter') {
+                                                        handleAddModel();
+                                                        setIsAddingModel(false);
+                                                    }
+                                                    if (e.key === 'Escape')
+                                                        setIsAddingModel(false);
+                                                }}
+                                                autoFocus
+                                                className="text-sm"
+                                            />
+                                            <div className="flex gap-2">
+                                                <Button
+                                                    onClick={() => {
+                                                        handleAddModel();
+                                                        setIsAddingModel(false);
+                                                    }}
+                                                    className="flex-1 bg-purple-500 hover:bg-purple-600"
+                                                    size="sm"
+                                                >
+                                                    <Plus className="mr-2 h-4 w-4" />
+                                                    Add
+                                                </Button>
+                                                <Button
+                                                    onClick={() => {
+                                                        setIsAddingModel(false);
+                                                        setNewModelName('');
+                                                    }}
+                                                    variant="outline"
+                                                    size="sm"
+                                                    className="flex-1"
+                                                >
+                                                    Cancel
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             )}
                         </div>
-                        )}
-                    </div>
                     )}
                 </DndContext>
 
                 {/* Add Field Modal */}
                 {isAddingField && dragTargetModelId && (
-                    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
-                        <Card className="max-w-md w-full mx-4">
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                        <Card className="mx-4 w-full max-w-md">
                             <CardHeader>
                                 <CardTitle>Add Field</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium mb-2">
-                                        Field Name <span className="text-red-500">*</span>
+                                    <label className="mb-2 block text-sm font-medium">
+                                        Field Name{' '}
+                                        <span className="text-red-500">*</span>
                                     </label>
                                     <Input
                                         placeholder="e.g., title"
                                         value={newFieldName}
                                         onChange={(e) => {
                                             setNewFieldName(e.target.value);
-                                            if (fieldNameError && e.target.value.trim()) {
+                                            if (
+                                                fieldNameError &&
+                                                e.target.value.trim()
+                                            ) {
                                                 setFieldNameError(false);
                                             }
                                         }}
                                         onKeyDown={(e) => {
-                                            if (e.key === 'Enter' && newFieldName.trim()) {
+                                            if (
+                                                e.key === 'Enter' &&
+                                                newFieldName.trim()
+                                            ) {
                                                 addField(dragTargetModelId, {
                                                     name: newFieldName,
                                                     type: newFieldType,
@@ -1094,15 +1638,21 @@ export default function Builder() {
                                             }
                                         }}
                                         autoFocus
-                                        className={fieldNameError ? 'border-red-500' : ''}
+                                        className={
+                                            fieldNameError
+                                                ? 'border-red-500'
+                                                : ''
+                                        }
                                     />
                                     {fieldNameError && (
-                                        <p className="text-xs text-red-500 mt-1">Field name is required</p>
+                                        <p className="mt-1 text-xs text-red-500">
+                                            Field name is required
+                                        </p>
                                     )}
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium mb-2">
+                                    <label className="mb-2 block text-sm font-medium">
                                         Field Type
                                     </label>
                                     <Select
@@ -1114,7 +1664,10 @@ export default function Builder() {
                                         </SelectTrigger>
                                         <SelectContent>
                                             {FIELD_TYPES.map((type) => (
-                                                <SelectItem key={type} value={type}>
+                                                <SelectItem
+                                                    key={type}
+                                                    value={type}
+                                                >
                                                     {type}
                                                 </SelectItem>
                                             ))}
@@ -1123,10 +1676,13 @@ export default function Builder() {
                                 </div>
 
                                 <div className="flex items-center space-x-2">
-                                    <Checkbox id="required" defaultChecked={true} />
+                                    <Checkbox
+                                        id="required"
+                                        defaultChecked={true}
+                                    />
                                     <label
                                         htmlFor="required"
-                                        className="text-sm font-medium cursor-pointer"
+                                        className="cursor-pointer text-sm font-medium"
                                     >
                                         Required
                                     </label>
@@ -1172,27 +1728,44 @@ export default function Builder() {
                 )}
 
                 {/* Field Details Modal - Card View */}
-                {isFieldDetailsOpen && selectedField && fieldDetailsModelId && selectedFieldId && viewMode === 'card' ? (
-                    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-                        <Card className="max-w-3xl w-full h-[90vh] flex flex-col shadow-2xl rounded-xl">
-                            <CardHeader className="border-b border-neutral-200 dark:border-neutral-700 px-6 py-2.5">
+                {isFieldDetailsOpen &&
+                selectedField &&
+                fieldDetailsModelId &&
+                selectedFieldId &&
+                viewMode === 'card' ? (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+                        <Card className="flex h-[90vh] w-full max-w-3xl flex-col rounded-xl shadow-2xl">
+                            <CardHeader className="border-b border-neutral-200 px-6 py-2.5 dark:border-neutral-700">
                                 <div className="flex items-center justify-between gap-3">
-                                    <div className="flex items-center gap-2.5 flex-1 min-w-0">
-                                        <div className={`p-1.5 rounded flex-shrink-0 ${FIELD_TYPE_COLORS[selectedField.type]?.bg || FIELD_TYPE_COLORS.string.bg}`}>
-                                            <span className="text-xs font-bold text-white">{selectedField.type.charAt(0).toUpperCase()}</span>
+                                    <div className="flex min-w-0 flex-1 items-center gap-2.5">
+                                        <div
+                                            className={`flex-shrink-0 rounded p-1.5 ${FIELD_TYPE_COLORS[selectedField.type]?.bg || FIELD_TYPE_COLORS.string.bg}`}
+                                        >
+                                            <span className="text-xs font-bold text-white">
+                                                {selectedField.type
+                                                    .charAt(0)
+                                                    .toUpperCase()}
+                                            </span>
                                         </div>
                                         <div className="min-w-0 flex-1">
-                                            <CardTitle className="text-sm font-bold truncate">{selectedField.name}</CardTitle>
-                                            <p className="text-xs text-neutral-500 dark:text-neutral-400">{selectedField.type}</p>
+                                            <CardTitle className="truncate text-sm font-bold">
+                                                {selectedField.name}
+                                            </CardTitle>
+                                            <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                                                {selectedField.type}
+                                            </p>
                                         </div>
                                     </div>
-                                    <div className="flex items-center gap-1 flex-shrink-0">
+                                    <div className="flex flex-shrink-0 items-center gap-1">
                                         <Button
                                             variant="ghost"
                                             size="sm"
                                             className="h-8 w-8 p-0 hover:bg-red-100 hover:text-red-600 dark:hover:bg-red-900/30"
                                             onClick={() =>
-                                                deleteField(fieldDetailsModelId, selectedFieldId)
+                                                deleteField(
+                                                    fieldDetailsModelId,
+                                                    selectedFieldId,
+                                                )
                                             }
                                             title="Delete field"
                                         >
@@ -1202,7 +1775,9 @@ export default function Builder() {
                                             variant="ghost"
                                             size="sm"
                                             className="h-8 w-8 p-0 hover:bg-neutral-200 dark:hover:bg-neutral-700"
-                                            onClick={() => setIsFieldDetailsOpen(false)}
+                                            onClick={() =>
+                                                setIsFieldDetailsOpen(false)
+                                            }
                                             title="Close"
                                         >
                                             <X className="h-4 w-4" />
@@ -1210,40 +1785,51 @@ export default function Builder() {
                                     </div>
                                 </div>
                             </CardHeader>
-                            <CardContent className="flex-1 overflow-y-auto p-6 space-y-6">
+                            <CardContent className="flex-1 space-y-6 overflow-y-auto p-6">
                                 {/* Basic Information Section */}
                                 <div className="space-y-4">
-                                    <div className="flex items-center gap-2 mb-4">
+                                    <div className="mb-4 flex items-center gap-2">
                                         <div className="h-1 w-1 rounded-full bg-purple-500"></div>
-                                        <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Basic Information</h3>
+                                        <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+                                            Basic Information
+                                        </h3>
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-2 uppercase tracking-wide">
+                                            <label className="mb-2 block text-xs font-semibold tracking-wide text-neutral-700 uppercase dark:text-neutral-300">
                                                 Field Name
                                             </label>
                                             <Input
                                                 value={selectedField.name}
                                                 onChange={(e) =>
-                                                    updateField(fieldDetailsModelId, selectedFieldId, {
-                                                        name: e.target.value,
-                                                    })
+                                                    updateField(
+                                                        fieldDetailsModelId,
+                                                        selectedFieldId,
+                                                        {
+                                                            name: e.target
+                                                                .value,
+                                                        },
+                                                    )
                                                 }
-                                                className="text-sm h-9 bg-neutral-50 dark:bg-neutral-800"
+                                                className="h-9 bg-neutral-50 text-sm dark:bg-neutral-800"
                                                 placeholder="e.g., title"
                                             />
                                         </div>
 
                                         <div>
-                                            <label className="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-2 uppercase tracking-wide">
+                                            <label className="mb-2 block text-xs font-semibold tracking-wide text-neutral-700 uppercase dark:text-neutral-300">
                                                 Field Type
                                             </label>
                                             <Select
                                                 value={selectedField.type}
                                                 onValueChange={(value) =>
-                                                    updateField(fieldDetailsModelId, selectedFieldId, {
-                                                        type: value,
-                                                    })
+                                                    updateField(
+                                                        fieldDetailsModelId,
+                                                        selectedFieldId,
+                                                        {
+                                                            type: value,
+                                                        },
+                                                    )
                                                 }
                                             >
                                                 <SelectTrigger className="h-9 bg-neutral-50 dark:bg-neutral-800">
@@ -1251,7 +1837,10 @@ export default function Builder() {
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     {FIELD_TYPES.map((type) => (
-                                                        <SelectItem key={type} value={type}>
+                                                        <SelectItem
+                                                            key={type}
+                                                            value={type}
+                                                        >
                                                             {type}
                                                         </SelectItem>
                                                     ))}
@@ -1260,19 +1849,24 @@ export default function Builder() {
                                         </div>
                                     </div>
 
-                                    <div className="flex items-center gap-3 p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
+                                    <div className="flex items-center gap-3 rounded-lg border border-purple-200 bg-purple-50 p-3 dark:border-purple-800 dark:bg-purple-900/20">
                                         <Checkbox
                                             id="field-required"
                                             checked={selectedField.required}
                                             onCheckedChange={(checked) =>
-                                                updateField(fieldDetailsModelId, selectedFieldId, {
-                                                    required: checked === true,
-                                                })
+                                                updateField(
+                                                    fieldDetailsModelId,
+                                                    selectedFieldId,
+                                                    {
+                                                        required:
+                                                            checked === true,
+                                                    },
+                                                )
                                             }
                                         />
                                         <label
                                             htmlFor="field-required"
-                                            className="text-sm font-medium cursor-pointer flex-1"
+                                            className="flex-1 cursor-pointer text-sm font-medium"
                                         >
                                             This field is required
                                         </label>
@@ -1280,25 +1874,44 @@ export default function Builder() {
                                 </div>
 
                                 {/* Validations Section */}
-                                <div className="space-y-4 border-t border-neutral-200 dark:border-neutral-700 pt-6">
-                                    <div className="flex items-center gap-2 mb-4">
+                                <div className="space-y-4 border-t border-neutral-200 pt-6 dark:border-neutral-700">
+                                    <div className="mb-4 flex items-center gap-2">
                                         <div className="h-1 w-1 rounded-full bg-purple-500"></div>
-                                        <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Validation Rules</h3>
+                                        <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+                                            Validation Rules
+                                        </h3>
                                     </div>
                                     <FieldValidations
                                         fieldType={selectedField.type}
-                                        validations={selectedField.validations || []}
+                                        validations={
+                                            selectedField.validations || []
+                                        }
                                         onAddValidation={(validation) =>
-                                            updateField(fieldDetailsModelId, selectedFieldId, {
-                                                validations: [...(selectedField.validations || []), validation],
-                                            })
+                                            updateField(
+                                                fieldDetailsModelId,
+                                                selectedFieldId,
+                                                {
+                                                    validations: [
+                                                        ...(selectedField.validations ||
+                                                            []),
+                                                        validation,
+                                                    ],
+                                                },
+                                            )
                                         }
                                         onRemoveValidation={(rule) =>
-                                            updateField(fieldDetailsModelId, selectedFieldId, {
-                                                validations: (selectedField.validations || []).filter(
-                                                    (v) => v.rule !== rule
-                                                ),
-                                            })
+                                            updateField(
+                                                fieldDetailsModelId,
+                                                selectedFieldId,
+                                                {
+                                                    validations: (
+                                                        selectedField.validations ||
+                                                        []
+                                                    ).filter(
+                                                        (v) => v.rule !== rule,
+                                                    ),
+                                                },
+                                            )
                                         }
                                     />
                                 </div>

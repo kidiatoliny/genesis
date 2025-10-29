@@ -1,10 +1,17 @@
-import { useCallback, useRef, useEffect, useState } from 'react';
-import { DndContext, DragEndEvent, DragStartEvent, MouseSensor, useSensor, useSensors } from '@dnd-kit/core';
-import { useSchemaStore } from '@/stores/schema-store';
-import { ModelCard } from './model-card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useSchemaStore } from '@/stores/schema-store';
+import {
+    DndContext,
+    DragEndEvent,
+    DragStartEvent,
+    MouseSensor,
+    useSensor,
+    useSensors,
+} from '@dnd-kit/core';
 import { Plus } from 'lucide-react';
+import { useCallback, useRef, useState } from 'react';
+import { ModelCard } from './model-card';
 
 export function SchemaCanvas() {
     const canvasRef = useRef<HTMLDivElement>(null);
@@ -19,7 +26,7 @@ export function SchemaCanvas() {
             activationConstraint: {
                 distance: 5,
             },
-        })
+        }),
     );
 
     const handleDragStart = useCallback((event: DragStartEvent) => {
@@ -34,7 +41,6 @@ export function SchemaCanvas() {
             const model = schema.models.find((m) => m.id === modelId);
 
             if (model && canvasRef.current) {
-                const rect = canvasRef.current.getBoundingClientRect();
                 const newX = model.x + delta.x;
                 const newY = model.y + delta.y;
 
@@ -43,7 +49,7 @@ export function SchemaCanvas() {
 
             setDraggedModelId(null);
         },
-        [schema.models, moveModel]
+        [schema.models, moveModel],
     );
 
     const handleAddModel = useCallback(() => {
@@ -52,10 +58,14 @@ export function SchemaCanvas() {
             setNewModelName('');
             setShowNewModelInput(false);
         }
-    }, [addModel]);
+    }, [addModel, newModelName]);
 
     return (
-        <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+        <DndContext
+            sensors={sensors}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+        >
             <div
                 ref={canvasRef}
                 className="relative h-full w-full overflow-auto bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800"
@@ -118,7 +128,7 @@ export function SchemaCanvas() {
                 </div>
 
                 {/* Add Model Button */}
-                <div className="absolute bottom-8 right-8 flex flex-col gap-3">
+                <div className="absolute right-8 bottom-8 flex flex-col gap-3">
                     {!showNewModelInput ? (
                         <Button
                             onClick={() => setShowNewModelInput(true)}
@@ -131,7 +141,9 @@ export function SchemaCanvas() {
                             <Input
                                 placeholder="Model name"
                                 value={newModelName}
-                                onChange={(e) => setNewModelName(e.target.value)}
+                                onChange={(e) =>
+                                    setNewModelName(e.target.value)
+                                }
                                 onKeyDown={(e) => {
                                     if (e.key === 'Enter') handleAddModel();
                                     if (e.key === 'Escape') {

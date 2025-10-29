@@ -1,13 +1,12 @@
-import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 import {
     Dialog,
     DialogContent,
     DialogDescription,
+    DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogFooter,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
     Select,
@@ -17,6 +16,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { useBuilderStore, type BuilderSchema } from '@/stores/builder-store';
+import { useState } from 'react';
 
 interface NewSchemaModalProps {
     isOpen: boolean;
@@ -46,11 +46,23 @@ const VIEW_ENGINES = [
     { value: 'livewire', label: 'Livewire' },
 ];
 
+type ProjectTypeValue =
+    | 'web_inertia'
+    | 'api_inertia'
+    | 'web_blade'
+    | 'web_livewire'
+    | 'api_json';
+type ResponseTypeValue = 'inertia' | 'json' | 'blade' | 'livewire' | 'redirect';
+type ViewEngineValue = 'inertia_react' | 'inertia_vue' | 'blade' | 'livewire';
+
 export function NewSchemaModal({ isOpen, onClose }: NewSchemaModalProps) {
     const [name, setName] = useState('');
-    const [projectType, setProjectType] = useState<'web_inertia' | 'api_inertia' | 'web_blade' | 'web_livewire' | 'api_json'>('web_inertia');
-    const [responseType, setResponseType] = useState<'inertia' | 'json' | 'blade' | 'livewire' | 'redirect'>('inertia');
-    const [viewEngine, setViewEngine] = useState<'inertia_react' | 'inertia_vue' | 'blade' | 'livewire'>('inertia_react');
+    const [projectType, setProjectType] =
+        useState<ProjectTypeValue>('web_inertia');
+    const [responseType, setResponseType] =
+        useState<ResponseTypeValue>('inertia');
+    const [viewEngine, setViewEngine] =
+        useState<ViewEngineValue>('inertia_react');
 
     const { initSchema } = useBuilderStore();
 
@@ -88,7 +100,7 @@ export function NewSchemaModal({ isOpen, onClose }: NewSchemaModalProps) {
 
                 <div className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium mb-2">
+                        <label className="mb-2 block text-sm font-medium">
                             Schema Name
                         </label>
                         <Input
@@ -100,19 +112,24 @@ export function NewSchemaModal({ isOpen, onClose }: NewSchemaModalProps) {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-2">
+                        <label className="mb-2 block text-sm font-medium">
                             Project Type
                         </label>
                         <Select
                             value={projectType}
-                            onValueChange={(value: any) => setProjectType(value)}
+                            onValueChange={(value: ProjectTypeValue) =>
+                                setProjectType(value)
+                            }
                         >
                             <SelectTrigger>
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
                                 {PROJECT_TYPES.map((type) => (
-                                    <SelectItem key={type.value} value={type.value}>
+                                    <SelectItem
+                                        key={type.value}
+                                        value={type.value}
+                                    >
                                         {type.label}
                                     </SelectItem>
                                 ))}
@@ -121,19 +138,24 @@ export function NewSchemaModal({ isOpen, onClose }: NewSchemaModalProps) {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-2">
+                        <label className="mb-2 block text-sm font-medium">
                             Response Type
                         </label>
                         <Select
                             value={responseType}
-                            onValueChange={(value: any) => setResponseType(value)}
+                            onValueChange={(value: ResponseTypeValue) =>
+                                setResponseType(value)
+                            }
                         >
                             <SelectTrigger>
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
                                 {RESPONSE_TYPES.map((type) => (
-                                    <SelectItem key={type.value} value={type.value}>
+                                    <SelectItem
+                                        key={type.value}
+                                        value={type.value}
+                                    >
                                         {type.label}
                                     </SelectItem>
                                 ))}
@@ -142,19 +164,24 @@ export function NewSchemaModal({ isOpen, onClose }: NewSchemaModalProps) {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-2">
+                        <label className="mb-2 block text-sm font-medium">
                             View Engine
                         </label>
                         <Select
                             value={viewEngine}
-                            onValueChange={(value: any) => setViewEngine(value)}
+                            onValueChange={(value: ViewEngineValue) =>
+                                setViewEngine(value)
+                            }
                         >
                             <SelectTrigger>
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
                                 {VIEW_ENGINES.map((engine) => (
-                                    <SelectItem key={engine.value} value={engine.value}>
+                                    <SelectItem
+                                        key={engine.value}
+                                        value={engine.value}
+                                    >
                                         {engine.label}
                                     </SelectItem>
                                 ))}

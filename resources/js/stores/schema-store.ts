@@ -19,7 +19,12 @@ export interface Model {
 
 export interface SchemaDefinition {
     name: string;
-    projectType: 'web_inertia' | 'api_inertia' | 'web_blade' | 'web_livewire' | 'api_json';
+    projectType:
+        | 'web_inertia'
+        | 'api_inertia'
+        | 'web_blade'
+        | 'web_livewire'
+        | 'api_json';
     responseType: 'inertia' | 'json' | 'blade' | 'livewire' | 'redirect';
     viewEngine: 'inertia_react' | 'inertia_vue' | 'blade' | 'livewire';
     models: Model[];
@@ -41,7 +46,11 @@ interface SchemaStore {
     moveModel: (id: string, x: number, y: number) => void;
 
     addField: (modelId: string, field: Omit<Field, 'id'>) => void;
-    updateField: (modelId: string, fieldId: string, field: Partial<Field>) => void;
+    updateField: (
+        modelId: string,
+        fieldId: string,
+        field: Partial<Field>,
+    ) => void;
     deleteField: (modelId: string, fieldId: string) => void;
 
     selectModel: (id: string | null) => void;
@@ -110,7 +119,7 @@ export const useSchemaStore = create<SchemaStore>((set) => ({
             schema: {
                 ...state.schema,
                 models: state.schema.models.map((model) =>
-                    model.id === id ? { ...model, name } : model
+                    model.id === id ? { ...model, name } : model,
                 ),
             },
         })),
@@ -121,7 +130,8 @@ export const useSchemaStore = create<SchemaStore>((set) => ({
                 ...state.schema,
                 models: state.schema.models.filter((model) => model.id !== id),
             },
-            selectedModelId: state.selectedModelId === id ? null : state.selectedModelId,
+            selectedModelId:
+                state.selectedModelId === id ? null : state.selectedModelId,
         })),
 
     moveModel: (id: string, x: number, y: number) =>
@@ -129,7 +139,7 @@ export const useSchemaStore = create<SchemaStore>((set) => ({
             schema: {
                 ...state.schema,
                 models: state.schema.models.map((model) =>
-                    model.id === id ? { ...model, x, y } : model
+                    model.id === id ? { ...model, x, y } : model,
                 ),
             },
         })),
@@ -152,7 +162,7 @@ export const useSchemaStore = create<SchemaStore>((set) => ({
                                       },
                                   ],
                               }
-                            : model
+                            : model,
                     ),
                 },
                 selectedFieldId: fieldId,
@@ -168,10 +178,10 @@ export const useSchemaStore = create<SchemaStore>((set) => ({
                         ? {
                               ...model,
                               fields: model.fields.map((f) =>
-                                  f.id === fieldId ? { ...f, ...field } : f
+                                  f.id === fieldId ? { ...f, ...field } : f,
                               ),
                           }
-                        : model
+                        : model,
                 ),
             },
         })),
@@ -184,12 +194,17 @@ export const useSchemaStore = create<SchemaStore>((set) => ({
                     model.id === modelId
                         ? {
                               ...model,
-                              fields: model.fields.filter((f) => f.id !== fieldId),
+                              fields: model.fields.filter(
+                                  (f) => f.id !== fieldId,
+                              ),
                           }
-                        : model
+                        : model,
                 ),
             },
-            selectedFieldId: state.selectedFieldId === fieldId ? null : state.selectedFieldId,
+            selectedFieldId:
+                state.selectedFieldId === fieldId
+                    ? null
+                    : state.selectedFieldId,
         })),
 
     selectModel: (id: string | null) =>

@@ -86,20 +86,22 @@ export const useBuilderUIStore = create<BuilderUIStore>((set) => ({
     setDragOffset: (offset) => set({ dragOffset: offset }),
     setDraggedFieldType: (type) => set({ draggedFieldType: type }),
     setDragTargetModelId: (modelId) => set({ dragTargetModelId: modelId }),
-    setModelWidth: (modelId, width) => set((state) => ({
-        modelWidths: {
-            ...state.modelWidths,
-            [modelId]: width,
-        },
-    })),
+    setModelWidth: (modelId, width) =>
+        set((state) => ({
+            modelWidths: {
+                ...state.modelWidths,
+                [modelId]: width,
+            },
+        })),
 
     // Reset actions
-    resetForm: () => set({
-        newModelName: '',
-        newFieldName: '',
-        newFieldType: 'string',
-        fieldNameError: false,
-        draggedFieldType: null,
-        dragTargetModelId: null,
-    }),
+    resetForm: () =>
+        set({
+            newModelName: '',
+            newFieldName: '',
+            newFieldType: 'string',
+            fieldNameError: false,
+            draggedFieldType: null,
+            dragTargetModelId: null,
+        }),
 }));

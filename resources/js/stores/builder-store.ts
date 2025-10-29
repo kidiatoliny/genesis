@@ -28,7 +28,12 @@ export interface Position {
 export interface BuilderSchema {
     id?: string;
     name: string;
-    projectType: 'web_inertia' | 'api_inertia' | 'web_blade' | 'web_livewire' | 'api_json';
+    projectType:
+        | 'web_inertia'
+        | 'api_inertia'
+        | 'web_blade'
+        | 'web_livewire'
+        | 'api_json';
     responseType: 'inertia' | 'json' | 'blade' | 'livewire' | 'redirect';
     viewEngine: 'inertia_react' | 'inertia_vue' | 'blade' | 'livewire';
     models: Model[];
@@ -54,7 +59,11 @@ interface BuilderStore {
     deleteModel: (modelId: string) => void;
 
     addField: (modelId: string, field: Omit<Field, 'id'>) => void;
-    updateField: (modelId: string, fieldId: string, field: Partial<Field>) => void;
+    updateField: (
+        modelId: string,
+        fieldId: string,
+        field: Partial<Field>,
+    ) => void;
     deleteField: (modelId: string, fieldId: string) => void;
 
     selectModel: (modelId: string | null) => void;
@@ -64,7 +73,11 @@ interface BuilderStore {
     setFieldPosition: (fieldId: string, position: Position) => void;
 
     initializeModelPosition: (modelId: string, modelIndex: number) => void;
-    initializeFieldPosition: (modelId: string, fieldId: string, fieldIndex: number) => void;
+    initializeFieldPosition: (
+        modelId: string,
+        fieldId: string,
+        fieldIndex: number,
+    ) => void;
 
     getSchema: () => BuilderSchema | null;
 }
@@ -89,7 +102,11 @@ export const useBuilderStore = create<BuilderStore>()(
             },
 
             resetSchema: () => {
-                set({ schema: { ...initialSchema }, selectedModelId: null, selectedFieldId: null });
+                set({
+                    schema: { ...initialSchema },
+                    selectedModelId: null,
+                    selectedFieldId: null,
+                });
             },
 
             setSchemaName: (name: string) => {
@@ -156,7 +173,7 @@ export const useBuilderStore = create<BuilderStore>()(
                         schema: {
                             ...state.schema,
                             models: state.schema.models.map((m) =>
-                                m.id === modelId ? { ...m, name } : m
+                                m.id === modelId ? { ...m, name } : m,
                             ),
                         },
                     };
@@ -169,10 +186,14 @@ export const useBuilderStore = create<BuilderStore>()(
                     return {
                         schema: {
                             ...state.schema,
-                            models: state.schema.models.filter((m) => m.id !== modelId),
+                            models: state.schema.models.filter(
+                                (m) => m.id !== modelId,
+                            ),
                         },
                         selectedModelId:
-                            state.selectedModelId === modelId ? null : state.selectedModelId,
+                            state.selectedModelId === modelId
+                                ? null
+                                : state.selectedModelId,
                     };
                 });
             },
@@ -196,7 +217,7 @@ export const useBuilderStore = create<BuilderStore>()(
                                               },
                                           ],
                                       }
-                                    : m
+                                    : m,
                             ),
                         },
                         selectedFieldId: fieldId,
@@ -204,7 +225,11 @@ export const useBuilderStore = create<BuilderStore>()(
                 });
             },
 
-            updateField: (modelId: string, fieldId: string, field: Partial<Field>) => {
+            updateField: (
+                modelId: string,
+                fieldId: string,
+                field: Partial<Field>,
+            ) => {
                 set((state) => {
                     if (!state.schema) return state;
                     return {
@@ -215,10 +240,12 @@ export const useBuilderStore = create<BuilderStore>()(
                                     ? {
                                           ...m,
                                           fields: m.fields.map((f) =>
-                                              f.id === fieldId ? { ...f, ...field } : f
+                                              f.id === fieldId
+                                                  ? { ...f, ...field }
+                                                  : f,
                                           ),
                                       }
-                                    : m
+                                    : m,
                             ),
                         },
                     };
@@ -235,13 +262,17 @@ export const useBuilderStore = create<BuilderStore>()(
                                 m.id === modelId
                                     ? {
                                           ...m,
-                                          fields: m.fields.filter((f) => f.id !== fieldId),
+                                          fields: m.fields.filter(
+                                              (f) => f.id !== fieldId,
+                                          ),
                                       }
-                                    : m
+                                    : m,
                             ),
                         },
                         selectedFieldId:
-                            state.selectedFieldId === fieldId ? null : state.selectedFieldId,
+                            state.selectedFieldId === fieldId
+                                ? null
+                                : state.selectedFieldId,
                     };
                 });
             },
@@ -307,10 +338,17 @@ export const useBuilderStore = create<BuilderStore>()(
                 });
             },
 
-            initializeFieldPosition: (modelId: string, fieldId: string, fieldIndex: number) => {
+            initializeFieldPosition: (
+                modelId: string,
+                fieldId: string,
+                fieldIndex: number,
+            ) => {
                 set((state) => {
                     if (!state.schema) return state;
-                    const modelPos = state.schema.modelPositions?.[modelId] || { x: 0, y: 0 };
+                    const modelPos = state.schema.modelPositions?.[modelId] || {
+                        x: 0,
+                        y: 0,
+                    };
                     return {
                         schema: {
                             ...state.schema,
@@ -318,7 +356,7 @@ export const useBuilderStore = create<BuilderStore>()(
                                 ...(state.schema.fieldPositions || {}),
                                 [fieldId]: {
                                     x: modelPos.x + 450,
-                                    y: modelPos.y + 30 + (fieldIndex * 80),
+                                    y: modelPos.y + 30 + fieldIndex * 80,
                                 },
                             },
                         },
@@ -344,6 +382,6 @@ export const useBuilderStore = create<BuilderStore>()(
                     localStorage.removeItem(name);
                 },
             },
-        }
-    )
+        },
+    ),
 );

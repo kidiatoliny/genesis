@@ -1,16 +1,18 @@
-import { useCallback, useState } from 'react';
-import { useSchemaStore, type Model as SchemaModel } from '@/stores/schema-store';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Trash2, MoreVertical, Plus } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import {
+    useSchemaStore,
+    type Model as SchemaModel,
+} from '@/stores/schema-store';
+import { MoreVertical, Plus, Trash2 } from 'lucide-react';
+import { useCallback, useState } from 'react';
 import { FieldTypeSelector } from './field-type-selector';
 
 interface ModelCardProps {
@@ -25,10 +27,17 @@ export function ModelCard({ model, isDragging = false }: ModelCardProps) {
     const [newFieldType, setNewFieldType] = useState('string');
     const [isAddingField, setIsAddingField] = useState(false);
 
-    const { updateModel, deleteModel, addField, deleteField, selectModel, selectField } =
-        useSchemaStore();
+    const {
+        updateModel,
+        deleteModel,
+        addField,
+        deleteField,
+        selectModel,
+        selectField,
+    } = useSchemaStore();
 
     const selectedModelId = useSchemaStore((state) => state.selectedModelId);
+    const selectedFieldId = useSchemaStore((state) => state.selectedFieldId);
     const isSelected = selectedModelId === model.id;
 
     const handleSaveName = useCallback(() => {
@@ -60,13 +69,15 @@ export function ModelCard({ model, isDragging = false }: ModelCardProps) {
         (fieldId: string) => {
             deleteField(model.id, fieldId);
         },
-        [model.id, deleteField]
+        [model.id, deleteField],
     );
 
     return (
         <Card
             className={`w-96 cursor-move border-2 transition-all ${
-                isSelected ? 'border-purple-500 bg-purple-50 dark:bg-purple-950' : 'border-neutral-200 dark:border-neutral-800'
+                isSelected
+                    ? 'border-purple-500 bg-purple-50 dark:bg-purple-950'
+                    : 'border-neutral-200 dark:border-neutral-800'
             } ${isDragging ? 'opacity-50' : 'opacity-100'}`}
             onClick={() => selectModel(model.id)}
             onMouseDown={(e) => e.stopPropagation()}
@@ -89,7 +100,10 @@ export function ModelCard({ model, isDragging = false }: ModelCardProps) {
                             className="h-8"
                         />
                     ) : (
-                        <CardTitle className="text-lg" onDoubleClick={() => setIsEditingName(true)}>
+                        <CardTitle
+                            className="text-lg"
+                            onDoubleClick={() => setIsEditingName(true)}
+                        >
                             {model.name}
                         </CardTitle>
                     )}
@@ -100,7 +114,9 @@ export function ModelCard({ model, isDragging = false }: ModelCardProps) {
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => setIsEditingName(true)}>
+                            <DropdownMenuItem
+                                onClick={() => setIsEditingName(true)}
+                            >
                                 Edit name
                             </DropdownMenuItem>
                             <DropdownMenuItem
@@ -117,7 +133,9 @@ export function ModelCard({ model, isDragging = false }: ModelCardProps) {
 
             <CardContent className="space-y-3">
                 <div className="space-y-2">
-                    <p className="text-xs font-medium text-neutral-500">Fields</p>
+                    <p className="text-xs font-medium text-neutral-500">
+                        Fields
+                    </p>
                     {model.fields.length > 0 ? (
                         <div className="space-y-2">
                             {model.fields.map((field) => (
@@ -125,14 +143,18 @@ export function ModelCard({ model, isDragging = false }: ModelCardProps) {
                                     key={field.id}
                                     onClick={() => selectField(field.id)}
                                     className={`flex items-center justify-between rounded-md border px-3 py-2 text-sm transition-colors ${
-                                        field.id === useSchemaStore((state) => state.selectedFieldId)
+                                        field.id === selectedFieldId
                                             ? 'border-purple-400 bg-purple-100 dark:bg-purple-900'
                                             : 'border-neutral-200 bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800'
                                     }`}
                                 >
                                     <div className="flex-1">
-                                        <p className="font-medium">{field.name}</p>
-                                        <p className="text-xs text-neutral-500">{field.type}</p>
+                                        <p className="font-medium">
+                                            {field.name}
+                                        </p>
+                                        <p className="text-xs text-neutral-500">
+                                            {field.type}
+                                        </p>
                                     </div>
                                     <Button
                                         variant="ghost"
@@ -148,7 +170,9 @@ export function ModelCard({ model, isDragging = false }: ModelCardProps) {
                             ))}
                         </div>
                     ) : (
-                        <p className="text-xs text-neutral-400">No fields yet</p>
+                        <p className="text-xs text-neutral-400">
+                            No fields yet
+                        </p>
                     )}
                 </div>
 
@@ -170,7 +194,10 @@ export function ModelCard({ model, isDragging = false }: ModelCardProps) {
                             onChange={(e) => setNewFieldName(e.target.value)}
                             className="h-8"
                         />
-                        <FieldTypeSelector value={newFieldType} onChange={setNewFieldType} />
+                        <FieldTypeSelector
+                            value={newFieldType}
+                            onChange={setNewFieldType}
+                        />
                         <div className="flex gap-2">
                             <Button
                                 size="sm"

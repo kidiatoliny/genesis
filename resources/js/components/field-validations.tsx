@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -9,9 +8,13 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { ValidationSelect } from '@/components/validation-select';
-import { Plus, Trash2, HelpCircle } from 'lucide-react';
-import { LARAVEL_VALIDATIONS, getValidationsForFieldType } from '@/constants/laravel-validations';
+import {
+    LARAVEL_VALIDATIONS,
+    getValidationsForFieldType,
+} from '@/constants/laravel-validations';
 import type { Validation } from '@/stores/builder-store';
+import { HelpCircle, Plus, Trash2 } from 'lucide-react';
+import { useState } from 'react';
 
 interface FieldValidationsProps {
     fieldType: string;
@@ -27,10 +30,12 @@ export function FieldValidations({
     onRemoveValidation,
 }: FieldValidationsProps) {
     const [selectedRules, setSelectedRules] = useState<string[]>([]);
-    const [ruleValues, setRuleValues] = useState<Record<string, string | number>>({});
+    const [ruleValues, setRuleValues] = useState<
+        Record<string, string | number>
+    >({});
 
     const availableValidations = getValidationsForFieldType(fieldType);
-    const addedRules = validations.map(v => v.rule);
+    const addedRules = validations.map((v) => v.rule);
 
     const handleAddRule = (rule: string) => {
         const validation = LARAVEL_VALIDATIONS.find((v) => v.rule === rule);
@@ -68,40 +73,47 @@ export function FieldValidations({
         handleRemoveRule(rule);
     };
 
-    const handleAddAllSelectedRules = () => {
-        selectedRules.forEach(rule => {
-            handleAddValidation(rule);
-        });
-    };
+    // All selected rules are applied individually via the UI; helper removed to avoid unused warnings
 
     return (
         <div className="space-y-4">
             <div>
-                <div className="flex items-center justify-between mb-2">
-                    <label className="block text-sm font-medium">Validations</label>
+                <div className="mb-2 flex items-center justify-between">
+                    <label className="block text-sm font-medium">
+                        Validations
+                    </label>
                     <span className="text-xs text-neutral-500">
-                        {validations.length} rule{validations.length !== 1 ? 's' : ''}
+                        {validations.length} rule
+                        {validations.length !== 1 ? 's' : ''}
                     </span>
                 </div>
 
                 {validations.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mb-4">
+                    <div className="mb-4 flex flex-wrap gap-2">
                         {validations.map((v) => {
                             const validationOpt = LARAVEL_VALIDATIONS.find(
-                                (opt) => opt.rule === v.rule
+                                (opt) => opt.rule === v.rule,
                             );
                             return (
                                 <div
                                     key={v.rule}
-                                    className="flex items-center gap-2 bg-white dark:bg-neutral-700 px-3 py-2 rounded-md border border-neutral-200 dark:border-neutral-600"
+                                    className="flex items-center gap-2 rounded-md border border-neutral-200 bg-white px-3 py-2 dark:border-neutral-600 dark:bg-neutral-700"
                                 >
-                                    <span className="text-sm font-medium">{v.rule}</span>
-                                    {v.value && <span className="text-xs text-neutral-500">: {v.value}</span>}
+                                    <span className="text-sm font-medium">
+                                        {v.rule}
+                                    </span>
+                                    {v.value && (
+                                        <span className="text-xs text-neutral-500">
+                                            : {v.value}
+                                        </span>
+                                    )}
                                     <Button
                                         variant="ghost"
                                         size="sm"
-                                        className="h-4 w-4 p-0 ml-1 hover:bg-red-100 hover:text-red-600 dark:hover:bg-red-900"
-                                        onClick={() => onRemoveValidation(v.rule)}
+                                        className="ml-1 h-4 w-4 p-0 hover:bg-red-100 hover:text-red-600 dark:hover:bg-red-900"
+                                        onClick={() =>
+                                            onRemoveValidation(v.rule)
+                                        }
                                         title={`Remove ${validationOpt?.label || v.rule}`}
                                     >
                                         <Trash2 className="h-3 w-3" />
@@ -112,7 +124,7 @@ export function FieldValidations({
                     </div>
                 )}
 
-                <div className="space-y-3 p-3 bg-neutral-50 dark:bg-neutral-800 rounded-md">
+                <div className="space-y-3 rounded-md bg-neutral-50 p-3 dark:bg-neutral-800">
                     <ValidationSelect
                         options={availableValidations}
                         selectedValues={[...selectedRules, ...addedRules]}
@@ -122,52 +134,105 @@ export function FieldValidations({
                     />
 
                     {selectedRules.length > 0 && (
-                        <div className="space-y-2 border-t border-neutral-200 dark:border-neutral-700 pt-3">
+                        <div className="space-y-2 border-t border-neutral-200 pt-3 dark:border-neutral-700">
                             <div className="grid grid-cols-2 gap-2">
                                 {selectedRules.map((rule) => {
-                                    const validation = LARAVEL_VALIDATIONS.find((v) => v.rule === rule);
+                                    const validation = LARAVEL_VALIDATIONS.find(
+                                        (v) => v.rule === rule,
+                                    );
                                     if (!validation) return null;
 
                                     return (
-                                        <div key={rule} className="space-y-1.5 p-2.5 bg-white dark:bg-neutral-700 rounded border border-neutral-200 dark:border-neutral-600">
-                                            <div className="flex items-center gap-2 mb-1">
-                                                <span className="text-xs font-bold bg-purple-500 text-white px-2 py-1 rounded">{validation.rule}</span>
-                                                <span className="text-xs text-neutral-500">{validation.label}</span>
+                                        <div
+                                            key={rule}
+                                            className="space-y-1.5 rounded border border-neutral-200 bg-white p-2.5 dark:border-neutral-600 dark:bg-neutral-700"
+                                        >
+                                            <div className="mb-1 flex items-center gap-2">
+                                                <span className="rounded bg-purple-500 px-2 py-1 text-xs font-bold text-white">
+                                                    {validation.rule}
+                                                </span>
+                                                <span className="text-xs text-neutral-500">
+                                                    {validation.label}
+                                                </span>
                                             </div>
-                                            <div className="flex items-start gap-2 text-xs text-blue-900 dark:text-blue-100 bg-blue-50 dark:bg-blue-900/30 p-2 rounded border border-blue-200 dark:border-blue-700">
-                                                <HelpCircle className="h-3 w-3 mt-0.5 flex-shrink-0 text-blue-600 dark:text-blue-300" />
-                                                <p className="font-medium leading-tight">{validation.description}</p>
+                                            <div className="flex items-start gap-2 rounded border border-blue-200 bg-blue-50 p-2 text-xs text-blue-900 dark:border-blue-700 dark:bg-blue-900/30 dark:text-blue-100">
+                                                <HelpCircle className="mt-0.5 h-3 w-3 flex-shrink-0 text-blue-600 dark:text-blue-300" />
+                                                <p className="leading-tight font-medium">
+                                                    {validation.description}
+                                                </p>
                                             </div>
 
                                             {validation.needsValue && (
                                                 <div className="space-y-1">
                                                     <label className="block text-xs font-medium text-neutral-600 dark:text-neutral-300">
-                                                        Value {validation.rule === 'between' && <span className="text-neutral-500">(e.g., "5,100")</span>}
+                                                        Value{' '}
+                                                        {validation.rule ===
+                                                            'between' && (
+                                                            <span className="text-neutral-500">
+                                                                (e.g., "5,100")
+                                                            </span>
+                                                        )}
                                                     </label>
-                                                    {validation.valueType === 'select' && validation.valueOptions ? (
+                                                    {validation.valueType ===
+                                                        'select' &&
+                                                    validation.valueOptions ? (
                                                         <Select
-                                                            value={String(ruleValues[rule] || '')}
-                                                            onValueChange={(value) =>
-                                                                setRuleValues({ ...ruleValues, [rule]: value })
+                                                            value={String(
+                                                                ruleValues[
+                                                                    rule
+                                                                ] || '',
+                                                            )}
+                                                            onValueChange={(
+                                                                value,
+                                                            ) =>
+                                                                setRuleValues({
+                                                                    ...ruleValues,
+                                                                    [rule]: value,
+                                                                })
                                                             }
                                                         >
-                                                            <SelectTrigger className="text-xs h-7">
+                                                            <SelectTrigger className="h-7 text-xs">
                                                                 <SelectValue placeholder="Select..." />
                                                             </SelectTrigger>
                                                             <SelectContent>
-                                                                {validation.valueOptions.map((opt) => (
-                                                                    <SelectItem key={opt.value} value={String(opt.value)}>
-                                                                        {opt.label}
-                                                                    </SelectItem>
-                                                                ))}
+                                                                {validation.valueOptions.map(
+                                                                    (opt) => (
+                                                                        <SelectItem
+                                                                            key={
+                                                                                opt.value
+                                                                            }
+                                                                            value={String(
+                                                                                opt.value,
+                                                                            )}
+                                                                        >
+                                                                            {
+                                                                                opt.label
+                                                                            }
+                                                                        </SelectItem>
+                                                                    ),
+                                                                )}
                                                             </SelectContent>
                                                         </Select>
                                                     ) : (
                                                         <Input
-                                                            type={validation.valueType === 'number' ? 'number' : 'text'}
-                                                            value={ruleValues[rule] || ''}
+                                                            type={
+                                                                validation.valueType ===
+                                                                'number'
+                                                                    ? 'number'
+                                                                    : 'text'
+                                                            }
+                                                            value={
+                                                                ruleValues[
+                                                                    rule
+                                                                ] || ''
+                                                            }
                                                             onChange={(e) =>
-                                                                setRuleValues({ ...ruleValues, [rule]: e.target.value })
+                                                                setRuleValues({
+                                                                    ...ruleValues,
+                                                                    [rule]: e
+                                                                        .target
+                                                                        .value,
+                                                                })
                                                             }
                                                             placeholder={`Enter value`}
                                                             className="h-7 text-xs"
@@ -177,10 +242,15 @@ export function FieldValidations({
                                             )}
 
                                             <Button
-                                                onClick={() => handleAddValidation(rule)}
-                                                disabled={validation.needsValue && !ruleValues[rule]}
+                                                onClick={() =>
+                                                    handleAddValidation(rule)
+                                                }
+                                                disabled={
+                                                    validation.needsValue &&
+                                                    !ruleValues[rule]
+                                                }
                                                 size="sm"
-                                                className="w-full bg-purple-500 hover:bg-purple-600 disabled:bg-neutral-300 dark:disabled:bg-neutral-600 h-6 text-xs"
+                                                className="h-6 w-full bg-purple-500 text-xs hover:bg-purple-600 disabled:bg-neutral-300 dark:disabled:bg-neutral-600"
                                             >
                                                 <Plus className="mr-1 h-3 w-3" />
                                                 Add

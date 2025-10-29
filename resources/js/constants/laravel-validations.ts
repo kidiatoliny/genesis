@@ -346,8 +346,13 @@ export const LARAVEL_VALIDATIONS: ValidationOption[] = [
     },
 ];
 
-export function getValidationsForFieldType(fieldType: string): ValidationOption[] {
+export function getValidationsForFieldType(
+    fieldType: string,
+): ValidationOption[] {
     return LARAVEL_VALIDATIONS.filter(
-        (v) => v.applicableTypes && (v.applicableTypes.length === 0 || v.applicableTypes.includes(fieldType))
+        (v) =>
+            v.applicableTypes &&
+            (v.applicableTypes.length === 0 ||
+                v.applicableTypes.includes(fieldType)),
     );
 }
