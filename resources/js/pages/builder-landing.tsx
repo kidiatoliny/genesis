@@ -334,7 +334,7 @@ export default function BuilderLanding() {
                                         Design Your Schema Visually
                                     </h3>
                                     <p className="text-xl text-neutral-300 leading-relaxed mb-8">
-                                        Create your database models with an intuitive drag-and-drop interface. Add fields, define types, set relationships, and configure validations without writing a single line of code.
+                                        Build your database structure step-by-step. Start with a model, add fields one by one, configure each field's properties, and watch your schema come to life in real-time.
                                     </p>
                                     <ul className="space-y-4">
                                         <li className="flex items-start gap-3">
@@ -342,8 +342,8 @@ export default function BuilderLanding() {
                                                 <div className="w-2 h-2 rounded-full bg-purple-400" />
                                             </div>
                                             <div>
-                                                <div className="font-semibold text-white mb-1">Drag & Drop Builder</div>
-                                                <div className="text-sm text-neutral-400">Visual interface for creating models and fields</div>
+                                                <div className="font-semibold text-white mb-1">Create Model</div>
+                                                <div className="text-sm text-neutral-400">Name your model and it appears instantly on canvas</div>
                                             </div>
                                         </li>
                                         <li className="flex items-start gap-3">
@@ -351,8 +351,8 @@ export default function BuilderLanding() {
                                                 <div className="w-2 h-2 rounded-full bg-purple-400" />
                                             </div>
                                             <div>
-                                                <div className="font-semibold text-white mb-1">14+ Field Types</div>
-                                                <div className="text-sm text-neutral-400">String, integer, json, uuid, email, and more</div>
+                                                <div className="font-semibold text-white mb-1">Add Fields</div>
+                                                <div className="text-sm text-neutral-400">Choose from 14+ types: string, integer, email, json, uuid...</div>
                                             </div>
                                         </li>
                                         <li className="flex items-start gap-3">
@@ -360,8 +360,8 @@ export default function BuilderLanding() {
                                                 <div className="w-2 h-2 rounded-full bg-purple-400" />
                                             </div>
                                             <div>
-                                                <div className="font-semibold text-white mb-1">Smart Relationships</div>
-                                                <div className="text-sm text-neutral-400">Define hasMany, belongsTo, and more</div>
+                                                <div className="font-semibold text-white mb-1">Configure Properties</div>
+                                                <div className="text-sm text-neutral-400">Set nullable, unique, default values, and database indexes</div>
                                             </div>
                                         </li>
                                         <li className="flex items-start gap-3">
@@ -369,8 +369,17 @@ export default function BuilderLanding() {
                                                 <Sparkles className="h-3 w-3 text-blue-400" />
                                             </div>
                                             <div>
-                                                <div className="font-semibold text-white mb-1">Smart Validations</div>
-                                                <div className="text-sm text-neutral-400">60+ Laravel validation rules built-in</div>
+                                                <div className="font-semibold text-white mb-1">Apply Validations</div>
+                                                <div className="text-sm text-neutral-400">Select from 60+ Laravel rules with intelligent suggestions</div>
+                                            </div>
+                                        </li>
+                                        <li className="flex items-start gap-3">
+                                            <div className="w-6 h-6 rounded-full bg-cyan-600/20 flex items-center justify-center flex-shrink-0 mt-1">
+                                                <div className="w-2 h-2 rounded-full bg-cyan-400" />
+                                            </div>
+                                            <div>
+                                                <div className="font-semibold text-white mb-1">Link Relationships</div>
+                                                <div className="text-sm text-neutral-400">Connect models with hasMany, belongsTo, morphTo relations</div>
                                             </div>
                                         </li>
                                     </ul>
@@ -382,61 +391,8 @@ export default function BuilderLanding() {
                                     style={{ willChange: 'transform' }}
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-blue-600/10" />
-                                    <div className="relative space-y-4">
-                                        <div className="flex items-center gap-3 p-4 rounded-lg bg-purple-600/20 border border-purple-500/30">
-                                            <Database className="h-8 w-8 text-purple-400" />
-                                            <div>
-                                                <div className="font-bold text-white">User Model</div>
-                                                <div className="text-xs text-purple-300">4 fields with validations</div>
-                                            </div>
-                                        </div>
-                                        <div className="pl-6 space-y-3">
-                                            <div className="space-y-1">
-                                                <div className="flex items-center gap-2 text-sm">
-                                                    <div className="w-3 h-3 rounded-full bg-green-400" />
-                                                    <span className="text-neutral-300 font-mono">name: string</span>
-                                                </div>
-                                                <div className="flex flex-wrap gap-1 pl-5">
-                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-green-500/20 text-green-300 border border-green-500/30 font-mono">required</span>
-                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-green-500/20 text-green-300 border border-green-500/30 font-mono">string</span>
-                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-green-500/20 text-green-300 border border-green-500/30 font-mono">max:255</span>
-                                                </div>
-                                            </div>
-                                            <div className="space-y-1">
-                                                <div className="flex items-center gap-2 text-sm">
-                                                    <div className="w-3 h-3 rounded-full bg-blue-400" />
-                                                    <span className="text-neutral-300 font-mono">email: email</span>
-                                                </div>
-                                                <div className="flex flex-wrap gap-1 pl-5">
-                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-blue-500/20 text-blue-300 border border-blue-500/30 font-mono">required</span>
-                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-blue-500/20 text-blue-300 border border-blue-500/30 font-mono">email</span>
-                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-blue-500/20 text-blue-300 border border-blue-500/30 font-mono">unique:users</span>
-                                                </div>
-                                            </div>
-                                            <div className="space-y-1">
-                                                <div className="flex items-center gap-2 text-sm">
-                                                    <div className="w-3 h-3 rounded-full bg-purple-400" />
-                                                    <span className="text-neutral-300 font-mono">password: string</span>
-                                                </div>
-                                                <div className="flex flex-wrap gap-1 pl-5">
-                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-purple-500/20 text-purple-300 border border-purple-500/30 font-mono">required</span>
-                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-purple-500/20 text-purple-300 border border-purple-500/30 font-mono">min:8</span>
-                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-purple-500/20 text-purple-300 border border-purple-500/30 font-mono">confirmed</span>
-                                                </div>
-                                            </div>
-                                            <div className="space-y-1">
-                                                <div className="flex items-center gap-2 text-sm">
-                                                    <div className="w-3 h-3 rounded-full bg-amber-400" />
-                                                    <span className="text-neutral-300 font-mono">age: integer</span>
-                                                </div>
-                                                <div className="flex flex-wrap gap-1 pl-5">
-                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/30 font-mono">nullable</span>
-                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/30 font-mono">integer</span>
-                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/30 font-mono">min:18</span>
-                                                    <span className="px-2 py-0.5 rounded text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/30 font-mono">max:120</span>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div className="relative h-full">
+                                        <SchemaWorkflowDemo />
                                     </div>
                                 </motion.div>
                             </div>
@@ -2376,6 +2332,275 @@ const techStack = [
     { name: 'PostgreSQL', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg', category: 'Database', isImage: true },
     { name: 'Pest', icon: 'https://pestphp.com/www/assets/logo.svg', category: 'Testing', isImage: true },
 ];
+
+// Schema Workflow Demo Component
+const SchemaWorkflowDemo = () => {
+    const [step, setStep] = useState(0);
+    
+    const steps = [
+        {
+            title: 'Create Model',
+            description: 'Name your model',
+            content: (
+                <div className="space-y-4">
+                    <div className="p-3 rounded-lg bg-neutral-900/50 border border-purple-500/30">
+                        <div className="text-xs text-purple-300 mb-2">New Model</div>
+                        <div className="flex items-center gap-2 p-2 rounded bg-purple-600/20 border border-purple-500/30">
+                            <Database className="h-5 w-5 text-purple-400" />
+                            <input 
+                                type="text" 
+                                value="User" 
+                                readOnly
+                                className="bg-transparent text-white font-bold outline-none flex-1"
+                            />
+                        </div>
+                    </div>
+                    <motion.div
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.5, delay: 0.3 }}
+                        className="p-4 rounded-lg bg-purple-600/20 border border-purple-500/30"
+                    >
+                        <div className="flex items-center gap-3">
+                            <Database className="h-8 w-8 text-purple-400" />
+                            <div>
+                                <div className="font-bold text-white">User</div>
+                                <div className="text-xs text-purple-300">Model created</div>
+                            </div>
+                        </div>
+                    </motion.div>
+                </div>
+            )
+        },
+        {
+            title: 'Add Field',
+            description: 'Choose field type',
+            content: (
+                <div className="space-y-4">
+                    <div className="flex items-center gap-3 p-4 rounded-lg bg-purple-600/20 border border-purple-500/30">
+                        <Database className="h-6 w-6 text-purple-400" />
+                        <div className="font-bold text-white">User</div>
+                    </div>
+                    <div className="p-3 rounded-lg bg-neutral-900/50 border border-blue-500/30">
+                        <div className="text-xs text-blue-300 mb-2">Select Field Type</div>
+                        <div className="grid grid-cols-2 gap-2">
+                            {['string', 'integer', 'email', 'boolean'].map((type, i) => (
+                                <motion.div
+                                    key={type}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: type === 'email' ? 1 : 0.5, y: 0 }}
+                                    transition={{ delay: i * 0.1 }}
+                                    className={`p-2 rounded text-xs text-center ${
+                                        type === 'email' 
+                                            ? 'bg-blue-600/30 border border-blue-500/50 text-blue-200 font-bold' 
+                                            : 'bg-neutral-800/50 text-neutral-400'
+                                    }`}
+                                >
+                                    {type}
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.5 }}
+                        className="pl-6"
+                    >
+                        <div className="flex items-center gap-2 text-sm">
+                            <div className="w-3 h-3 rounded-full bg-blue-400" />
+                            <span className="text-neutral-300 font-mono">email: email</span>
+                        </div>
+                    </motion.div>
+                </div>
+            )
+        },
+        {
+            title: 'Configure Properties',
+            description: 'Set field options',
+            content: (
+                <div className="space-y-4">
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-purple-600/20 border border-purple-500/30">
+                        <Database className="h-5 w-5 text-purple-400" />
+                        <div className="font-bold text-white text-sm">User</div>
+                    </div>
+                    <div className="pl-4 border-l-2 border-blue-500/30">
+                        <div className="flex items-center gap-2 text-sm mb-3">
+                            <div className="w-3 h-3 rounded-full bg-blue-400" />
+                            <span className="text-neutral-300 font-mono">email</span>
+                        </div>
+                        <div className="space-y-2 pl-5">
+                            {[
+                                { label: 'Nullable', checked: false },
+                                { label: 'Unique', checked: true },
+                                { label: 'Indexed', checked: true },
+                            ].map((prop, i) => (
+                                <motion.div
+                                    key={prop.label}
+                                    initial={{ opacity: 0, x: -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: i * 0.15 }}
+                                    className="flex items-center gap-2 text-xs"
+                                >
+                                    <div className={`w-4 h-4 rounded border-2 flex items-center justify-center ${
+                                        prop.checked 
+                                            ? 'bg-blue-600 border-blue-500' 
+                                            : 'border-neutral-600'
+                                    }`}>
+                                        {prop.checked && <div className="w-2 h-2 bg-white rounded-sm" />}
+                                    </div>
+                                    <span className={prop.checked ? 'text-blue-300 font-medium' : 'text-neutral-500'}>
+                                        {prop.label}
+                                    </span>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )
+        },
+        {
+            title: 'Apply Validations',
+            description: 'Add validation rules',
+            content: (
+                <div className="space-y-4">
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-purple-600/20 border border-purple-500/30">
+                        <Database className="h-5 w-5 text-purple-400" />
+                        <div className="font-bold text-white text-sm">User</div>
+                    </div>
+                    <div className="pl-4 space-y-2">
+                        <div className="flex items-center gap-2 text-sm">
+                            <div className="w-3 h-3 rounded-full bg-blue-400" />
+                            <span className="text-neutral-300 font-mono">email</span>
+                        </div>
+                        <div className="flex flex-wrap gap-1 pl-5">
+                            {['required', 'email', 'unique:users'].map((rule, i) => (
+                                <motion.span
+                                    key={rule}
+                                    initial={{ scale: 0, opacity: 0 }}
+                                    animate={{ scale: 1, opacity: 1 }}
+                                    transition={{ delay: i * 0.15, type: 'spring' }}
+                                    className="px-2 py-0.5 rounded text-[10px] bg-blue-500/20 text-blue-300 border border-blue-500/30 font-mono"
+                                >
+                                    {rule}
+                                </motion.span>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )
+        },
+        {
+            title: 'Link Relationships',
+            description: 'Connect models',
+            content: (
+                <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                        <div className="p-3 rounded-lg bg-purple-600/20 border border-purple-500/30 flex items-center gap-2">
+                            <Database className="h-5 w-5 text-purple-400" />
+                            <div className="font-bold text-white text-sm">User</div>
+                        </div>
+                        <motion.div
+                            initial={{ scaleX: 0 }}
+                            animate={{ scaleX: 1 }}
+                            transition={{ delay: 0.3, duration: 0.5 }}
+                            className="flex-1 mx-4 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 relative"
+                        >
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.6 }}
+                                className="absolute -top-3 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded bg-cyan-600/30 border border-cyan-500/50 text-[10px] text-cyan-300 font-mono whitespace-nowrap"
+                            >
+                                hasMany
+                            </motion.div>
+                        </motion.div>
+                        <motion.div
+                            initial={{ scale: 0, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ delay: 0.5 }}
+                            className="p-3 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center gap-2"
+                        >
+                            <Database className="h-5 w-5 text-blue-400" />
+                            <div className="font-bold text-white text-sm">Post</div>
+                        </motion.div>
+                    </div>
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.8 }}
+                        className="p-3 rounded-lg bg-neutral-900/50 border border-cyan-500/20"
+                    >
+                        <div className="text-xs text-cyan-300 mb-1">Relationship Details</div>
+                        <div className="space-y-1 text-[10px] text-neutral-400">
+                            <div>• User <span className="text-cyan-300">hasMany</span> Post</div>
+                            <div>• Post <span className="text-purple-300">belongsTo</span> User</div>
+                            <div>• Foreign key: <span className="text-blue-300 font-mono">user_id</span></div>
+                        </div>
+                    </motion.div>
+                </div>
+            )
+        },
+    ];
+
+    React.useEffect(() => {
+        const interval = setInterval(() => {
+            setStep((prev) => (prev + 1) % steps.length);
+        }, 4000);
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <div className="flex flex-col h-full">
+            {/* Step Indicator */}
+            <div className="flex items-center justify-between mb-6">
+                {steps.map((s, i) => (
+                    <div key={i} className="flex items-center">
+                        <motion.div
+                            animate={{
+                                scale: step === i ? 1.2 : 1,
+                                opacity: step >= i ? 1 : 0.3,
+                            }}
+                            className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
+                                step === i
+                                    ? 'bg-gradient-to-br from-purple-600 to-blue-600 text-white'
+                                    : step > i
+                                    ? 'bg-purple-600/50 text-purple-200'
+                                    : 'bg-neutral-700 text-neutral-500'
+                            }`}
+                        >
+                            {i + 1}
+                        </motion.div>
+                        {i < steps.length - 1 && (
+                            <motion.div
+                                animate={{
+                                    scaleX: step > i ? 1 : 0.3,
+                                    opacity: step > i ? 1 : 0.3,
+                                }}
+                                className="w-8 h-0.5 bg-purple-500 origin-left"
+                            />
+                        )}
+                    </div>
+                ))}
+            </div>
+
+            {/* Step Content */}
+            <motion.div
+                key={step}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className="flex-1"
+            >
+                <div className="mb-4">
+                    <h4 className="text-lg font-bold text-white mb-1">{steps[step].title}</h4>
+                    <p className="text-xs text-neutral-400">{steps[step].description}</p>
+                </div>
+                {steps[step].content}
+            </motion.div>
+        </div>
+    );
+};
 
 // Code Generation Demo Component
 const CodeGenerationDemo = () => {
