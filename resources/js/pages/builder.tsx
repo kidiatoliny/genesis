@@ -22,13 +22,7 @@ import AppLayout from '@/layouts/app-layout';
 import { useBuilderStore } from '@/stores/builder-store';
 import { useBuilderUIStore } from '@/stores/builder-ui-store';
 import { type BreadcrumbItem } from '@/types';
-import {
-    DndContext,
-    DragEndEvent,
-    MouseSensor,
-    useSensor,
-    useSensors,
-} from '@dnd-kit/core';
+import { DndContext, MouseSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { Head, router, useForm, usePage } from '@inertiajs/react';
 import {
     Download,
@@ -414,7 +408,6 @@ export default function Builder() {
         setModelPosition,
         setFieldPosition,
         initializeModelPosition,
-        initializeFieldPosition,
         resetSchema,
     } = useBuilderStore();
 
@@ -430,7 +423,6 @@ export default function Builder() {
         draggingModelId,
         draggingFieldId,
         dragOffset,
-        draggedFieldType,
         dragTargetModelId,
         modelWidths,
         setViewMode,
@@ -446,18 +438,25 @@ export default function Builder() {
         setDraggedFieldType,
         setDragTargetModelId,
         setModelWidth,
-        resetForm,
     } = useBuilderUIStore();
 
     const { post, processing } = useForm({});
 
-    const selectedModel = schema?.models.find((m) => m.id === selectedModelId);
-    const selectedField = schema?.models
+    // Hooks that must be declared unconditionally (rules-of-hooks)
+    const canvasRef = useRef<HTMLDivElement>(null);
+    const sensors = useSensors(
+        useSensor(MouseSensor, {
+            activationConstraint: {
+                distance: 5,
+            },
+        }),
+    );
+
+    const selectedField:
+        | (import('@/stores/schema-store').Field & { modelId: string })
+        | undefined = schema?.models
         .flatMap((m) => m.fields.map((f) => ({ ...f, modelId: m.id })))
         .find((f) => f.id === selectedFieldId);
-    const fieldModelId = selectedField
-        ? (selectedField as any).modelId
-        : selectedModelId;
 
     const handleAddModel = () => {
         if (newModelName.trim()) {
@@ -468,23 +467,7 @@ export default function Builder() {
         }
     };
 
-    const handleAddField = () => {
-        if (selectedModelId && newFieldName.trim()) {
-            const newFieldId = `field_${Date.now()}`;
-            addField(selectedModelId, {
-                name: newFieldName,
-                type: newFieldType,
-                required: true,
-            });
-
-            const model = schema?.models.find((m) => m.id === selectedModelId);
-            const fieldIndex = model?.fields.length || 0;
-            initializeFieldPosition(selectedModelId, newFieldId, fieldIndex);
-
-            setNewFieldName('');
-            setNewFieldType('string');
-        }
-    };
+    // handleAddField removed (unused)
 
     const handleSaveSchema = () => {
         if (!schema || !schema.name.trim() || schema.models.length === 0) {
@@ -660,17 +643,7 @@ export default function Builder() {
         );
     }
 
-    const canvasRef = useRef<HTMLDivElement>(null);
-
-    const sensors = useSensors(
-        useSensor(MouseSensor, {
-            activationConstraint: {
-                distance: 5,
-            },
-        }),
-    );
-
-    const handleDragEnd = (event: DragEndEvent) => {
+    const handleDragEnd = () => {
         // Nothing needed here for now
     };
 
@@ -781,9 +754,9 @@ export default function Builder() {
                                     </label>
                                     <Select
                                         value={schema.projectType}
-                                        onValueChange={(value: any) =>
-                                            setProjectType(value)
-                                        }
+                                        onValueChange={(
+                                            value: import('@/stores/schema-store').SchemaDefinition['projectType'],
+                                        ) => setProjectType(value)}
                                     >
                                         <SelectTrigger>
                                             <SelectValue />
@@ -807,9 +780,9 @@ export default function Builder() {
                                     </label>
                                     <Select
                                         value={schema.responseType}
-                                        onValueChange={(value: any) =>
-                                            setResponseType(value)
-                                        }
+                                        onValueChange={(
+                                            value: import('@/stores/schema-store').SchemaDefinition['responseType'],
+                                        ) => setResponseType(value)}
                                     >
                                         <SelectTrigger>
                                             <SelectValue />
@@ -833,9 +806,9 @@ export default function Builder() {
                                     </label>
                                     <Select
                                         value={schema.viewEngine}
-                                        onValueChange={(value: any) =>
-                                            setViewEngine(value)
-                                        }
+                                        onValueChange={(
+                                            value: import('@/stores/schema-store').SchemaDefinition['viewEngine'],
+                                        ) => setViewEngine(value)}
                                     >
                                         <SelectTrigger>
                                             <SelectValue />

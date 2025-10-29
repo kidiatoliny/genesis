@@ -43,6 +43,8 @@ export default [
             'vendor',
             'node_modules',
             'public',
+            'storage',
+            'storage/**',
             'bootstrap/ssr',
             'tailwind.config.js',
         ],

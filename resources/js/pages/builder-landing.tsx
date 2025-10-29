@@ -73,15 +73,15 @@ export default function BuilderLanding() {
                             : 'border-b border-transparent bg-transparent'
                     }`}
                 >
-                    <div className="container mx-auto px-6 py-4 flex items-center justify-between relative">
-                        <div className="flex items-center gap-2 w-48">
+                    <div className="relative container mx-auto flex items-center justify-between px-6 py-4">
+                        <div className="flex w-48 items-center gap-2">
                             <Box className="h-6 w-6 text-purple-500" />
                             <span className="text-xl font-bold">
                                 Genesis Builder
                             </span>
                         </div>
 
-                        <div className="hidden md:flex items-center gap-6 absolute left-1/2 transform -translate-x-1/2">
+                        <div className="absolute left-1/2 hidden -translate-x-1/2 transform items-center gap-6 md:flex">
                             <a
                                 href="#features"
                                 className="group flex items-center gap-2 text-sm font-medium text-neutral-300 transition-colors hover:text-white"
@@ -119,7 +119,7 @@ export default function BuilderLanding() {
                             </a>
                         </div>
 
-                        <div className="flex items-center gap-4 w-48 justify-end">
+                        <div className="flex w-48 items-center justify-end gap-4">
                             <Link
                                 href="/builder"
                                 className="rounded-lg bg-purple-600 px-6 py-2 font-medium transition-colors hover:bg-purple-700"
@@ -131,13 +131,13 @@ export default function BuilderLanding() {
                 </motion.nav>
 
                 {/* Hero Section */}
-                <section className="relative flex min-h-screen items-center justify-center px-6 pt-48">
+                <section className="relative flex min-h-screen items-center justify-center px-6 pt-32 md:pt-48">
                     <motion.div
                         style={{ y, opacity }}
                         className="absolute inset-0 overflow-hidden"
                     >
-                        <div className="absolute top-1/4 left-1/4 h-96 w-96 rounded-full bg-purple-600/30 blur-3xl" />
-                        <div className="absolute right-1/4 bottom-1/4 h-96 w-96 rounded-full bg-blue-600/20 blur-3xl" />
+                        <div className="absolute top-1/4 left-1/4 w-64 h-64 md:w-96 md:h-96 rounded-full bg-purple-600/30 blur-3xl" />
+                        <div className="absolute right-1/4 bottom-1/4 w-64 h-64 md:w-96 md:h-96 rounded-full bg-blue-600/20 blur-3xl" />
                     </motion.div>
 
                     <div className="relative z-10 mx-auto max-w-6xl text-center">
@@ -146,7 +146,7 @@ export default function BuilderLanding() {
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ duration: 0.8, delay: 0.2 }}
                         >
-                            <h1 className="mb-6 bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-6xl leading-tight font-bold text-transparent md:text-8xl">
+                            <h1 className="mb-6 bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-5xl leading-tight font-bold text-transparent md:text-8xl">
                                 Build Laravel Apps
                                 <br />
                                 <span className="text-purple-400">
@@ -154,7 +154,7 @@ export default function BuilderLanding() {
                                 </span>
                             </h1>
 
-                            <p className="mx-auto mb-10 max-w-3xl text-xl text-neutral-300 md:text-2xl">
+                            <p className="mx-auto mb-10 max-w-3xl text-lg text-neutral-300 md:text-2xl">
                                 Create database schemas, generate models,
                                 migrations, and complete CRUD operations with a
                                 powerful drag-and-drop interface.
@@ -163,7 +163,7 @@ export default function BuilderLanding() {
                             <Link href="/builder">
                                 <Button
                                     size="lg"
-                                    className="bg-purple-600 px-8 py-6 text-lg transition-all hover:scale-105 hover:bg-purple-700"
+                                    className="bg-purple-600 px-6 py-4 md:px-8 md:py-6 text-base md:text-lg transition-all hover:scale-105 hover:bg-purple-700"
                                 >
                                     Start Building
                                     <ArrowRight className="ml-2 h-5 w-5" />
@@ -176,7 +176,7 @@ export default function BuilderLanding() {
                             initial={{ y: 100, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ duration: 1, delay: 0.6 }}
-                            className="mt-20"
+                            className="mt-12 md:mt-20"
                         >
                             <AnimatedSchemaDemo />
                         </motion.div>
@@ -186,7 +186,7 @@ export default function BuilderLanding() {
                 {/* Features Section - ReactFlow Inspired */}
                 <section
                     id="features"
-                    className="relative overflow-hidden bg-gradient-to-b from-transparent via-purple-500/5 to-transparent px-6 py-32"
+                    className="relative overflow-hidden bg-gradient-to-b from-transparent via-purple-500/5 to-transparent px-6 py-16 md:py-32"
                 >
                     {/* Animated Grid Background */}
                     <div className="absolute inset-0 opacity-20">
@@ -207,7 +207,7 @@ export default function BuilderLanding() {
                             whileInView={{ y: 0, opacity: 1 }}
                             transition={{ duration: 0.8 }}
                             viewport={{ once: true }}
-                            className="relative mb-24 text-center"
+                            className="relative mb-12 md:mb-24 text-center"
                         >
                             {/* Decorative elements */}
                             <div className="pointer-events-none absolute -top-20 left-1/2 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-gradient-to-r from-purple-600/20 to-blue-600/20 opacity-50 blur-3xl" />
@@ -225,7 +225,7 @@ export default function BuilderLanding() {
                                 </span>
                             </motion.div>
 
-                            <h2 className="relative mb-6 text-5xl leading-[1.1] font-bold md:text-6xl lg:text-7xl">
+                            <h2 className="relative mb-4 md:mb-6 text-3xl md:text-5xl leading-[1.1] font-bold md:text-6xl lg:text-7xl">
                                 <span className="text-white">
                                     Everything you need to
                                 </span>
@@ -270,25 +270,25 @@ export default function BuilderLanding() {
                                 viewport={{ once: true }}
                                 className="w-full"
                             >
-                                <div className="glass-card group relative h-[700px] cursor-pointer overflow-hidden rounded-3xl">
+                                <div className="glass-card group relative h-[500px] md:h-[700px] cursor-pointer overflow-hidden rounded-2xl md:rounded-3xl">
                                     <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-transparent to-blue-900/20 transition-all duration-500 group-hover:from-purple-900/30 group-hover:to-blue-900/30" />
 
-                                    <div className="relative flex h-full flex-col gap-8 p-12">
+                                    <div className="relative flex h-full flex-col gap-4 md:gap-8 p-6 md:p-12">
                                         <div>
-                                            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-purple-500/30 bg-purple-500/20 px-3 py-1.5">
-                                                <Palette className="h-4 w-4 text-purple-400" />
-                                                <span className="text-xs font-semibold tracking-wider text-purple-200 uppercase">
+                                            <div className="mb-3 md:mb-6 inline-flex items-center gap-2 rounded-full border border-purple-500/30 bg-purple-500/20 px-2 md:px-3 py-1 md:py-1.5">
+                                                <Palette className="h-3 w-3 md:h-4 md:w-4 text-purple-400" />
+                                                <span className="text-[10px] md:text-xs font-semibold tracking-wider text-purple-200 uppercase">
                                                     Visual Designer
                                                 </span>
                                             </div>
-                                            <h3 className="mb-4 text-4xl font-bold text-white md:text-5xl">
+                                            <h3 className="mb-3 md:mb-4 text-xl md:text-2xl lg:text-5xl font-bold text-white">
                                                 Design your schema
                                                 <br />
                                                 <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
                                                     visually
                                                 </span>
                                             </h3>
-                                            <p className="max-w-2xl text-lg text-neutral-300">
+                                            <p className="max-w-2xl text-sm md:text-lg text-neutral-300">
                                                 Drag models, drop fields,
                                                 connect relationships. Watch
                                                 your database come alive with
@@ -297,7 +297,7 @@ export default function BuilderLanding() {
                                         </div>
 
                                         {/* Animated Drag & Drop Demo */}
-                                        <div className="relative flex-1 overflow-hidden rounded-xl border border-purple-500/20 bg-neutral-950/50">
+                                        <div className="relative flex-1 overflow-hidden rounded-lg md:rounded-xl border border-purple-500/20 bg-neutral-950/50">
                                             <DragDropDemo />
                                         </div>
                                     </div>
@@ -312,31 +312,31 @@ export default function BuilderLanding() {
                                     transition={{ duration: 0.6, delay: 0.1 }}
                                     viewport={{ once: true }}
                                 >
-                                    <div className="glass-card group relative h-[600px] cursor-pointer overflow-hidden rounded-3xl">
+                                    <div className="glass-card group relative h-auto min-h-[400px] md:h-[600px] cursor-pointer overflow-hidden rounded-2xl md:rounded-3xl">
                                         <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/20 to-teal-900/20 transition-all duration-500 group-hover:from-emerald-900/30 group-hover:to-teal-900/30" />
 
-                                        <div className="relative flex h-full flex-col p-10">
-                                            <div className="mb-6">
-                                                <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/20 px-3 py-1.5">
-                                                    <Code className="h-4 w-4 text-emerald-400" />
-                                                    <span className="text-xs font-semibold tracking-wider text-emerald-200 uppercase">
+                                        <div className="relative flex h-full flex-col p-6 md:p-10">
+                                            <div className="mb-4 md:mb-6">
+                                                <div className="mb-3 md:mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/20 px-2 md:px-3 py-1 md:py-1.5">
+                                                    <Code className="h-3 w-3 md:h-4 md:w-4 text-emerald-400" />
+                                                    <span className="text-[10px] md:text-xs font-semibold tracking-wider text-emerald-200 uppercase">
                                                         Code Generation
                                                     </span>
                                                 </div>
-                                                <h3 className="mb-4 text-3xl font-bold text-white md:text-4xl">
+                                                <h3 className="mb-3 md:mb-4 text-xl md:text-3xl lg:text-4xl font-bold text-white">
                                                     Production code
                                                     <br />
                                                     <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
                                                         instantly
                                                     </span>
                                                 </h3>
-                                                <p className="mb-6 text-neutral-300">
+                                                <p className="mb-4 md:mb-6 text-sm md:text-base text-neutral-300">
                                                     Clean Laravel code following
                                                     best practices
                                                 </p>
                                             </div>
 
-                                            <div className="flex-1 overflow-hidden">
+                                            <div className="md:flex-1 overflow-hidden">
                                                 <CodeGenerationDemo />
                                             </div>
                                         </div>
@@ -349,31 +349,31 @@ export default function BuilderLanding() {
                                     transition={{ duration: 0.6, delay: 0.2 }}
                                     viewport={{ once: true }}
                                 >
-                                    <div className="glass-card group relative h-[600px] cursor-pointer overflow-hidden rounded-3xl">
+                                    <div className="glass-card group relative h-auto min-h-[400px] md:h-[600px] cursor-pointer overflow-hidden rounded-2xl md:rounded-3xl">
                                         <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 transition-all duration-500 group-hover:from-blue-900/30 group-hover:to-cyan-900/30" />
 
-                                        <div className="relative flex h-full flex-col p-10">
-                                            <div className="mb-6">
-                                                <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/20 px-3 py-1.5">
-                                                    <Zap className="h-4 w-4 text-blue-400" />
-                                                    <span className="text-xs font-semibold tracking-wider text-blue-200 uppercase">
+                                        <div className="relative flex h-full flex-col p-6 md:p-10">
+                                            <div className="mb-4 md:mb-6">
+                                                <div className="mb-3 md:mb-6 inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/20 px-2 md:px-3 py-1 md:py-1.5">
+                                                    <Zap className="h-3 w-3 md:h-4 md:w-4 text-blue-400" />
+                                                    <span className="text-[10px] md:text-xs font-semibold tracking-wider text-blue-200 uppercase">
                                                         Smart Validation
                                                     </span>
                                                 </div>
-                                                <h3 className="mb-4 text-3xl font-bold text-white md:text-4xl">
+                                                <h3 className="mb-3 md:mb-4 text-xl md:text-3xl lg:text-4xl font-bold text-white">
                                                     Powerful field
                                                     <br />
                                                     <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
                                                         validation
                                                     </span>
                                                 </h3>
-                                                <p className="text-neutral-300">
+                                                <p className="text-sm md:text-base text-neutral-300">
                                                     Complete Laravel validation
                                                     support with 60+ rules
                                                 </p>
                                             </div>
 
-                                            <div className="flex-1 overflow-hidden">
+                                            <div className="md:flex-1 overflow-hidden">
                                                 <ValidationRuleDemo />
                                             </div>
                                         </div>
@@ -387,7 +387,7 @@ export default function BuilderLanding() {
                 {/* How It Works Section */}
                 <section
                     id="how-it-works"
-                    className="bg-gradient-to-b from-transparent via-blue-500/5 to-transparent px-6 py-32"
+                    className="bg-gradient-to-b from-transparent via-blue-500/5 to-transparent px-6 py-16 md:py-32"
                 >
                     <div className="container mx-auto max-w-6xl">
                         <motion.div
@@ -397,7 +397,7 @@ export default function BuilderLanding() {
                             viewport={{ once: true }}
                             className="mb-32 text-center"
                         >
-                            <h2 className="mb-6 text-5xl font-bold">
+                            <h2 className="mb-6 text-3xl font-bold md:text-5xl">
                                 How it works
                             </h2>
                             <p className="text-xl text-neutral-300">
@@ -512,7 +512,7 @@ export default function BuilderLanding() {
                                 <motion.div
                                     whileHover={{ scale: 1.02 }}
                                     transition={{ duration: 0.3 }}
-                                    className="glass-card relative order-1 min-h-[600px] overflow-hidden p-8 md:order-2"
+                                    className="glass-card relative min-h-[400px] md:min-h-[600px] overflow-hidden p-6 md:p-8 md:order-2"
                                     style={{ willChange: 'transform' }}
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-blue-600/10" />
@@ -535,7 +535,7 @@ export default function BuilderLanding() {
                                 <motion.div
                                     whileHover={{ scale: 1.02 }}
                                     transition={{ duration: 0.3 }}
-                                    className="glass-card relative min-h-[600px] overflow-hidden p-8"
+                                    className="glass-card relative min-h-[400px] md:min-h-[600px] overflow-hidden p-6 md:p-8"
                                     style={{ willChange: 'transform' }}
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-cyan-600/10" />
@@ -727,7 +727,7 @@ export default function BuilderLanding() {
                                 <motion.div
                                     whileHover={{ scale: 1.02 }}
                                     transition={{ duration: 0.3 }}
-                                    className="glass-card relative order-1 min-h-[600px] overflow-hidden p-8 md:order-2"
+                                    className="glass-card relative order-1 min-h-[400px] md:min-h-[600px] overflow-hidden p-6 md:p-8 md:order-2"
                                     style={{ willChange: 'transform' }}
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/10 to-teal-600/10" />
@@ -743,7 +743,7 @@ export default function BuilderLanding() {
                 {/* Integration & Workflow Section */}
                 <section
                     id="deploy"
-                    className="bg-gradient-to-b from-transparent via-violet-500/5 to-transparent px-6 py-32"
+                    className="bg-gradient-to-b from-transparent via-violet-500/5 to-transparent px-6 py-16 md:py-32"
                 >
                     <div className="container mx-auto max-w-7xl">
                         <motion.div
@@ -753,7 +753,7 @@ export default function BuilderLanding() {
                             viewport={{ once: true }}
                             className="mb-20 text-center"
                         >
-                            <h2 className="mb-6 text-5xl font-bold">
+                            <h2 className="mb-6 text-3xl font-bold md:text-5xl">
                                 Deploy with One Click
                             </h2>
                             <p className="text-xl text-neutral-300">
@@ -940,7 +940,7 @@ export default function BuilderLanding() {
                 {/* Examples Section */}
                 <section
                     id="examples"
-                    className="bg-gradient-to-b from-transparent via-neutral-900 to-transparent px-6 py-32"
+                    className="bg-gradient-to-b from-transparent via-neutral-900 to-transparent px-6 py-16 md:py-32"
                 >
                     <div className="container mx-auto max-w-6xl">
                         <motion.div
@@ -950,7 +950,7 @@ export default function BuilderLanding() {
                             viewport={{ once: true }}
                             className="mb-20 text-center"
                         >
-                            <h2 className="mb-6 text-5xl font-bold">
+                            <h2 className="mb-6 text-3xl font-bold md:text-5xl">
                                 Real-world examples
                             </h2>
                             <p className="text-xl text-neutral-300">
@@ -973,7 +973,7 @@ export default function BuilderLanding() {
                 {/* Tech Stack Section */}
                 <section
                     id="stack"
-                    className="bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent px-6 py-32"
+                    className="bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent px-6 py-16 md:py-32"
                 >
                     <div className="container mx-auto max-w-6xl">
                         <motion.div
@@ -983,7 +983,7 @@ export default function BuilderLanding() {
                             viewport={{ once: true }}
                             className="mb-16 text-center"
                         >
-                            <h2 className="mb-6 text-5xl font-bold">
+                            <h2 className="mb-6 text-3xl font-bold md:text-5xl">
                                 Built with modern tech
                             </h2>
                             <p className="text-xl text-neutral-300">
@@ -1035,7 +1035,7 @@ export default function BuilderLanding() {
                 </section>
 
                 {/* Code Quality Section */}
-                <section className="bg-gradient-to-b from-transparent via-rose-500/5 to-transparent px-6 py-32">
+                <section className="bg-gradient-to-b from-transparent via-rose-500/5 to-transparent px-6 py-16 md:py-32">
                     <div className="container mx-auto max-w-7xl">
                         <motion.div
                             initial={{ y: 50, opacity: 0 }}
@@ -1056,7 +1056,7 @@ export default function BuilderLanding() {
                                     Enterprise Ready
                                 </span>
                             </motion.div>
-                            <h2 className="mb-6 text-5xl font-bold md:text-6xl">
+                            <h2 className="mb-6 text-3xl font-bold md:text-6xl">
                                 <span className="text-white">
                                     Production-ready
                                 </span>
@@ -1152,7 +1152,7 @@ export default function BuilderLanding() {
                 </section>
 
                 {/* Performance Section */}
-                <section className="bg-gradient-to-b from-transparent via-fuchsia-500/5 to-transparent px-6 py-32">
+                <section className="bg-gradient-to-b from-transparent via-fuchsia-500/5 to-transparent px-6 py-16 md:py-32">
                     <div className="container mx-auto max-w-7xl">
                         <div className="grid items-center gap-12 md:grid-cols-2">
                             <motion.div
@@ -1297,7 +1297,7 @@ export default function BuilderLanding() {
                 {/* Pricing Section */}
                 <section
                     id="pricing"
-                    className="bg-gradient-to-b from-transparent via-orange-500/5 to-transparent px-6 py-32"
+                    className="bg-gradient-to-b from-transparent via-orange-500/5 to-transparent px-6 py-16 md:py-32"
                 >
                     <div className="container mx-auto max-w-7xl">
                         {/* Header */}
@@ -1321,7 +1321,7 @@ export default function BuilderLanding() {
                                 </span>
                             </motion.div>
 
-                            <h2 className="mb-6 text-5xl font-bold md:text-6xl">
+                            <h2 className="mb-6 text-3xl font-bold md:text-6xl">
                                 <span className="text-white">
                                     Choose your plan
                                 </span>
@@ -1639,7 +1639,7 @@ export default function BuilderLanding() {
                 </section>
 
                 {/* Stats Section */}
-                <section className="bg-gradient-to-b from-transparent via-emerald-500/5 to-transparent px-6 py-32">
+                <section className="bg-gradient-to-b from-transparent via-emerald-500/5 to-transparent px-6 py-16 md:py-32">
                     <div className="container mx-auto max-w-6xl">
                         <div className="grid gap-8 md:grid-cols-4">
                             {[
@@ -1675,7 +1675,7 @@ export default function BuilderLanding() {
                 </section>
 
                 {/* FAQ Section */}
-                <section className="bg-gradient-to-b from-transparent via-amber-500/5 to-transparent px-6 py-32">
+                <section className="bg-gradient-to-b from-transparent via-amber-500/5 to-transparent px-6 py-16 md:py-32">
                     <div className="container mx-auto max-w-4xl">
                         <motion.div
                             initial={{ y: 50, opacity: 0 }}
@@ -1684,7 +1684,7 @@ export default function BuilderLanding() {
                             viewport={{ once: true }}
                             className="mb-16 text-center"
                         >
-                            <h2 className="mb-6 text-5xl font-bold">
+                            <h2 className="mb-6 text-3xl font-bold md:text-5xl">
                                 Frequently asked questions
                             </h2>
                             <p className="text-xl text-neutral-300">
@@ -1743,7 +1743,7 @@ export default function BuilderLanding() {
                 </section>
 
                 {/* CTA Section */}
-                <section className="bg-gradient-to-b from-transparent via-green-500/5 to-transparent px-6 py-32">
+                <section className="bg-gradient-to-b from-transparent via-green-500/5 to-transparent px-6 py-16 md:py-32">
                     <motion.div
                         initial={{ scale: 0.9, opacity: 0 }}
                         whileInView={{ scale: 1, opacity: 1 }}
@@ -1776,40 +1776,40 @@ export default function BuilderLanding() {
                 </section>
 
                 {/* Footer */}
-                <footer className="relative mt-32 border-t border-purple-500/20 bg-neutral-950/80 backdrop-blur-lg">
+                <footer className="relative mt-16 md:mt-32 border-t border-purple-500/20 bg-neutral-950/80 backdrop-blur-lg">
                     <div className="absolute inset-0 bg-gradient-to-b from-purple-950/20 via-neutral-950/50 to-neutral-950" />
 
-                    <div className="relative container mx-auto max-w-7xl px-6 py-16">
-                        <div className="mb-12 grid gap-12 md:grid-cols-4">
-                            {/* Brand Column */}
-                            <div className="md:col-span-1">
-                                <div className="mb-4 flex items-center gap-2">
-                                    <Box className="h-7 w-7 text-purple-500" />
-                                    <span className="text-xl font-bold text-white">
+                    <div className="relative container mx-auto max-w-7xl px-6 py-8 md:py-16">
+                        <div className="mb-8 md:mb-12 grid gap-8 md:gap-12 grid-cols-2 md:grid-cols-4">
+                            {/* Brand Column - Full width on mobile */}
+                            <div className="col-span-3 md:col-span-1">
+                                <div className="mb-3 md:mb-4 flex items-center gap-2">
+                                    <Box className="h-6 w-6 md:h-7 md:w-7 text-purple-500" />
+                                    <span className="text-lg md:text-xl font-bold text-white">
                                         Genesis Builder
                                     </span>
                                 </div>
-                                <p className="mb-6 text-sm leading-relaxed text-neutral-400">
+                                <p className="mb-4 md:mb-6 text-xs md:text-sm leading-relaxed text-neutral-400">
                                     Visual Laravel schema builder for modern
                                     developers. Build faster, ship sooner.
                                 </p>
-                                <div className="flex items-center gap-3">
+                                <div className="flex items-center gap-2 md:gap-3">
                                     <a
                                         href="https://github.com"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="group flex h-10 w-10 items-center justify-center rounded-lg border border-neutral-700/50 bg-neutral-800/50 transition-all duration-300 hover:border-purple-500/50 hover:bg-purple-600/20"
+                                        className="group flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-lg border border-neutral-700/50 bg-neutral-800/50 transition-all duration-300 hover:border-purple-500/50 hover:bg-purple-600/20"
                                     >
-                                        <Github className="h-5 w-5 text-neutral-400 transition-colors group-hover:text-purple-400" />
+                                        <Github className="h-4 w-4 md:h-5 md:w-5 text-neutral-400 transition-colors group-hover:text-purple-400" />
                                     </a>
                                     <a
                                         href="https://twitter.com"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="group flex h-10 w-10 items-center justify-center rounded-lg border border-neutral-700/50 bg-neutral-800/50 transition-all duration-300 hover:border-purple-500/50 hover:bg-purple-600/20"
+                                        className="group flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-lg border border-neutral-700/50 bg-neutral-800/50 transition-all duration-300 hover:border-purple-500/50 hover:bg-purple-600/20"
                                     >
                                         <svg
-                                            className="h-5 w-5 text-neutral-400 transition-colors group-hover:text-purple-400"
+                                            className="h-4 w-4 md:h-5 md:w-5 text-neutral-400 transition-colors group-hover:text-purple-400"
                                             fill="currentColor"
                                             viewBox="0 0 24 24"
                                         >
@@ -1821,10 +1821,10 @@ export default function BuilderLanding() {
 
                             {/* Product Column */}
                             <div>
-                                <h4 className="mb-4 text-sm font-semibold tracking-wider text-white uppercase">
+                                <h4 className="mb-3 md:mb-4 text-xs md:text-sm font-semibold tracking-wider text-white uppercase">
                                     Product
                                 </h4>
-                                <ul className="space-y-3">
+                                <ul className="space-y-2 md:space-y-3">
                                     {[
                                         {
                                             label: 'Features',
@@ -1847,9 +1847,9 @@ export default function BuilderLanding() {
                                         <li key={i}>
                                             <a
                                                 href={link.href}
-                                                className="group flex items-center gap-2 text-sm text-neutral-400 transition-colors duration-200 hover:text-purple-400"
+                                                className="group flex items-center gap-2 text-xs md:text-sm text-neutral-400 transition-colors duration-200 hover:text-purple-400"
                                             >
-                                                <span className="h-1.5 w-0 rounded-full bg-purple-500 transition-all duration-200 group-hover:w-1.5" />
+                                                <span className="h-1 w-0 md:h-1.5 rounded-full bg-purple-500 transition-all duration-200 group-hover:w-1 md:group-hover:w-1.5" />
                                                 {link.label}
                                             </a>
                                         </li>
@@ -1859,10 +1859,10 @@ export default function BuilderLanding() {
 
                             {/* Resources Column */}
                             <div>
-                                <h4 className="mb-4 text-sm font-semibold tracking-wider text-white uppercase">
+                                <h4 className="mb-3 md:mb-4 text-xs md:text-sm font-semibold tracking-wider text-white uppercase">
                                     Resources
                                 </h4>
-                                <ul className="space-y-3">
+                                <ul className="space-y-2 md:space-y-3">
                                     {[
                                         { label: 'Blog', href: '/blog' },
                                         { label: 'Guides', href: '/guides' },
@@ -1879,9 +1879,9 @@ export default function BuilderLanding() {
                                         <li key={i}>
                                             <a
                                                 href={link.href}
-                                                className="group flex items-center gap-2 text-sm text-neutral-400 transition-colors duration-200 hover:text-purple-400"
+                                                className="group flex items-center gap-2 text-xs md:text-sm text-neutral-400 transition-colors duration-200 hover:text-purple-400"
                                             >
-                                                <span className="h-1.5 w-0 rounded-full bg-purple-500 transition-all duration-200 group-hover:w-1.5" />
+                                                <span className="h-1 w-0 md:h-1.5 rounded-full bg-purple-500 transition-all duration-200 group-hover:w-1 md:group-hover:w-1.5" />
                                                 {link.label}
                                             </a>
                                         </li>
@@ -1891,10 +1891,10 @@ export default function BuilderLanding() {
 
                             {/* Company Column */}
                             <div>
-                                <h4 className="mb-4 text-sm font-semibold tracking-wider text-white uppercase">
+                                <h4 className="mb-3 md:mb-4 text-xs md:text-sm font-semibold tracking-wider text-white uppercase">
                                     Company
                                 </h4>
-                                <ul className="space-y-3">
+                                <ul className="space-y-2 md:space-y-3">
                                     {[
                                         { label: 'About', href: '/about' },
                                         { label: 'Careers', href: '/careers' },
@@ -1905,9 +1905,9 @@ export default function BuilderLanding() {
                                         <li key={i}>
                                             <a
                                                 href={link.href}
-                                                className="group flex items-center gap-2 text-sm text-neutral-400 transition-colors duration-200 hover:text-purple-400"
+                                                className="group flex items-center gap-2 text-xs md:text-sm text-neutral-400 transition-colors duration-200 hover:text-purple-400"
                                             >
-                                                <span className="h-1.5 w-0 rounded-full bg-purple-500 transition-all duration-200 group-hover:w-1.5" />
+                                                <span className="h-1 w-0 md:h-1.5 rounded-full bg-purple-500 transition-all duration-200 group-hover:w-1 md:group-hover:w-1.5" />
                                                 {link.label}
                                             </a>
                                         </li>
@@ -1917,9 +1917,9 @@ export default function BuilderLanding() {
                         </div>
 
                         {/* Footer Bottom */}
-                        <div className="border-t border-neutral-800/50 pt-8">
-                            <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-                                <div className="text-sm text-neutral-400">
+                        <div className="border-t border-neutral-800/50 pt-6 md:pt-8">
+                            <div className="flex flex-col items-center justify-between gap-3 md:gap-4 md:flex-row">
+                                <div className="text-xs md:text-sm text-neutral-400 text-center md:text-left">
                                     © {new Date().getFullYear()} Genesis
                                     Builder. Built with{' '}
                                     <span className="text-purple-400">
@@ -1929,16 +1929,16 @@ export default function BuilderLanding() {
                                     <span className="text-blue-400">React</span>
                                     .
                                 </div>
-                                <div className="flex items-center gap-6">
+                                <div className="flex items-center gap-4 md:gap-6">
                                     <a
                                         href="/privacy"
-                                        className="text-sm text-neutral-400 transition-colors hover:text-purple-400"
+                                        className="text-xs md:text-sm text-neutral-400 transition-colors hover:text-purple-400"
                                     >
                                         Privacy Policy
                                     </a>
                                     <a
                                         href="/terms"
-                                        className="text-sm text-neutral-400 transition-colors hover:text-purple-400"
+                                        className="text-xs md:text-sm text-neutral-400 transition-colors hover:text-purple-400"
                                     >
                                         Terms of Service
                                     </a>
@@ -1957,9 +1957,9 @@ export default function BuilderLanding() {
 
 const AnimatedSchemaDemo = () => {
     return (
-        <div className="relative mx-auto h-[600px] w-full max-w-5xl overflow-hidden rounded-2xl border border-purple-500/20 bg-gradient-to-br from-neutral-950 via-purple-950/30 to-neutral-950 shadow-2xl backdrop-blur-xl">
-            {/* Animated Grid Background - ReactFlow style */}
-            <div className="absolute inset-0">
+        <div className="relative mx-auto h-[400px] md:h-[600px] w-full max-w-5xl overflow-hidden rounded-xl md:rounded-2xl border border-purple-500/20 bg-gradient-to-br from-neutral-950 via-purple-950/30 to-neutral-950 shadow-2xl backdrop-blur-xl">
+            {/* Animated Grid Background - ReactFlow style - LIGHTER ON MOBILE */}
+            <div className="absolute inset-0 opacity-30 md:opacity-100">
                 <div
                     className="absolute inset-0"
                     style={{
@@ -1982,121 +1982,121 @@ const AnimatedSchemaDemo = () => {
                 />
             </div>
 
-            {/* Ambient light effects */}
-            <div className="absolute top-0 left-1/4 h-96 w-96 animate-pulse rounded-full bg-purple-600/20 blur-3xl" />
+            {/* Ambient light effects - SMALLER ON MOBILE */}
+            <div className="absolute top-0 left-1/4 w-0 h-0 md:w-96 md:h-96 animate-pulse rounded-full bg-purple-600/20 blur-3xl" />
             <div
-                className="absolute right-1/4 bottom-0 h-96 w-96 animate-pulse rounded-full bg-blue-600/20 blur-3xl"
+                className="absolute right-1/4 bottom-0 w-0 h-0 md:w-96 md:h-96 animate-pulse rounded-full bg-blue-600/20 blur-3xl"
                 style={{ animationDelay: '1s' }}
             />
 
             {/* Model Nodes - Inspired by ReactFlow */}
             <motion.div
-                initial={{ x: -100, opacity: 0 }}
+                initial={{ x: -50, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.8, delay: 1 }}
-                className="group absolute top-32 left-20"
+                className="group absolute top-12 md:top-32 left-3 md:left-20"
             >
-                <div className="relative overflow-hidden rounded-xl border-2 border-purple-400/50 bg-gradient-to-br from-purple-600/90 to-purple-700/90 shadow-2xl backdrop-blur-sm">
+                <div className="relative overflow-hidden rounded-lg md:rounded-xl border md:border-2 border-purple-400/50 bg-gradient-to-br from-purple-600/90 to-purple-700/90 shadow-lg md:shadow-2xl backdrop-blur-sm scale-100 md:scale-100 origin-top-left">
                     {/* Node header */}
-                    <div className="flex items-center gap-3 border-b border-purple-400/30 bg-purple-700/50 px-6 py-3">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-500/40">
-                            <Database className="h-4 w-4 text-white" />
+                    <div className="flex items-center gap-2 md:gap-3 border-b border-purple-400/30 bg-purple-700/50 px-3 md:px-6 py-2 md:py-3">
+                        <div className="flex h-6 w-6 md:h-8 md:w-8 items-center justify-center rounded-lg bg-purple-500/40">
+                            <Database className="h-3 w-3 md:h-4 md:w-4 text-white" />
                         </div>
-                        <span className="text-base font-bold text-white">
+                        <span className="text-sm md:text-base font-bold text-white">
                             User
                         </span>
                     </div>
                     {/* Node body */}
-                    <div className="space-y-2 px-6 py-4">
-                        <div className="flex items-center gap-2 text-xs text-purple-100">
-                            <div className="h-2 w-2 rounded-full bg-green-400" />
+                    <div className="space-y-1.5 md:space-y-2 px-3 md:px-6 py-2.5 md:py-4">
+                        <div className="flex items-center gap-2 text-[10px] md:text-xs text-purple-100">
+                            <div className="h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-green-400" />
                             <span className="font-mono">id: integer</span>
                         </div>
-                        <div className="flex items-center gap-2 text-xs text-purple-100">
-                            <div className="h-2 w-2 rounded-full bg-emerald-400" />
+                        <div className="flex items-center gap-2 text-[10px] md:text-xs text-purple-100">
+                            <div className="h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-emerald-400" />
                             <span className="font-mono">name: string</span>
                         </div>
-                        <div className="flex items-center gap-2 text-xs text-purple-100">
-                            <div className="h-2 w-2 rounded-full bg-teal-400" />
+                        <div className="flex items-center gap-2 text-[10px] md:text-xs text-purple-100">
+                            <div className="h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-teal-400" />
                             <span className="font-mono">email: email</span>
                         </div>
                     </div>
                     {/* Connection handles */}
-                    <div className="absolute top-1/2 -right-2 h-4 w-4 -translate-y-1/2 rounded-full border-2 border-purple-200 bg-purple-400 shadow-lg" />
+                    <div className="hidden md:block absolute top-1/2 -right-2 h-4 w-4 -translate-y-1/2 rounded-full border-2 border-purple-200 bg-purple-400 shadow-lg" />
                 </div>
             </motion.div>
 
             <motion.div
-                initial={{ x: 100, opacity: 0 }}
+                initial={{ x: 50, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.8, delay: 1.2 }}
-                className="group absolute top-28 right-24"
+                className="group absolute top-10 md:top-28 right-3 md:right-24"
             >
-                <div className="relative overflow-hidden rounded-xl border-2 border-blue-400/50 bg-gradient-to-br from-blue-600/90 to-blue-700/90 shadow-2xl backdrop-blur-sm">
+                <div className="relative overflow-hidden rounded-lg md:rounded-xl border md:border-2 border-blue-400/50 bg-gradient-to-br from-blue-600/90 to-blue-700/90 shadow-lg md:shadow-2xl backdrop-blur-sm scale-100 md:scale-100 origin-top-right">
                     {/* Node header */}
-                    <div className="flex items-center gap-3 border-b border-blue-400/30 bg-blue-700/50 px-6 py-3">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/40">
-                            <Database className="h-4 w-4 text-white" />
+                    <div className="flex items-center gap-2 md:gap-3 border-b border-blue-400/30 bg-blue-700/50 px-3 md:px-6 py-2 md:py-3">
+                        <div className="flex h-6 w-6 md:h-8 md:w-8 items-center justify-center rounded-lg bg-blue-500/40">
+                            <Database className="h-3 w-3 md:h-4 md:w-4 text-white" />
                         </div>
-                        <span className="text-base font-bold text-white">
+                        <span className="text-sm md:text-base font-bold text-white">
                             Post
                         </span>
                     </div>
                     {/* Node body */}
-                    <div className="space-y-2 px-6 py-4">
-                        <div className="flex items-center gap-2 text-xs text-blue-100">
-                            <div className="h-2 w-2 rounded-full bg-orange-400" />
+                    <div className="space-y-1.5 md:space-y-2 px-3 md:px-6 py-2.5 md:py-4">
+                        <div className="flex items-center gap-2 text-[10px] md:text-xs text-blue-100">
+                            <div className="h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-orange-400" />
                             <span className="font-mono">title: string</span>
                         </div>
-                        <div className="flex items-center gap-2 text-xs text-blue-100">
-                            <div className="h-2 w-2 rounded-full bg-yellow-400" />
+                        <div className="flex items-center gap-2 text-[10px] md:text-xs text-blue-100">
+                            <div className="h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-yellow-400" />
                             <span className="font-mono">content: text</span>
                         </div>
-                        <div className="flex items-center gap-2 text-xs text-blue-100">
-                            <div className="h-2 w-2 rounded-full bg-purple-400" />
+                        <div className="flex items-center gap-2 text-[10px] md:text-xs text-blue-100">
+                            <div className="h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-purple-400" />
                             <span className="font-mono">user_id: integer</span>
                         </div>
                     </div>
                     {/* Connection handles */}
-                    <div className="absolute top-1/2 -left-2 h-4 w-4 -translate-y-1/2 rounded-full border-2 border-blue-200 bg-blue-400 shadow-lg" />
-                    <div className="absolute top-1/2 -right-2 h-4 w-4 -translate-y-1/2 rounded-full border-2 border-blue-200 bg-blue-400 shadow-lg" />
+                    <div className="hidden md:block absolute top-1/2 -left-2 h-4 w-4 -translate-y-1/2 rounded-full border-2 border-blue-200 bg-blue-400 shadow-lg" />
+                    <div className="hidden md:block absolute top-1/2 -right-2 h-4 w-4 -translate-y-1/2 rounded-full border-2 border-blue-200 bg-blue-400 shadow-lg" />
                 </div>
             </motion.div>
 
             <motion.div
-                initial={{ y: 100, opacity: 0 }}
+                initial={{ y: 50, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.8, delay: 1.4 }}
-                className="group absolute bottom-28 left-1/2 -translate-x-1/2"
+                className="group absolute bottom-10 md:bottom-28 left-1/2 -translate-x-1/2"
             >
-                <div className="relative overflow-hidden rounded-xl border-2 border-cyan-400/50 bg-gradient-to-br from-cyan-600/90 to-cyan-700/90 shadow-2xl backdrop-blur-sm">
+                <div className="relative overflow-hidden rounded-lg md:rounded-xl border md:border-2 border-cyan-400/50 bg-gradient-to-br from-cyan-600/90 to-cyan-700/90 shadow-lg md:shadow-2xl backdrop-blur-sm scale-100 md:scale-100">
                     {/* Node header */}
-                    <div className="flex items-center gap-3 border-b border-cyan-400/30 bg-cyan-700/50 px-6 py-3">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-500/40">
-                            <Database className="h-4 w-4 text-white" />
+                    <div className="flex items-center gap-2 md:gap-3 border-b border-cyan-400/30 bg-cyan-700/50 px-3 md:px-6 py-2 md:py-3">
+                        <div className="flex h-6 w-6 md:h-8 md:w-8 items-center justify-center rounded-lg bg-cyan-500/40">
+                            <Database className="h-3 w-3 md:h-4 md:w-4 text-white" />
                         </div>
-                        <span className="text-base font-bold text-white">
+                        <span className="text-sm md:text-base font-bold text-white">
                             Comment
                         </span>
                     </div>
                     {/* Node body */}
-                    <div className="space-y-2 px-6 py-4">
-                        <div className="flex items-center gap-2 text-xs text-cyan-100">
-                            <div className="h-2 w-2 rounded-full bg-pink-400" />
+                    <div className="space-y-1.5 md:space-y-2 px-3 md:px-6 py-2.5 md:py-4">
+                        <div className="flex items-center gap-2 text-[10px] md:text-xs text-cyan-100">
+                            <div className="h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-pink-400" />
                             <span className="font-mono">body: text</span>
                         </div>
-                        <div className="flex items-center gap-2 text-xs text-cyan-100">
-                            <div className="h-2 w-2 rounded-full bg-violet-400" />
+                        <div className="flex items-center gap-2 text-[10px] md:text-xs text-cyan-100">
+                            <div className="h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-violet-400" />
                             <span className="font-mono">rating: integer</span>
                         </div>
-                        <div className="flex items-center gap-2 text-xs text-cyan-100">
-                            <div className="h-2 w-2 rounded-full bg-blue-400" />
+                        <div className="flex items-center gap-2 text-[10px] md:text-xs text-cyan-100">
+                            <div className="h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-blue-400" />
                             <span className="font-mono">post_id: integer</span>
                         </div>
                     </div>
                     {/* Connection handles */}
-                    <div className="absolute top-1/2 -left-2 h-4 w-4 -translate-y-1/2 rounded-full border-2 border-cyan-200 bg-cyan-400 shadow-lg" />
-                    <div className="absolute -top-2 left-1/2 h-4 w-4 -translate-x-1/2 rounded-full border-2 border-cyan-200 bg-cyan-400 shadow-lg" />
+                    <div className="hidden md:block absolute top-1/2 -left-2 h-4 w-4 -translate-y-1/2 rounded-full border-2 border-cyan-200 bg-cyan-400 shadow-lg" />
+                    <div className="hidden md:block absolute -top-2 left-1/2 h-4 w-4 -translate-x-1/2 rounded-full border-2 border-cyan-200 bg-cyan-400 shadow-lg" />
                 </div>
             </motion.div>
 
@@ -2144,7 +2144,7 @@ const AnimatedSchemaDemo = () => {
                     </marker>
                 </defs>
 
-                {/* User to Post */}
+                {/* User to Post - Responsive path */}
                 <motion.path
                     initial={{ pathLength: 0, opacity: 0 }}
                     animate={{ pathLength: 1, opacity: 1 }}
@@ -2154,14 +2154,30 @@ const AnimatedSchemaDemo = () => {
                         ease: 'easeInOut',
                     }}
                     d="M 210 190 L 620 190"
+                    className="hidden md:block"
                     stroke="rgba(168, 85, 247, 0.6)"
                     strokeWidth="3"
                     fill="none"
                     filter="url(#glow)"
                     markerEnd="url(#arrowPurple)"
                 />
+                <motion.path
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 1 }}
+                    transition={{
+                        duration: 1.5,
+                        delay: 2.2,
+                        ease: 'easeInOut',
+                    }}
+                    d="M 120 110 L 200 100"
+                    className="md:hidden"
+                    stroke="rgba(168, 85, 247, 0.5)"
+                    strokeWidth="1.5"
+                    fill="none"
+                    markerEnd="url(#arrowPurple)"
+                />
 
-                {/* Post to Comment */}
+                {/* Post to Comment - Responsive path */}
                 <motion.path
                     initial={{ pathLength: 0, opacity: 0 }}
                     animate={{ pathLength: 1, opacity: 1 }}
@@ -2171,10 +2187,26 @@ const AnimatedSchemaDemo = () => {
                         ease: 'easeInOut',
                     }}
                     d="M 680 260 Q 680 340, 540 380"
+                    className="hidden md:block"
                     stroke="rgba(59, 130, 246, 0.6)"
                     strokeWidth="3"
                     fill="none"
                     filter="url(#glow)"
+                    markerEnd="url(#arrowBlue)"
+                />
+                <motion.path
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 1 }}
+                    transition={{
+                        duration: 1.5,
+                        delay: 2.4,
+                        ease: 'easeInOut',
+                    }}
+                    d="M 240 140 Q 220 200, 200 240"
+                    className="md:hidden"
+                    stroke="rgba(59, 130, 246, 0.5)"
+                    strokeWidth="1.5"
+                    fill="none"
                     markerEnd="url(#arrowBlue)"
                 />
             </svg>
@@ -2202,13 +2234,13 @@ const AnimatedSchemaDemo = () => {
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.6, delay: 3 }}
-                className="absolute right-6 bottom-6 h-24 w-32 rounded-lg border border-purple-500/20 bg-neutral-900/90 p-2 shadow-xl backdrop-blur-xl"
+                className="absolute right-2 md:right-6 bottom-2 md:bottom-6 h-16 w-20 md:h-24 md:w-32 rounded-md md:rounded-lg border border-purple-500/20 bg-neutral-900/90 p-1.5 md:p-2 shadow-xl backdrop-blur-xl"
             >
                 <div className="relative h-full w-full">
-                    <div className="absolute top-1 left-1 h-2 w-2 rounded-sm bg-purple-500" />
-                    <div className="absolute top-1 right-2 h-2 w-2 rounded-sm bg-blue-500" />
-                    <div className="absolute bottom-2 left-1/2 h-2 w-2 -translate-x-1/2 rounded-sm bg-cyan-500" />
-                    <div className="absolute inset-2 rounded border border-purple-500/30" />
+                    <div className="absolute top-0.5 md:top-1 left-0.5 md:left-1 h-1.5 w-1.5 md:h-2 md:w-2 rounded-sm bg-purple-500" />
+                    <div className="absolute top-0.5 md:top-1 right-1 md:right-2 h-1.5 w-1.5 md:h-2 md:w-2 rounded-sm bg-blue-500" />
+                    <div className="absolute bottom-1 md:bottom-2 left-1/2 h-1.5 w-1.5 md:h-2 md:w-2 -translate-x-1/2 rounded-sm bg-cyan-500" />
+                    <div className="absolute inset-1 md:inset-2 rounded border border-purple-500/30" />
                 </div>
             </motion.div>
 
@@ -2217,98 +2249,19 @@ const AnimatedSchemaDemo = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 3.2 }}
-                className="absolute top-6 left-1/2 -translate-x-1/2 rounded-full border border-purple-500/20 bg-neutral-900/90 px-4 py-2 shadow-xl backdrop-blur-xl"
+                className="absolute top-3 md:top-6 left-1/2 -translate-x-1/2 rounded-full border border-purple-500/20 bg-neutral-900/90 px-2 md:px-4 py-1 md:py-2 shadow-xl backdrop-blur-xl"
             >
-                <span className="flex items-center gap-2 text-xs font-medium text-purple-300">
-                    <Sparkles className="h-3 w-3" />
-                    Drag to connect • Click to edit
+                <span className="flex items-center gap-1 md:gap-2 text-[10px] md:text-xs font-medium text-purple-300">
+                    <Sparkles className="h-2.5 w-2.5 md:h-3 md:w-3" />
+                    <span className="hidden sm:inline">Drag to connect • Click to edit</span>
+                    <span className="sm:hidden">Drag • Edit</span>
                 </span>
             </motion.div>
         </div>
     );
 };
 
-const FeatureCard = ({
-    feature,
-    index,
-}: {
-    feature: (typeof features)[0];
-    index: number;
-}) => {
-    return (
-        <motion.div
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            viewport={{ once: true }}
-            className="group relative"
-        >
-            <motion.div
-                whileHover={{ y: -8, scale: 1.02 }}
-                transition={{ duration: 0.3, ease: 'easeOut' }}
-                className="glass-card relative h-full overflow-hidden p-8"
-                style={{ willChange: 'transform' }}
-            >
-                {/* Gradient overlay on hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-600/0 via-purple-600/0 to-purple-600/0 transition-all duration-500 group-hover:from-purple-600/10 group-hover:via-purple-600/5 group-hover:to-blue-600/10" />
-
-                {/* Icon */}
-                <div className="relative mb-6">
-                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-600 to-blue-600 shadow-lg transition-shadow duration-300 group-hover:shadow-purple-500/50">
-                        <feature.icon className="h-8 w-8 text-white" />
-                    </div>
-                </div>
-
-                {/* Content */}
-                <div className="relative">
-                    <h3 className="mb-3 text-2xl font-bold text-white transition-colors duration-300 group-hover:text-purple-300">
-                        {feature.title}
-                    </h3>
-                    <p className="leading-relaxed text-neutral-300">
-                        {feature.description}
-                    </p>
-                </div>
-
-                {/* Shine effect */}
-                <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                    <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/5 to-transparent transition-transform duration-1000 group-hover:translate-x-full" />
-                </div>
-            </motion.div>
-        </motion.div>
-    );
-};
-
-const StepCard = ({
-    step,
-    index,
-}: {
-    step: (typeof steps)[0];
-    index: number;
-}) => {
-    return (
-        <motion.div
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: index * 0.2 }}
-            viewport={{ once: true }}
-            className="text-center"
-        >
-            <motion.div
-                initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
-                transition={{ duration: 0.5, delay: index * 0.2 + 0.2 }}
-                viewport={{ once: true }}
-                className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-purple-600 to-blue-600 text-3xl font-bold shadow-xl"
-            >
-                {index + 1}
-            </motion.div>
-            <h3 className="mb-4 text-2xl font-bold">{step.title}</h3>
-            <p className="leading-relaxed text-neutral-300">
-                {step.description}
-            </p>
-        </motion.div>
-    );
-};
+// Unused demo components removed
 
 const ExampleCard = ({
     example,
@@ -2536,7 +2489,7 @@ const ExampleCard = ({
     );
 };
 
-const features = [
+/* const features = [
     {
         icon: Palette,
         title: 'Visual Schema Designer',
@@ -2573,9 +2526,9 @@ const features = [
         description:
             'Support for Inertia + React/Vue, Blade, Livewire, and JSON API responses.',
     },
-];
+]; */
 
-const steps = [
+/* const steps = [
     {
         title: 'Design Your Schema',
         description:
@@ -2591,7 +2544,7 @@ const steps = [
         description:
             'Export your complete Laravel project with all files generated. Run locally or deploy to production immediately.',
     },
-];
+]; */
 
 const examples = [
     {
@@ -4117,21 +4070,21 @@ const CodeGenerationDemo = () => {
     }, []);
 
     return (
-        <div className="space-y-3">
+        <div className="space-y-3 w-full overflow-hidden">
             {/* Tabs */}
             <div className="mb-3 flex flex-wrap items-center gap-2">
                 {codeExamples.map((example, index) => (
                     <button
                         key={index}
                         onClick={() => setActiveTab(index)}
-                        className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-medium transition-all duration-200 ${
+                        className={`flex items-center gap-2 rounded-lg px-2 md:px-3 py-1 md:py-1.5 text-[10px] md:text-xs font-medium transition-all duration-200 ${
                             activeTab === index
                                 ? 'border border-emerald-500/30 bg-emerald-600/30 text-emerald-200'
                                 : 'border border-transparent text-neutral-400 hover:text-neutral-300'
                         }`}
                     >
-                        <Code className="h-3 w-3" />
-                        <span>{example.type}</span>
+                        <Code className="h-2.5 w-2.5 md:h-3 md:w-3" />
+                        <span className="truncate">{example.type}</span>
                     </button>
                 ))}
             </div>
@@ -4142,17 +4095,17 @@ const CodeGenerationDemo = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                className="rounded-lg border border-emerald-500/20 bg-neutral-900/80 p-4"
+                className="rounded-lg border border-emerald-500/20 bg-neutral-900/80 p-3 md:p-4 overflow-hidden"
             >
-                <div className="mb-3 flex items-center gap-2 text-xs">
-                    <div className={`h-2 w-2 rounded-full bg-emerald-400`} />
+                <div className="mb-2 md:mb-3 flex items-center gap-2 text-[10px] md:text-xs">
+                    <div className={`h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-emerald-400`} />
                     <span
-                        className={`font-mono font-semibold ${codeExamples[activeTab].color}`}
+                        className={`font-mono font-semibold truncate ${codeExamples[activeTab].color}`}
                     >
                         {codeExamples[activeTab].file}
                     </span>
                 </div>
-                <pre className="overflow-x-auto font-mono text-[11px] leading-relaxed">
+                <pre className="overflow-x-auto font-mono text-[9px] md:text-[11px] leading-relaxed max-w-full">
                     <code
                         dangerouslySetInnerHTML={{
                             __html: codeExamples[activeTab].code,
@@ -4162,12 +4115,12 @@ const CodeGenerationDemo = () => {
             </motion.div>
 
             {/* Features badges */}
-            <div className="flex flex-wrap gap-1.5 pt-2">
+            <div className="flex flex-wrap gap-1 md:gap-1.5 pt-1 md:pt-2">
                 {['Type hints', 'Validation', 'PSR-12', 'Best practices'].map(
                     (item, i) => (
                         <span
                             key={i}
-                            className="rounded border border-emerald-500/30 bg-emerald-600/20 px-2 py-0.5 text-[10px] font-medium text-emerald-200"
+                            className="rounded border border-emerald-500/30 bg-emerald-600/20 px-1.5 md:px-2 py-0.5 text-[9px] md:text-[10px] font-medium text-emerald-200"
                         >
                             {item}
                         </span>
@@ -4331,11 +4284,12 @@ const DragDropDemo = () => {
     }, []);
 
     return (
-        <div className="relative flex h-full gap-6 p-6">
+        <div className="relative flex h-full gap-3 md:gap-6 p-3 md:p-6">
             {/* Field Types Palette */}
-            <div className="flex w-1/3 flex-col gap-3">
-                <div className="mb-1 text-xs font-semibold tracking-wider text-neutral-400 uppercase">
-                    Field Types
+            <div className="flex w-1/3 flex-col gap-2 md:gap-3">
+                <div className="mb-0.5 md:mb-1 text-[10px] md:text-xs font-semibold tracking-wider text-neutral-400 uppercase">
+                    <span className="hidden md:inline">Field Types</span>
+                    <span className="md:hidden">Fields</span>
                 </div>
                 {fieldTypes.map((field) => (
                     <motion.div
@@ -4354,11 +4308,11 @@ const DragDropDemo = () => {
                                 : 1,
                         }}
                         transition={{ duration: 0.5, ease: 'easeInOut' }}
-                        className={`rounded-lg px-4 py-3 ${field.color} flex cursor-move items-center gap-2 shadow-lg`}
+                        className={`rounded-md md:rounded-lg px-2 md:px-4 py-2 md:py-3 ${field.color} flex cursor-move items-center gap-1 md:gap-2 shadow-lg`}
                         style={{ willChange: 'transform' }}
                     >
-                        <div className="h-2 w-2 rounded-full bg-white/80" />
-                        <span className="text-sm font-medium text-white">
+                        <div className="h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-white/80" />
+                        <span className="text-[10px] md:text-sm font-medium text-white">
                             {field.name}: {field.type}
                         </span>
                     </motion.div>
@@ -4367,26 +4321,26 @@ const DragDropDemo = () => {
 
             {/* Drop Zone - Model Card */}
             <div className="relative flex-1">
-                <div className="absolute inset-0 rounded-xl border-2 border-dashed border-purple-500/30 bg-gradient-to-br from-purple-900/30 to-blue-900/30">
-                    <div className="p-4">
-                        <div className="mb-4 flex items-center gap-3 border-b border-purple-500/30 pb-3">
-                            <Database className="h-5 w-5 text-purple-400" />
-                            <span className="font-bold text-white">
+                <div className="absolute inset-0 rounded-lg md:rounded-xl border md:border-2 border-dashed border-purple-500/30 bg-gradient-to-br from-purple-900/30 to-blue-900/30">
+                    <div className="p-2 md:p-4">
+                        <div className="mb-2 md:mb-4 flex items-center gap-2 md:gap-3 border-b border-purple-500/30 pb-2 md:pb-3">
+                            <Database className="h-3 w-3 md:h-5 md:w-5 text-purple-400" />
+                            <span className="text-xs md:text-base font-bold text-white">
                                 User Model
                             </span>
                         </div>
 
-                        <div className="space-y-2">
-                            {droppedFields.map((field, index) => (
+                        <div className="space-y-1.5 md:space-y-2">
+                            {droppedFields.map((field) => (
                                 <motion.div
                                     key={field.id}
                                     initial={{ opacity: 0, scale: 0.8, y: -20 }}
                                     animate={{ opacity: 1, scale: 1, y: 0 }}
                                     transition={{ duration: 0.3, delay: 0.1 }}
-                                    className={`rounded-lg px-4 py-3 ${field.color} flex items-center gap-2 shadow-lg`}
+                                    className={`rounded-md md:rounded-lg px-2 md:px-4 py-2 md:py-3 ${field.color} flex items-center gap-1 md:gap-2 shadow-lg`}
                                 >
-                                    <div className="h-2 w-2 rounded-full bg-white/80" />
-                                    <span className="text-sm font-medium text-white">
+                                    <div className="h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-white/80" />
+                                    <span className="text-[10px] md:text-sm font-medium text-white">
                                         {field.name}: {field.type}
                                     </span>
                                 </motion.div>
@@ -4397,10 +4351,10 @@ const DragDropDemo = () => {
                             <motion.div
                                 animate={{ opacity: [0.5, 0.8, 0.5] }}
                                 transition={{ duration: 2, repeat: Infinity }}
-                                className="py-12 text-center"
+                                className="py-6 md:py-12 text-center"
                             >
-                                <Sparkles className="mx-auto mb-2 h-8 w-8 text-purple-400/50" />
-                                <p className="text-sm text-purple-300/50">
+                                <Sparkles className="mx-auto mb-1 md:mb-2 h-5 w-5 md:h-8 md:w-8 text-purple-400/50" />
+                                <p className="text-[10px] md:text-sm text-purple-300/50">
                                     Drag fields here
                                 </p>
                             </motion.div>
@@ -4421,7 +4375,7 @@ const DragDropDemo = () => {
                         top: '30%',
                     }}
                 >
-                    <div className="h-6 w-6 rounded-full bg-purple-500/50 blur-sm" />
+                    <div className="h-4 w-4 md:h-6 md:w-6 rounded-full bg-purple-500/50 blur-sm" />
                 </motion.div>
             )}
         </div>
