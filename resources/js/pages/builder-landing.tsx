@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Head, Link } from '@inertiajs/react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Zap, Code, Database, Palette, Download, Sparkles, Github, Box, ShoppingCart, MessageSquare, Users, FileText, Calendar, Mail, Lock, DollarSign, Package, Gamepad2, CheckCircle, FileJson } from 'lucide-react';
+import { ArrowRight, Zap, Code, Database, Palette, Download, Sparkles, Github, Box, ShoppingCart, MessageSquare, Users, FileText, Calendar, Mail, Lock, DollarSign, Package, Gamepad2, CheckCircle, FileJson, Folder, Terminal, Rocket } from 'lucide-react';
 
 export default function BuilderLanding() {
     const { scrollYProgress } = useScroll();
@@ -501,34 +501,43 @@ export default function BuilderLanding() {
                                         Download & Deploy Instantly
                                     </h3>
                                     <p className="text-xl text-neutral-300 leading-relaxed mb-8">
-                                        Export your complete Laravel project as a ZIP file. Everything is ready to run locally or deploy to production immediately with zero configuration.
+                                        Get a complete, production-ready Laravel project. Download as ZIP and deploy in minutes with complete file structure and dependencies.
                                     </p>
                                     <ul className="space-y-4">
                                         <li className="flex items-start gap-3">
                                             <div className="w-6 h-6 rounded-full bg-emerald-600/20 flex items-center justify-center flex-shrink-0 mt-1">
-                                                <div className="w-2 h-2 rounded-full bg-emerald-400" />
+                                                <Download className="h-3 w-3 text-emerald-400" />
                                             </div>
                                             <div>
-                                                <div className="font-semibold text-white mb-1">Complete Project</div>
-                                                <div className="text-sm text-neutral-400">All files, dependencies, and configurations</div>
+                                                <div className="font-semibold text-white mb-1">Download Project</div>
+                                                <div className="text-sm text-neutral-400">Complete ZIP with all files and folder structure</div>
                                             </div>
                                         </li>
                                         <li className="flex items-start gap-3">
                                             <div className="w-6 h-6 rounded-full bg-emerald-600/20 flex items-center justify-center flex-shrink-0 mt-1">
-                                                <div className="w-2 h-2 rounded-full bg-emerald-400" />
+                                                <Terminal className="h-3 w-3 text-emerald-400" />
                                             </div>
                                             <div>
-                                                <div className="font-semibold text-white mb-1">One Command Setup</div>
-                                                <div className="text-sm text-neutral-400 font-mono">composer install && npm install</div>
+                                                <div className="font-semibold text-white mb-1">Install Dependencies</div>
+                                                <div className="text-sm text-neutral-400 font-mono text-xs">composer install && npm install</div>
                                             </div>
                                         </li>
                                         <li className="flex items-start gap-3">
                                             <div className="w-6 h-6 rounded-full bg-emerald-600/20 flex items-center justify-center flex-shrink-0 mt-1">
-                                                <div className="w-2 h-2 rounded-full bg-emerald-400" />
+                                                <Database className="h-3 w-3 text-emerald-400" />
                                             </div>
                                             <div>
-                                                <div className="font-semibold text-white mb-1">Deploy Anywhere</div>
-                                                <div className="text-sm text-neutral-400">Forge, Vapor, Heroku, or any server</div>
+                                                <div className="font-semibold text-white mb-1">Run Migrations</div>
+                                                <div className="text-sm text-neutral-400">Database ready with one command</div>
+                                            </div>
+                                        </li>
+                                        <li className="flex items-start gap-3">
+                                            <div className="w-6 h-6 rounded-full bg-cyan-600/20 flex items-center justify-center flex-shrink-0 mt-1">
+                                                <Rocket className="h-3 w-3 text-cyan-400" />
+                                            </div>
+                                            <div>
+                                                <div className="font-semibold text-white mb-1">Deploy</div>
+                                                <div className="text-sm text-neutral-400">Forge, Vapor, Vercel, or any hosting platform</div>
                                             </div>
                                         </li>
                                     </ul>
@@ -536,55 +545,12 @@ export default function BuilderLanding() {
                                 <motion.div
                                     whileHover={{ scale: 1.02 }}
                                     transition={{ duration: 0.3 }}
-                                    className="order-1 md:order-2 glass-card p-8 relative overflow-hidden"
+                                    className="order-1 md:order-2 glass-card p-8 relative overflow-hidden min-h-[600px]"
                                     style={{ willChange: 'transform' }}
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/10 to-teal-600/10" />
-                                    <div className="relative space-y-4">
-                                        <div className="flex items-center gap-3 p-4 rounded-lg bg-emerald-600/20 border border-emerald-500/30">
-                                            <Download className="h-8 w-8 text-emerald-400" />
-                                            <div>
-                                                <div className="font-bold text-white">my-laravel-project.zip</div>
-                                                <div className="text-xs text-emerald-300">Ready to deploy</div>
-                                            </div>
-                                        </div>
-                                        <div className="p-4 rounded-lg bg-neutral-900/50 border border-emerald-500/20">
-                                            <div className="text-xs text-neutral-400 mb-2">Project Structure:</div>
-                                            <div className="space-y-1 text-xs font-mono">
-                                                <div className="flex items-center gap-2">
-                                                    <span className="text-purple-400">📁</span>
-                                                    <span className="text-purple-300">app/Models/</span>
-                                                </div>
-                                                <div className="flex items-center gap-2">
-                                                    <span className="text-blue-400">📁</span>
-                                                    <span className="text-blue-300">app/Http/Controllers/</span>
-                                                </div>
-                                                <div className="flex items-center gap-2">
-                                                    <span className="text-cyan-400">📁</span>
-                                                    <span className="text-cyan-300">app/Actions/</span>
-                                                </div>
-                                                <div className="flex items-center gap-2">
-                                                    <span className="text-orange-400">📁</span>
-                                                    <span className="text-orange-300">database/migrations/</span>
-                                                </div>
-                                                <div className="flex items-center gap-2">
-                                                    <span className="text-green-400">📁</span>
-                                                    <span className="text-green-300">resources/views/</span>
-                                                </div>
-                                                <div className="flex items-center gap-2">
-                                                    <span className="text-pink-400">📁</span>
-                                                    <span className="text-pink-300">routes/</span>
-                                                </div>
-                                                <div className="flex items-center gap-2">
-                                                    <span className="text-yellow-400">📄</span>
-                                                    <span className="text-yellow-300">composer.json</span>
-                                                </div>
-                                                <div className="flex items-center gap-2">
-                                                    <span className="text-red-400">📄</span>
-                                                    <span className="text-red-300">package.json</span>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div className="relative h-full">
+                                        <DeploymentWorkflowDemo />
                                     </div>
                                 </motion.div>
                             </div>
@@ -2688,6 +2654,276 @@ const CodeGenerationWorkflowDemo = () => {
                     </motion.div>
                 </motion.div>
             )}
+        </div>
+    );
+};
+
+// Deployment Workflow Demo Component
+const DeploymentWorkflowDemo = () => {
+    const [step, setStep] = useState(0);
+    
+    const steps = [
+        {
+            title: 'Download ZIP',
+            content: (
+                <div className="space-y-4">
+                    <motion.div
+                        initial={{ scale: 0.9, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        className="flex items-center gap-3 p-4 rounded-lg bg-emerald-600/20 border border-emerald-500/30"
+                    >
+                        <Download className="h-8 w-8 text-emerald-400" />
+                        <div>
+                            <div className="font-bold text-white">my-laravel-app.zip</div>
+                            <div className="text-xs text-emerald-300">3.2 MB • Ready to deploy</div>
+                        </div>
+                    </motion.div>
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                        className="p-4 rounded-lg bg-neutral-900/50 border border-emerald-500/20"
+                    >
+                        <div className="text-xs text-neutral-400 mb-2">Package Contents:</div>
+                        <div className="space-y-1.5 text-xs font-mono">
+                            {[
+                                { icon: Folder, name: 'app/', color: 'text-purple-300' },
+                                { icon: Folder, name: 'database/', color: 'text-blue-300' },
+                                { icon: Folder, name: 'resources/', color: 'text-cyan-300' },
+                                { icon: Folder, name: 'routes/', color: 'text-pink-300' },
+                                { icon: FileText, name: 'composer.json', color: 'text-yellow-300' },
+                                { icon: FileText, name: 'package.json', color: 'text-orange-300' },
+                            ].map((item, i) => (
+                                <motion.div
+                                    key={item.name}
+                                    initial={{ opacity: 0, x: -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: 0.4 + i * 0.1 }}
+                                    className="flex items-center gap-2"
+                                >
+                                    <item.icon className={`h-3 w-3 ${item.color}`} />
+                                    <span className={item.color}>{item.name}</span>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </motion.div>
+                </div>
+            )
+        },
+        {
+            title: 'Extract & Install',
+            content: (
+                <div className="space-y-3">
+                    <div className="p-3 rounded-lg bg-neutral-900/80 border border-emerald-500/20">
+                        <div className="flex items-center gap-2 text-xs text-emerald-400 mb-2">
+                            <Terminal className="h-4 w-4" />
+                            <span className="font-semibold">Terminal</span>
+                        </div>
+                        <div className="space-y-2 text-xs font-mono">
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                className="text-neutral-500"
+                            >
+                                $ unzip my-laravel-app.zip
+                            </motion.div>
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.3 }}
+                                className="text-neutral-500"
+                            >
+                                $ cd my-laravel-app
+                            </motion.div>
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.6 }}
+                                className="text-emerald-300"
+                            >
+                                $ composer install
+                            </motion.div>
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.9 }}
+                                className="flex items-start gap-2"
+                            >
+                                <span className="text-neutral-600">Installing dependencies...</span>
+                                <motion.div
+                                    animate={{ opacity: [1, 0.3, 1] }}
+                                    transition={{ duration: 1, repeat: Infinity }}
+                                    className="text-emerald-400"
+                                >
+                                    ●
+                                </motion.div>
+                            </motion.div>
+                        </div>
+                    </div>
+                </div>
+            )
+        },
+        {
+            title: 'Configure & Migrate',
+            content: (
+                <div className="space-y-3">
+                    <div className="p-3 rounded-lg bg-neutral-900/80 border border-blue-500/20">
+                        <div className="flex items-center gap-2 text-xs text-blue-400 mb-2">
+                            <FileText className="h-4 w-4" />
+                            <span className="font-semibold">.env</span>
+                        </div>
+                        <div className="space-y-1 text-[10px] font-mono text-neutral-400">
+                            <div>DB_CONNECTION=<span className="text-blue-300">mysql</span></div>
+                            <div>DB_DATABASE=<span className="text-blue-300">my_app</span></div>
+                            <div>DB_USERNAME=<span className="text-blue-300">root</span></div>
+                        </div>
+                    </div>
+                    <div className="p-3 rounded-lg bg-neutral-900/80 border border-emerald-500/20">
+                        <div className="flex items-center gap-2 text-xs text-emerald-400 mb-2">
+                            <Terminal className="h-4 w-4" />
+                            <span className="font-semibold">Database Setup</span>
+                        </div>
+                        <div className="space-y-1.5 text-[10px] font-mono">
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                className="text-neutral-500"
+                            >
+                                $ php artisan migrate
+                            </motion.div>
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.3 }}
+                                className="text-emerald-300 flex items-center gap-2"
+                            >
+                                <CheckCircle className="h-3 w-3" />
+                                <span>3 migrations completed</span>
+                            </motion.div>
+                        </div>
+                    </div>
+                </div>
+            )
+        },
+        {
+            title: 'Deploy to Production',
+            content: (
+                <div className="space-y-3">
+                    <div className="grid grid-cols-2 gap-2">
+                        {[
+                            { name: 'Laravel Forge', selected: true },
+                            { name: 'Vapor', selected: false },
+                            { name: 'Vercel', selected: false },
+                            { name: 'Custom VPS', selected: false },
+                        ].map((platform, i) => (
+                            <motion.div
+                                key={platform.name}
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: platform.selected ? 1 : 0.4, scale: 1 }}
+                                transition={{ delay: i * 0.1 }}
+                                className={`p-3 rounded-lg text-center text-xs border-2 ${
+                                    platform.selected
+                                        ? 'bg-emerald-600/30 text-emerald-200 border-emerald-500/50 font-bold'
+                                        : 'bg-neutral-900/50 text-neutral-500 border-neutral-700'
+                                }`}
+                            >
+                                {platform.name}
+                            </motion.div>
+                        ))}
+                    </div>
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5 }}
+                        className="p-4 rounded-lg bg-emerald-900/20 border border-emerald-500/30"
+                    >
+                        <div className="flex items-center gap-3 mb-2">
+                            <Rocket className="h-5 w-5 text-emerald-400" />
+                            <span className="text-sm font-semibold text-emerald-300">Deploying...</span>
+                        </div>
+                        <div className="space-y-1.5 text-[10px] text-neutral-400">
+                            <div className="flex items-center gap-2">
+                                <CheckCircle className="h-3 w-3 text-emerald-400" />
+                                <span>Pushing to repository</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <CheckCircle className="h-3 w-3 text-emerald-400" />
+                                <span>Building assets</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <motion.div
+                                    animate={{ rotate: 360 }}
+                                    transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                                    className="w-3 h-3 border-2 border-emerald-500 border-t-transparent rounded-full"
+                                />
+                                <span>Running migrations</span>
+                            </div>
+                        </div>
+                    </motion.div>
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.8 }}
+                        className="p-3 rounded-lg bg-emerald-600/20 border border-emerald-500/30 text-center"
+                    >
+                        <div className="text-xs text-emerald-300 mb-1">🎉 Live at</div>
+                        <div className="text-sm font-mono font-bold text-white">my-app.com</div>
+                    </motion.div>
+                </div>
+            )
+        },
+    ];
+
+    React.useEffect(() => {
+        const interval = setInterval(() => {
+            setStep((prev) => (prev + 1) % steps.length);
+        }, 4000);
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <div className="flex flex-col h-full">
+            {/* Progress Bar */}
+            <div className="mb-6">
+                <div className="flex items-center justify-between mb-2">
+                    {steps.map((s, i) => (
+                        <div key={i} className="flex items-center flex-1">
+                            <motion.div
+                                animate={{
+                                    scale: step === i ? 1.2 : 1,
+                                    backgroundColor: step >= i ? 'rgb(16 185 129)' : 'rgb(64 64 64)',
+                                }}
+                                className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white`}
+                            >
+                                {i + 1}
+                            </motion.div>
+                            {i < steps.length - 1 && (
+                                <motion.div
+                                    animate={{
+                                        scaleX: step > i ? 1 : 0.3,
+                                        backgroundColor: step > i ? 'rgb(16 185 129)' : 'rgb(64 64 64)',
+                                    }}
+                                    className="flex-1 h-1 mx-2 origin-left"
+                                />
+                            )}
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Step Content */}
+            <motion.div
+                key={step}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className="flex-1"
+            >
+                <div className="mb-4">
+                    <h4 className="text-lg font-bold text-white mb-1">Step {step + 1}: {steps[step].title}</h4>
+                </div>
+                {steps[step].content}
+            </motion.div>
         </div>
     );
 };
