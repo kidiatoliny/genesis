@@ -559,6 +559,389 @@ export default function BuilderLanding() {
                 </section>
 
 
+                {/* Integration & Workflow Section */}
+                <section className="py-32 px-6 bg-gradient-to-b from-transparent via-violet-500/5 to-transparent">
+                    <div className="container mx-auto max-w-7xl">
+                        <motion.div
+                            initial={{ y: 50, opacity: 0 }}
+                            whileInView={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 0.8 }}
+                            viewport={{ once: true }}
+                            className="text-center mb-20"
+                        >
+                            <h2 className="text-5xl font-bold mb-6">Deploy with One Click</h2>
+                            <p className="text-xl text-neutral-300">Ship to production faster with direct integrations</p>
+                        </motion.div>
+
+                        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-20">
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6 }}
+                                viewport={{ once: true }}
+                                className="glass-card p-8 relative overflow-hidden group"
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-br from-orange-600/10 to-red-600/10 group-hover:from-orange-600/20 group-hover:to-red-600/20 transition-all duration-500" />
+                                
+                                <div className="relative">
+                                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-600 to-red-600 flex items-center justify-center mb-6 shadow-lg group-hover:shadow-orange-500/50 transition-shadow">
+                                        <Cloud className="h-8 w-8 text-white" />
+                                    </div>
+                                    <h3 className="text-2xl font-bold mb-3 text-white">Laravel Cloud</h3>
+                                    <p className="text-neutral-300 mb-4 leading-relaxed">
+                                        Deploy directly from Genesis Builder to Laravel Cloud. One click and your app is live with zero configuration.
+                                    </p>
+                                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-500/20 border border-orange-500/30">
+                                        <Sparkles className="h-3 w-3 text-orange-400" />
+                                        <span className="text-xs font-bold text-orange-300">Coming Soon</span>
+                                    </div>
+                                </div>
+                            </motion.div>
+
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.1 }}
+                                viewport={{ once: true }}
+                                className="glass-card p-8 relative overflow-hidden group"
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/10 to-teal-600/10 group-hover:from-emerald-600/20 group-hover:to-teal-600/20 transition-all duration-500" />
+                                
+                                <div className="relative">
+                                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-600 flex items-center justify-center mb-6 shadow-lg group-hover:shadow-emerald-500/50 transition-shadow">
+                                        <Rocket className="h-8 w-8 text-white" />
+                                    </div>
+                                    <h3 className="text-2xl font-bold mb-3 text-white">Laravel Forge</h3>
+                                    <p className="text-neutral-300 mb-4 leading-relaxed">
+                                        Connect your Forge account and deploy to any server. Automatic deployment pipelines included.
+                                    </p>
+                                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/30">
+                                        <Sparkles className="h-3 w-3 text-emerald-400" />
+                                        <span className="text-xs font-bold text-emerald-300">Coming Soon</span>
+                                    </div>
+                                </div>
+                            </motion.div>
+
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.2 }}
+                                viewport={{ once: true }}
+                                className="glass-card p-8 relative overflow-hidden group"
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-cyan-600/10 group-hover:from-blue-600/20 group-hover:to-cyan-600/20 transition-all duration-500" />
+                                
+                                <div className="relative">
+                                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center mb-6 shadow-lg group-hover:shadow-blue-500/50 transition-shadow">
+                                        <Server className="h-8 w-8 text-white" />
+                                    </div>
+                                    <h3 className="text-2xl font-bold mb-3 text-white">Custom VPS</h3>
+                                    <p className="text-neutral-300 mb-4 leading-relaxed">
+                                        Deploy to your own VPS with SSH. Works with DigitalOcean, Linode, AWS, or any Linux server.
+                                    </p>
+                                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/20 border border-blue-500/30">
+                                        <Sparkles className="h-3 w-3 text-blue-400" />
+                                        <span className="text-xs font-bold text-blue-300">Coming Soon</span>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </div>
+
+                        <motion.div
+                            initial={{ y: 50, opacity: 0 }}
+                            whileInView={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 0.8 }}
+                            viewport={{ once: true }}
+                            className="text-center mb-12"
+                        >
+                            <h3 className="text-3xl font-bold mb-4 text-white">More Integrations Coming</h3>
+                            <p className="text-lg text-neutral-400">We're building the tools you need</p>
+                        </motion.div>
+
+                        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6 }}
+                                viewport={{ once: true }}
+                                className="glass-card p-6"
+                            >
+                                <div className="w-12 h-12 rounded-xl bg-violet-600/20 flex items-center justify-center mb-4">
+                                    <Github className="h-6 w-6 text-violet-400" />
+                                </div>
+                                <h4 className="text-lg font-bold mb-2 text-white">GitHub Integration</h4>
+                                <p className="text-sm text-neutral-400 mb-3">Push generated code directly to your repository</p>
+                                <div className="text-xs text-neutral-500 font-medium">Coming Soon</div>
+                            </motion.div>
+
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.1 }}
+                                viewport={{ once: true }}
+                                className="glass-card p-6"
+                            >
+                                <div className="w-12 h-12 rounded-xl bg-blue-600/20 flex items-center justify-center mb-4">
+                                    <Terminal className="h-6 w-6 text-blue-400" />
+                                </div>
+                                <h4 className="text-lg font-bold mb-2 text-white">CLI Tool</h4>
+                                <p className="text-sm text-neutral-400 mb-3">Generate schemas from your terminal</p>
+                                <div className="text-xs text-neutral-500 font-medium">Coming Soon</div>
+                            </motion.div>
+
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.2 }}
+                                viewport={{ once: true }}
+                                className="glass-card p-6"
+                            >
+                                <div className="w-12 h-12 rounded-xl bg-purple-600/20 flex items-center justify-center mb-4">
+                                    <Users className="h-6 w-6 text-purple-400" />
+                                </div>
+                                <h4 className="text-lg font-bold mb-2 text-white">Team Collaboration</h4>
+                                <p className="text-sm text-neutral-400 mb-3">Share and collaborate on schemas</p>
+                                <div className="text-xs text-neutral-500 font-medium">Coming Soon</div>
+                            </motion.div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Examples Section */}
+                <section id="examples" className="py-32 px-6 bg-gradient-to-b from-transparent via-neutral-900 to-transparent">
+                    <div className="container mx-auto max-w-6xl">
+                        <motion.div
+                            initial={{ y: 50, opacity: 0 }}
+                            whileInView={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 0.8 }}
+                            viewport={{ once: true }}
+                            className="text-center mb-20"
+                        >
+                            <h2 className="text-5xl font-bold mb-6">Real-world examples</h2>
+                            <p className="text-xl text-neutral-300">See what you can build in minutes</p>
+                        </motion.div>
+
+                        <div className="grid md:grid-cols-2 gap-8">
+                            {examples.map((example, index) => (
+                                <ExampleCard key={index} example={example} index={index} />
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* Tech Stack Section */}
+                <section id="stack" className="py-32 px-6 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent">
+                    <div className="container mx-auto max-w-6xl">
+                        <motion.div
+                            initial={{ y: 50, opacity: 0 }}
+                            whileInView={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 0.8 }}
+                            viewport={{ once: true }}
+                            className="text-center mb-16"
+                        >
+                            <h2 className="text-5xl font-bold mb-6">Built with modern tech</h2>
+                            <p className="text-xl text-neutral-300">Leveraging the best tools in the ecosystem</p>
+                        </motion.div>
+
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                            {techStack.map((tech, index) => (
+                                <motion.div
+                                    key={index}
+                                    initial={{ scale: 0.8, opacity: 0 }}
+                                    whileInView={{ scale: 1, opacity: 1 }}
+                                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                                    viewport={{ once: true }}
+                                    whileHover={{ scale: 1.05 }}
+                                    className="glass-card p-6 text-center"
+                                    style={{ willChange: 'transform' }}
+                                >
+                                    <div className="w-12 h-12 mx-auto mb-3 flex items-center justify-center">
+                                        {tech.isImage ? (
+                                            <img 
+                                                src={tech.icon} 
+                                                alt={tech.name}
+                                                className="w-full h-full object-contain"
+                                                style={{ filter: 'brightness(0.9)' }}
+                                            />
+                                        ) : (
+                                            <span className="text-4xl">{tech.icon}</span>
+                                        )}
+                                    </div>
+                                    <h4 className="font-bold mb-1">{tech.name}</h4>
+                                    <p className="text-xs text-neutral-400">{tech.category}</p>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* Code Quality Section */}
+                <section className="py-32 px-6 bg-gradient-to-b from-transparent via-rose-500/5 to-transparent">
+                    <div className="container mx-auto max-w-7xl">
+                        <motion.div
+                            initial={{ y: 50, opacity: 0 }}
+                            whileInView={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 0.8 }}
+                            viewport={{ once: true }}
+                            className="text-center mb-20"
+                        >
+                            <motion.div
+                                initial={{ scale: 0.9, opacity: 0 }}
+                                whileInView={{ scale: 1, opacity: 1 }}
+                                transition={{ duration: 0.5 }}
+                                viewport={{ once: true }}
+                                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-card mb-6"
+                            >
+                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                                <span className="text-xs font-medium text-emerald-200 uppercase tracking-wider">Enterprise Ready</span>
+                            </motion.div>
+                            <h2 className="text-5xl md:text-6xl font-bold mb-6">
+                                <span className="text-white">Production-ready</span>
+                                <br />
+                                <span className="bg-gradient-to-r from-emerald-400 to-teal-400 text-transparent bg-clip-text">
+                                    from day one
+                                </span>
+                            </h2>
+                            <p className="text-xl text-neutral-300 max-w-3xl mx-auto">
+                                Every line of code follows Laravel best practices and modern PHP standards
+                            </p>
+                        </motion.div>
+
+                        <div className="grid md:grid-cols-3 gap-6">
+                            {[
+                                {
+                                    title: 'Type Safety',
+                                    description: 'Full type hints, strict types, and PHPDoc annotations for better IDE support',
+                                    features: ['PHP 8.2+', 'Return types', 'Property types', 'Generics'],
+                                    color: 'from-purple-600 to-violet-600'
+                                },
+                                {
+                                    title: 'PSR Standards',
+                                    description: 'Follows PSR-1, PSR-12, and PSR-4 autoloading standards',
+                                    features: ['Clean code', 'Consistent naming', 'Proper structure', 'Best practices'],
+                                    color: 'from-blue-600 to-cyan-600'
+                                },
+                                {
+                                    title: 'Security First',
+                                    description: 'Built-in protection against common vulnerabilities',
+                                    features: ['SQL injection', 'XSS protection', 'CSRF tokens', 'Mass assignment'],
+                                    color: 'from-emerald-600 to-teal-600'
+                                }
+                            ].map((item, index) => (
+                                <motion.div
+                                    key={index}
+                                    initial={{ y: 50, opacity: 0 }}
+                                    whileInView={{ y: 0, opacity: 1 }}
+                                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                                    viewport={{ once: true }}
+                                    className="glass-card p-8 relative overflow-hidden group"
+                                >
+                                    <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
+                                    
+                                    <div className="relative">
+                                        <h3 className="text-2xl font-bold mb-4 text-white">{item.title}</h3>
+                                        <p className="text-neutral-300 mb-6 leading-relaxed">{item.description}</p>
+                                        
+                                        <div className="space-y-2">
+                                            {item.features.map((feature, i) => (
+                                                <div key={i} className="flex items-center gap-2 text-sm text-neutral-400">
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-purple-400 to-blue-400" />
+                                                    <span>{feature}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* Performance Section */}
+                <section className="py-32 px-6 bg-gradient-to-b from-transparent via-fuchsia-500/5 to-transparent">
+                    <div className="container mx-auto max-w-7xl">
+                        <div className="grid md:grid-cols-2 gap-12 items-center">
+                            <motion.div
+                                initial={{ x: -50, opacity: 0 }}
+                                whileInView={{ x: 0, opacity: 1 }}
+                                transition={{ duration: 0.6 }}
+                                viewport={{ once: true }}
+                                className="order-2 md:order-1"
+                            >
+                                <div className="glass-card p-8 relative overflow-hidden">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-fuchsia-600/10 to-pink-600/10" />
+                                    
+                                    <div className="relative space-y-6">
+                                        {[
+                                            { label: 'Eager Loading', value: '95%', description: 'N+1 queries eliminated', color: 'from-fuchsia-600 to-pink-600' },
+                                            { label: 'Query Optimization', value: '80%', description: 'Faster database queries', color: 'from-purple-600 to-fuchsia-600' },
+                                            { label: 'Caching Strategy', value: '90%', description: 'Response time improved', color: 'from-pink-600 to-rose-600' }
+                                        ].map((metric, i) => (
+                                            <div key={i} className="space-y-2">
+                                                <div className="flex justify-between items-center">
+                                                    <span className="text-sm font-semibold text-white">{metric.label}</span>
+                                                    <span className="text-2xl font-bold bg-gradient-to-r from-fuchsia-400 to-pink-400 text-transparent bg-clip-text">
+                                                        {metric.value}
+                                                    </span>
+                                                </div>
+                                                <div className="h-2 bg-neutral-900/50 rounded-full overflow-hidden">
+                                                    <motion.div
+                                                        initial={{ width: 0 }}
+                                                        whileInView={{ width: metric.value }}
+                                                        transition={{ duration: 1, delay: i * 0.2 }}
+                                                        viewport={{ once: true }}
+                                                        className={`h-full bg-gradient-to-r ${metric.color} rounded-full`}
+                                                    />
+                                                </div>
+                                                <p className="text-xs text-neutral-400">{metric.description}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </motion.div>
+
+                            <motion.div
+                                initial={{ x: 50, opacity: 0 }}
+                                whileInView={{ x: 0, opacity: 1 }}
+                                transition={{ duration: 0.6 }}
+                                viewport={{ once: true }}
+                                className="order-1 md:order-2"
+                            >
+                                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-fuchsia-500/20 border border-fuchsia-500/30 mb-6">
+                                    <Zap className="h-4 w-4 text-fuchsia-400" />
+                                    <span className="text-xs font-semibold text-fuchsia-200 uppercase tracking-wider">Optimized</span>
+                                </div>
+                                <h3 className="text-4xl font-bold mb-6 text-white">
+                                    Built for <span className="bg-gradient-to-r from-fuchsia-400 to-pink-400 text-transparent bg-clip-text">performance</span>
+                                </h3>
+                                <p className="text-xl text-neutral-300 leading-relaxed mb-8">
+                                    Generated code includes performance optimizations out of the box. From eager loading to query optimization, your app is fast by default.
+                                </p>
+                                <div className="space-y-4">
+                                    {[
+                                        { title: 'Smart Eager Loading', description: 'Automatically prevents N+1 query problems' },
+                                        { title: 'Index Suggestions', description: 'Database indexes for frequently queried fields' },
+                                        { title: 'Pagination Built-in', description: 'Efficient pagination for large datasets' },
+                                        { title: 'Response Caching', description: 'Cache-ready controller responses' }
+                                    ].map((item, i) => (
+                                        <div key={i} className="flex items-start gap-3">
+                                            <div className="w-6 h-6 rounded-full bg-fuchsia-600/20 flex items-center justify-center flex-shrink-0 mt-1">
+                                                <div className="w-2 h-2 rounded-full bg-fuchsia-400" />
+                                            </div>
+                                            <div>
+                                                <div className="font-semibold text-white">{item.title}</div>
+                                                <div className="text-sm text-neutral-400">{item.description}</div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </motion.div>
+                        </div>
+                    </div>
+                </section>
+
+
+
 
                 {/* Pricing Section */}
                 <section id="pricing" className="py-32 px-6 bg-gradient-to-b from-transparent via-orange-500/5 to-transparent">
@@ -824,419 +1207,6 @@ export default function BuilderLanding() {
                     </div>
                 </section>
 
-                {/* CTA Section */}
-                <section className="py-32 px-6 bg-gradient-to-b from-transparent via-green-500/5 to-transparent">
-                    <motion.div
-                        initial={{ scale: 0.9, opacity: 0 }}
-                        whileInView={{ scale: 1, opacity: 1 }}
-                        transition={{ duration: 0.8 }}
-                        viewport={{ once: true }}
-                        className="container mx-auto max-w-4xl text-center"
-                    >
-                        <div className="relative overflow-hidden rounded-3xl glass-card p-12 md:p-20 bg-gradient-to-br from-purple-600/30 via-blue-600/20 to-cyan-600/30">
-                            <div className="absolute inset-0 grid-pattern opacity-30" />
-                            <div className="relative z-10">
-                                <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                                    Ready to build something amazing?
-                                </h2>
-                                <p className="text-xl text-neutral-200 mb-10">
-                                    Start creating your Laravel application with Genesis Builder today.
-                                </p>
-                                <Link href="/builder">
-                                    <Button
-                                        size="lg"
-                                        className="px-10 py-6 text-lg bg-white text-purple-600 hover:bg-neutral-100 transition-all hover:scale-105 shadow-xl"
-                                    >
-                                        Get Started Now
-                                        <ArrowRight className="ml-2 h-5 w-5" />
-                                    </Button>
-                                </Link>
-                            </div>
-                        </div>
-                    </motion.div>
-                </section>
-
-                {/* Examples Section */}
-                <section id="examples" className="py-32 px-6 bg-gradient-to-b from-transparent via-neutral-900 to-transparent">
-                    <div className="container mx-auto max-w-6xl">
-                        <motion.div
-                            initial={{ y: 50, opacity: 0 }}
-                            whileInView={{ y: 0, opacity: 1 }}
-                            transition={{ duration: 0.8 }}
-                            viewport={{ once: true }}
-                            className="text-center mb-20"
-                        >
-                            <h2 className="text-5xl font-bold mb-6">Real-world examples</h2>
-                            <p className="text-xl text-neutral-300">See what you can build in minutes</p>
-                        </motion.div>
-
-                        <div className="grid md:grid-cols-2 gap-8">
-                            {examples.map((example, index) => (
-                                <ExampleCard key={index} example={example} index={index} />
-                            ))}
-                        </div>
-                    </div>
-                </section>
-
-                {/* Tech Stack Section */}
-                <section id="stack" className="py-32 px-6 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent">
-                    <div className="container mx-auto max-w-6xl">
-                        <motion.div
-                            initial={{ y: 50, opacity: 0 }}
-                            whileInView={{ y: 0, opacity: 1 }}
-                            transition={{ duration: 0.8 }}
-                            viewport={{ once: true }}
-                            className="text-center mb-16"
-                        >
-                            <h2 className="text-5xl font-bold mb-6">Built with modern tech</h2>
-                            <p className="text-xl text-neutral-300">Leveraging the best tools in the ecosystem</p>
-                        </motion.div>
-
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                            {techStack.map((tech, index) => (
-                                <motion.div
-                                    key={index}
-                                    initial={{ scale: 0.8, opacity: 0 }}
-                                    whileInView={{ scale: 1, opacity: 1 }}
-                                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                                    viewport={{ once: true }}
-                                    whileHover={{ scale: 1.05 }}
-                                    className="glass-card p-6 text-center"
-                                    style={{ willChange: 'transform' }}
-                                >
-                                    <div className="w-12 h-12 mx-auto mb-3 flex items-center justify-center">
-                                        {tech.isImage ? (
-                                            <img 
-                                                src={tech.icon} 
-                                                alt={tech.name}
-                                                className="w-full h-full object-contain"
-                                                style={{ filter: 'brightness(0.9)' }}
-                                            />
-                                        ) : (
-                                            <span className="text-4xl">{tech.icon}</span>
-                                        )}
-                                    </div>
-                                    <h4 className="font-bold mb-1">{tech.name}</h4>
-                                    <p className="text-xs text-neutral-400">{tech.category}</p>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-
-                {/* Code Quality Section */}
-                <section className="py-32 px-6 bg-gradient-to-b from-transparent via-rose-500/5 to-transparent">
-                    <div className="container mx-auto max-w-7xl">
-                        <motion.div
-                            initial={{ y: 50, opacity: 0 }}
-                            whileInView={{ y: 0, opacity: 1 }}
-                            transition={{ duration: 0.8 }}
-                            viewport={{ once: true }}
-                            className="text-center mb-20"
-                        >
-                            <motion.div
-                                initial={{ scale: 0.9, opacity: 0 }}
-                                whileInView={{ scale: 1, opacity: 1 }}
-                                transition={{ duration: 0.5 }}
-                                viewport={{ once: true }}
-                                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-card mb-6"
-                            >
-                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                                <span className="text-xs font-medium text-emerald-200 uppercase tracking-wider">Enterprise Ready</span>
-                            </motion.div>
-                            <h2 className="text-5xl md:text-6xl font-bold mb-6">
-                                <span className="text-white">Production-ready</span>
-                                <br />
-                                <span className="bg-gradient-to-r from-emerald-400 to-teal-400 text-transparent bg-clip-text">
-                                    from day one
-                                </span>
-                            </h2>
-                            <p className="text-xl text-neutral-300 max-w-3xl mx-auto">
-                                Every line of code follows Laravel best practices and modern PHP standards
-                            </p>
-                        </motion.div>
-
-                        <div className="grid md:grid-cols-3 gap-6">
-                            {[
-                                {
-                                    title: 'Type Safety',
-                                    description: 'Full type hints, strict types, and PHPDoc annotations for better IDE support',
-                                    features: ['PHP 8.2+', 'Return types', 'Property types', 'Generics'],
-                                    color: 'from-purple-600 to-violet-600'
-                                },
-                                {
-                                    title: 'PSR Standards',
-                                    description: 'Follows PSR-1, PSR-12, and PSR-4 autoloading standards',
-                                    features: ['Clean code', 'Consistent naming', 'Proper structure', 'Best practices'],
-                                    color: 'from-blue-600 to-cyan-600'
-                                },
-                                {
-                                    title: 'Security First',
-                                    description: 'Built-in protection against common vulnerabilities',
-                                    features: ['SQL injection', 'XSS protection', 'CSRF tokens', 'Mass assignment'],
-                                    color: 'from-emerald-600 to-teal-600'
-                                }
-                            ].map((item, index) => (
-                                <motion.div
-                                    key={index}
-                                    initial={{ y: 50, opacity: 0 }}
-                                    whileInView={{ y: 0, opacity: 1 }}
-                                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                                    viewport={{ once: true }}
-                                    className="glass-card p-8 relative overflow-hidden group"
-                                >
-                                    <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
-                                    
-                                    <div className="relative">
-                                        <h3 className="text-2xl font-bold mb-4 text-white">{item.title}</h3>
-                                        <p className="text-neutral-300 mb-6 leading-relaxed">{item.description}</p>
-                                        
-                                        <div className="space-y-2">
-                                            {item.features.map((feature, i) => (
-                                                <div key={i} className="flex items-center gap-2 text-sm text-neutral-400">
-                                                    <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-purple-400 to-blue-400" />
-                                                    <span>{feature}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-
-                {/* Integration & Workflow Section */}
-                <section className="py-32 px-6 bg-gradient-to-b from-transparent via-violet-500/5 to-transparent">
-                    <div className="container mx-auto max-w-7xl">
-                        <motion.div
-                            initial={{ y: 50, opacity: 0 }}
-                            whileInView={{ y: 0, opacity: 1 }}
-                            transition={{ duration: 0.8 }}
-                            viewport={{ once: true }}
-                            className="text-center mb-20"
-                        >
-                            <h2 className="text-5xl font-bold mb-6">Deploy with One Click</h2>
-                            <p className="text-xl text-neutral-300">Ship to production faster with direct integrations</p>
-                        </motion.div>
-
-                        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-20">
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6 }}
-                                viewport={{ once: true }}
-                                className="glass-card p-8 relative overflow-hidden group"
-                            >
-                                <div className="absolute inset-0 bg-gradient-to-br from-orange-600/10 to-red-600/10 group-hover:from-orange-600/20 group-hover:to-red-600/20 transition-all duration-500" />
-                                
-                                <div className="relative">
-                                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-600 to-red-600 flex items-center justify-center mb-6 shadow-lg group-hover:shadow-orange-500/50 transition-shadow">
-                                        <Cloud className="h-8 w-8 text-white" />
-                                    </div>
-                                    <h3 className="text-2xl font-bold mb-3 text-white">Laravel Cloud</h3>
-                                    <p className="text-neutral-300 mb-4 leading-relaxed">
-                                        Deploy directly from Genesis Builder to Laravel Cloud. One click and your app is live with zero configuration.
-                                    </p>
-                                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-500/20 border border-orange-500/30">
-                                        <Sparkles className="h-3 w-3 text-orange-400" />
-                                        <span className="text-xs font-bold text-orange-300">Coming Soon</span>
-                                    </div>
-                                </div>
-                            </motion.div>
-
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, delay: 0.1 }}
-                                viewport={{ once: true }}
-                                className="glass-card p-8 relative overflow-hidden group"
-                            >
-                                <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/10 to-teal-600/10 group-hover:from-emerald-600/20 group-hover:to-teal-600/20 transition-all duration-500" />
-                                
-                                <div className="relative">
-                                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-600 flex items-center justify-center mb-6 shadow-lg group-hover:shadow-emerald-500/50 transition-shadow">
-                                        <Rocket className="h-8 w-8 text-white" />
-                                    </div>
-                                    <h3 className="text-2xl font-bold mb-3 text-white">Laravel Forge</h3>
-                                    <p className="text-neutral-300 mb-4 leading-relaxed">
-                                        Connect your Forge account and deploy to any server. Automatic deployment pipelines included.
-                                    </p>
-                                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/30">
-                                        <Sparkles className="h-3 w-3 text-emerald-400" />
-                                        <span className="text-xs font-bold text-emerald-300">Coming Soon</span>
-                                    </div>
-                                </div>
-                            </motion.div>
-
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, delay: 0.2 }}
-                                viewport={{ once: true }}
-                                className="glass-card p-8 relative overflow-hidden group"
-                            >
-                                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-cyan-600/10 group-hover:from-blue-600/20 group-hover:to-cyan-600/20 transition-all duration-500" />
-                                
-                                <div className="relative">
-                                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center mb-6 shadow-lg group-hover:shadow-blue-500/50 transition-shadow">
-                                        <Server className="h-8 w-8 text-white" />
-                                    </div>
-                                    <h3 className="text-2xl font-bold mb-3 text-white">Custom VPS</h3>
-                                    <p className="text-neutral-300 mb-4 leading-relaxed">
-                                        Deploy to your own VPS with SSH. Works with DigitalOcean, Linode, AWS, or any Linux server.
-                                    </p>
-                                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/20 border border-blue-500/30">
-                                        <Sparkles className="h-3 w-3 text-blue-400" />
-                                        <span className="text-xs font-bold text-blue-300">Coming Soon</span>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        </div>
-
-                        <motion.div
-                            initial={{ y: 50, opacity: 0 }}
-                            whileInView={{ y: 0, opacity: 1 }}
-                            transition={{ duration: 0.8 }}
-                            viewport={{ once: true }}
-                            className="text-center mb-12"
-                        >
-                            <h3 className="text-3xl font-bold mb-4 text-white">More Integrations Coming</h3>
-                            <p className="text-lg text-neutral-400">We're building the tools you need</p>
-                        </motion.div>
-
-                        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6 }}
-                                viewport={{ once: true }}
-                                className="glass-card p-6"
-                            >
-                                <div className="w-12 h-12 rounded-xl bg-violet-600/20 flex items-center justify-center mb-4">
-                                    <Github className="h-6 w-6 text-violet-400" />
-                                </div>
-                                <h4 className="text-lg font-bold mb-2 text-white">GitHub Integration</h4>
-                                <p className="text-sm text-neutral-400 mb-3">Push generated code directly to your repository</p>
-                                <div className="text-xs text-neutral-500 font-medium">Coming Soon</div>
-                            </motion.div>
-
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, delay: 0.1 }}
-                                viewport={{ once: true }}
-                                className="glass-card p-6"
-                            >
-                                <div className="w-12 h-12 rounded-xl bg-blue-600/20 flex items-center justify-center mb-4">
-                                    <Terminal className="h-6 w-6 text-blue-400" />
-                                </div>
-                                <h4 className="text-lg font-bold mb-2 text-white">CLI Tool</h4>
-                                <p className="text-sm text-neutral-400 mb-3">Generate schemas from your terminal</p>
-                                <div className="text-xs text-neutral-500 font-medium">Coming Soon</div>
-                            </motion.div>
-
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, delay: 0.2 }}
-                                viewport={{ once: true }}
-                                className="glass-card p-6"
-                            >
-                                <div className="w-12 h-12 rounded-xl bg-purple-600/20 flex items-center justify-center mb-4">
-                                    <Users className="h-6 w-6 text-purple-400" />
-                                </div>
-                                <h4 className="text-lg font-bold mb-2 text-white">Team Collaboration</h4>
-                                <p className="text-sm text-neutral-400 mb-3">Share and collaborate on schemas</p>
-                                <div className="text-xs text-neutral-500 font-medium">Coming Soon</div>
-                            </motion.div>
-                        </div>
-                    </div>
-                </section>
-
-                {/* Performance Section */}
-                <section className="py-32 px-6 bg-gradient-to-b from-transparent via-fuchsia-500/5 to-transparent">
-                    <div className="container mx-auto max-w-7xl">
-                        <div className="grid md:grid-cols-2 gap-12 items-center">
-                            <motion.div
-                                initial={{ x: -50, opacity: 0 }}
-                                whileInView={{ x: 0, opacity: 1 }}
-                                transition={{ duration: 0.6 }}
-                                viewport={{ once: true }}
-                                className="order-2 md:order-1"
-                            >
-                                <div className="glass-card p-8 relative overflow-hidden">
-                                    <div className="absolute inset-0 bg-gradient-to-br from-fuchsia-600/10 to-pink-600/10" />
-                                    
-                                    <div className="relative space-y-6">
-                                        {[
-                                            { label: 'Eager Loading', value: '95%', description: 'N+1 queries eliminated', color: 'from-fuchsia-600 to-pink-600' },
-                                            { label: 'Query Optimization', value: '80%', description: 'Faster database queries', color: 'from-purple-600 to-fuchsia-600' },
-                                            { label: 'Caching Strategy', value: '90%', description: 'Response time improved', color: 'from-pink-600 to-rose-600' }
-                                        ].map((metric, i) => (
-                                            <div key={i} className="space-y-2">
-                                                <div className="flex justify-between items-center">
-                                                    <span className="text-sm font-semibold text-white">{metric.label}</span>
-                                                    <span className="text-2xl font-bold bg-gradient-to-r from-fuchsia-400 to-pink-400 text-transparent bg-clip-text">
-                                                        {metric.value}
-                                                    </span>
-                                                </div>
-                                                <div className="h-2 bg-neutral-900/50 rounded-full overflow-hidden">
-                                                    <motion.div
-                                                        initial={{ width: 0 }}
-                                                        whileInView={{ width: metric.value }}
-                                                        transition={{ duration: 1, delay: i * 0.2 }}
-                                                        viewport={{ once: true }}
-                                                        className={`h-full bg-gradient-to-r ${metric.color} rounded-full`}
-                                                    />
-                                                </div>
-                                                <p className="text-xs text-neutral-400">{metric.description}</p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </motion.div>
-
-                            <motion.div
-                                initial={{ x: 50, opacity: 0 }}
-                                whileInView={{ x: 0, opacity: 1 }}
-                                transition={{ duration: 0.6 }}
-                                viewport={{ once: true }}
-                                className="order-1 md:order-2"
-                            >
-                                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-fuchsia-500/20 border border-fuchsia-500/30 mb-6">
-                                    <Zap className="h-4 w-4 text-fuchsia-400" />
-                                    <span className="text-xs font-semibold text-fuchsia-200 uppercase tracking-wider">Optimized</span>
-                                </div>
-                                <h3 className="text-4xl font-bold mb-6 text-white">
-                                    Built for <span className="bg-gradient-to-r from-fuchsia-400 to-pink-400 text-transparent bg-clip-text">performance</span>
-                                </h3>
-                                <p className="text-xl text-neutral-300 leading-relaxed mb-8">
-                                    Generated code includes performance optimizations out of the box. From eager loading to query optimization, your app is fast by default.
-                                </p>
-                                <div className="space-y-4">
-                                    {[
-                                        { title: 'Smart Eager Loading', description: 'Automatically prevents N+1 query problems' },
-                                        { title: 'Index Suggestions', description: 'Database indexes for frequently queried fields' },
-                                        { title: 'Pagination Built-in', description: 'Efficient pagination for large datasets' },
-                                        { title: 'Response Caching', description: 'Cache-ready controller responses' }
-                                    ].map((item, i) => (
-                                        <div key={i} className="flex items-start gap-3">
-                                            <div className="w-6 h-6 rounded-full bg-fuchsia-600/20 flex items-center justify-center flex-shrink-0 mt-1">
-                                                <div className="w-2 h-2 rounded-full bg-fuchsia-400" />
-                                            </div>
-                                            <div>
-                                                <div className="font-semibold text-white">{item.title}</div>
-                                                <div className="text-sm text-neutral-400">{item.description}</div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </motion.div>
-                        </div>
-                    </div>
-                </section>
-
 
 
                 {/* Stats Section */}
@@ -1321,6 +1291,39 @@ export default function BuilderLanding() {
                             ))}
                         </div>
                     </div>
+                </section>
+
+
+                {/* CTA Section */}
+                <section className="py-32 px-6 bg-gradient-to-b from-transparent via-green-500/5 to-transparent">
+                    <motion.div
+                        initial={{ scale: 0.9, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.8 }}
+                        viewport={{ once: true }}
+                        className="container mx-auto max-w-4xl text-center"
+                    >
+                        <div className="relative overflow-hidden rounded-3xl glass-card p-12 md:p-20 bg-gradient-to-br from-purple-600/30 via-blue-600/20 to-cyan-600/30">
+                            <div className="absolute inset-0 grid-pattern opacity-30" />
+                            <div className="relative z-10">
+                                <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                                    Ready to build something amazing?
+                                </h2>
+                                <p className="text-xl text-neutral-200 mb-10">
+                                    Start creating your Laravel application with Genesis Builder today.
+                                </p>
+                                <Link href="/builder">
+                                    <Button
+                                        size="lg"
+                                        className="px-10 py-6 text-lg bg-white text-purple-600 hover:bg-neutral-100 transition-all hover:scale-105 shadow-xl"
+                                    >
+                                        Get Started Now
+                                        <ArrowRight className="ml-2 h-5 w-5" />
+                                    </Button>
+                                </Link>
+                            </div>
+                        </div>
+                    </motion.div>
                 </section>
 
                 {/* Footer */}
