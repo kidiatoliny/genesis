@@ -234,11 +234,11 @@ export default function BuilderLanding() {
                                     transition={{ duration: 0.6, delay: 0.1 }}
                                     viewport={{ once: true }}
                                 >
-                                    <div className="glass-card rounded-3xl overflow-hidden group cursor-pointer h-[400px] relative">
+                                    <div className="glass-card rounded-3xl overflow-hidden group cursor-pointer h-[600px] relative">
                                         <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/20 to-teal-900/20 group-hover:from-emerald-900/30 group-hover:to-teal-900/30 transition-all duration-500" />
                                         
-                                        <div className="relative h-full flex flex-col justify-between p-10">
-                                            <div>
+                                        <div className="relative h-full flex flex-col p-10">
+                                            <div className="mb-6">
                                                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 mb-6">
                                                     <Code className="h-4 w-4 text-emerald-400" />
                                                     <span className="text-xs font-semibold text-emerald-200 uppercase tracking-wider">Code Generation</span>
@@ -250,17 +250,13 @@ export default function BuilderLanding() {
                                                         instantly
                                                     </span>
                                                 </h3>
-                                                <p className="text-neutral-300">
-                                                    Clean Laravel code following best practices. Type hints, validation, actions.
+                                                <p className="text-neutral-300 mb-6">
+                                                    Clean Laravel code following best practices
                                                 </p>
                                             </div>
 
-                                            <div className="flex flex-wrap gap-2">
-                                                {['Models', 'Controllers', 'Actions', 'Requests', 'Migrations'].map((item, i) => (
-                                                    <span key={i} className="px-3 py-1.5 rounded-lg bg-emerald-600/20 border border-emerald-500/30 text-xs font-medium text-emerald-200">
-                                                        {item}
-                                                    </span>
-                                                ))}
+                                            <div className="flex-1 overflow-hidden">
+                                                <CodeGenerationDemo />
                                             </div>
                                         </div>
                                     </div>
@@ -2380,6 +2376,137 @@ const techStack = [
     { name: 'PostgreSQL', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg', category: 'Database', isImage: true },
     { name: 'Pest', icon: 'https://pestphp.com/www/assets/logo.svg', category: 'Testing', isImage: true },
 ];
+
+// Code Generation Demo Component
+const CodeGenerationDemo = () => {
+    const [activeTab, setActiveTab] = useState(0);
+    
+    const codeExamples = [
+        {
+            file: 'User.php',
+            type: 'Model',
+            color: 'text-purple-400',
+            code: `<span class="text-purple-400">class</span> <span class="text-yellow-300">User</span> <span class="text-purple-400">extends</span> <span class="text-blue-300">Model</span>
+<span class="text-neutral-500">{</span>
+    <span class="text-purple-400">protected</span> <span class="text-orange-300">$fillable</span> <span class="text-neutral-500">= [</span>
+        <span class="text-green-400">'name'</span><span class="text-neutral-500">,</span> <span class="text-green-400">'email'</span><span class="text-neutral-500">,</span> <span class="text-green-400">'password'</span>
+    <span class="text-neutral-500">];</span>
+
+    <span class="text-purple-400">protected</span> <span class="text-orange-300">$hidden</span> <span class="text-neutral-500">= [</span>
+        <span class="text-green-400">'password'</span><span class="text-neutral-500">,</span> <span class="text-green-400">'remember_token'</span>
+    <span class="text-neutral-500">];</span>
+<span class="text-neutral-500">}</span>`
+        },
+        {
+            file: 'StoreUserRequest.php',
+            type: 'Request',
+            color: 'text-blue-400',
+            code: `<span class="text-purple-400">public function</span> <span class="text-yellow-300">rules</span><span class="text-neutral-500">():</span> <span class="text-blue-300">array</span>
+<span class="text-neutral-500">{</span>
+    <span class="text-purple-400">return</span> <span class="text-neutral-500">[</span>
+        <span class="text-green-400">'name'</span> <span class="text-neutral-500">=></span> <span class="text-neutral-500">[</span><span class="text-green-400">'required'</span><span class="text-neutral-500">,</span> <span class="text-green-400">'string'</span><span class="text-neutral-500">,</span> <span class="text-green-400">'max:255'</span><span class="text-neutral-500">],</span>
+        <span class="text-green-400">'email'</span> <span class="text-neutral-500">=></span> <span class="text-neutral-500">[</span><span class="text-green-400">'required'</span><span class="text-neutral-500">,</span> <span class="text-green-400">'email'</span><span class="text-neutral-500">,</span> <span class="text-green-400">'unique:users'</span><span class="text-neutral-500">],</span>
+        <span class="text-green-400">'password'</span> <span class="text-neutral-500">=></span> <span class="text-neutral-500">[</span><span class="text-green-400">'required'</span><span class="text-neutral-500">,</span> <span class="text-green-400">'min:8'</span><span class="text-neutral-500">],</span>
+    <span class="text-neutral-500">];</span>
+<span class="text-neutral-500">}</span>`
+        },
+        {
+            file: 'UserController.php',
+            type: 'Controller',
+            color: 'text-emerald-400',
+            code: `<span class="text-purple-400">public function</span> <span class="text-yellow-300">store</span><span class="text-neutral-500">(</span><span class="text-blue-300">StoreUserRequest</span> <span class="text-orange-300">$request</span><span class="text-neutral-500">)</span>
+<span class="text-neutral-500">{</span>
+    <span class="text-purple-400">return</span> <span class="text-blue-300">StoreUserAction</span><span class="text-neutral-500">::</span><span class="text-yellow-300">handle</span><span class="text-neutral-500">(</span>
+        <span class="text-orange-300">$request</span><span class="text-neutral-500">-></span><span class="text-yellow-300">validated</span><span class="text-neutral-500">()</span>
+    <span class="text-neutral-500">);</span>
+<span class="text-neutral-500">}</span>`
+        },
+        {
+            file: 'StoreUserAction.php',
+            type: 'Action',
+            color: 'text-cyan-400',
+            code: `<span class="text-purple-400">public static function</span> <span class="text-yellow-300">handle</span><span class="text-neutral-500">(</span><span class="text-blue-300">array</span> <span class="text-orange-300">$data</span><span class="text-neutral-500">)</span>
+<span class="text-neutral-500">{</span>
+    <span class="text-purple-400">return</span> <span class="text-blue-300">User</span><span class="text-neutral-500">::</span><span class="text-yellow-300">create</span><span class="text-neutral-500">([</span>
+        <span class="text-green-400">'name'</span> <span class="text-neutral-500">=></span> <span class="text-orange-300">$data</span><span class="text-neutral-500">[</span><span class="text-green-400">'name'</span><span class="text-neutral-500">],</span>
+        <span class="text-green-400">'email'</span> <span class="text-neutral-500">=></span> <span class="text-orange-300">$data</span><span class="text-neutral-500">[</span><span class="text-green-400">'email'</span><span class="text-neutral-500">],</span>
+        <span class="text-green-400">'password'</span> <span class="text-neutral-500">=></span> <span class="text-blue-300">Hash</span><span class="text-neutral-500">::</span><span class="text-yellow-300">make</span><span class="text-neutral-500">(</span><span class="text-orange-300">$data</span><span class="text-neutral-500">[</span><span class="text-green-400">'password'</span><span class="text-neutral-500">]),</span>
+    <span class="text-neutral-500">]);</span>
+<span class="text-neutral-500">}</span>`
+        },
+        {
+            file: 'UserResource.php',
+            type: 'Resource',
+            color: 'text-pink-400',
+            code: `<span class="text-purple-400">public function</span> <span class="text-yellow-300">toArray</span><span class="text-neutral-500">(</span><span class="text-blue-300">Request</span> <span class="text-orange-300">$request</span><span class="text-neutral-500">):</span> <span class="text-blue-300">array</span>
+<span class="text-neutral-500">{</span>
+    <span class="text-purple-400">return</span> <span class="text-neutral-500">[</span>
+        <span class="text-green-400">'id'</span> <span class="text-neutral-500">=></span> <span class="text-orange-300">$this</span><span class="text-neutral-500">-></span><span class="text-cyan-300">id</span><span class="text-neutral-500">,</span>
+        <span class="text-green-400">'name'</span> <span class="text-neutral-500">=></span> <span class="text-orange-300">$this</span><span class="text-neutral-500">-></span><span class="text-cyan-300">name</span><span class="text-neutral-500">,</span>
+        <span class="text-green-400">'email'</span> <span class="text-neutral-500">=></span> <span class="text-orange-300">$this</span><span class="text-neutral-500">-></span><span class="text-cyan-300">email</span><span class="text-neutral-500">,</span>
+        <span class="text-green-400">'created_at'</span> <span class="text-neutral-500">=></span> <span class="text-orange-300">$this</span><span class="text-neutral-500">-></span><span class="text-cyan-300">created_at</span><span class="text-neutral-500">,</span>
+    <span class="text-neutral-500">];</span>
+<span class="text-neutral-500">}</span>`
+        },
+    ];
+
+    React.useEffect(() => {
+        const interval = setInterval(() => {
+            setActiveTab((prev) => (prev + 1) % codeExamples.length);
+        }, 3000);
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <div className="space-y-3">
+            {/* Tabs */}
+            <div className="flex flex-wrap items-center gap-2 mb-3">
+                {codeExamples.map((example, index) => (
+                    <button
+                        key={index}
+                        onClick={() => setActiveTab(index)}
+                        className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 ${
+                            activeTab === index
+                                ? 'bg-emerald-600/30 text-emerald-200 border border-emerald-500/30'
+                                : 'text-neutral-400 hover:text-neutral-300 border border-transparent'
+                        }`}
+                    >
+                        <Code className="h-3 w-3" />
+                        <span>{example.type}</span>
+                    </button>
+                ))}
+            </div>
+
+            {/* Code Display */}
+            <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="p-4 rounded-lg bg-neutral-900/80 border border-emerald-500/20"
+            >
+                <div className="flex items-center gap-2 text-xs mb-3">
+                    <div className={`w-2 h-2 rounded-full bg-emerald-400`} />
+                    <span className={`font-mono font-semibold ${codeExamples[activeTab].color}`}>
+                        {codeExamples[activeTab].file}
+                    </span>
+                </div>
+                <pre className="text-[11px] leading-relaxed font-mono overflow-x-auto">
+                    <code dangerouslySetInnerHTML={{ __html: codeExamples[activeTab].code }} />
+                </pre>
+            </motion.div>
+
+            {/* Features badges */}
+            <div className="flex flex-wrap gap-1.5 pt-2">
+                {['Type hints', 'Validation', 'PSR-12', 'Best practices'].map((item, i) => (
+                    <span key={i} className="px-2 py-0.5 rounded text-[10px] font-medium bg-emerald-600/20 border border-emerald-500/30 text-emerald-200">
+                        {item}
+                    </span>
+                ))}
+            </div>
+        </div>
+    );
+};
 
 // Validation Rule Demo Component
 const ValidationRuleDemo = () => {
